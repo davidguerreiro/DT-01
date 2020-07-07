@@ -6,9 +6,13 @@ public class FPSInput : MonoBehaviour {
     public bool grounded = false;                                       // Flag to check when the player is gounded, that means, it is in contact with a ground suface.
     public bool isMoving = false;                                       // Flag to control whether the player is moving.
     public float speed = 6f;                                            // Movement speed.
+    public float jumpSpeed = 8f;                                        // Jump speed force.
     public float gravity = - 9.8f;                                       // Grravity value - character controller cannot be used with rigiBody so gravity needs to be defined.
+    public GameObject groundChecker;                                    // Player's ground checker.
     private Rigidbody _rigidbody;                                       // Rigibody component reference.
     private CharacterController _charController;                        // Character Controller component reference
+    private Coroutine _jump;                                            // Jump corotine.
+    private Coroutine _groundCheckerRoutine;                            // Ground checker coroutine.
 
     // Start is called before the first frame update.
     void Start() {
@@ -21,6 +25,12 @@ public class FPSInput : MonoBehaviour {
     void FixedUpdate() {
         // MovePlayerRaw();
         MovePlayer();
+
+        Debug.Log( _jump );
+
+        if ( grounded && Input.GetKeyDown( "space" ) ) {
+            _jump = StartCoroutine( "Jump" );
+        }
     }
 
     /// <summary>
@@ -62,7 +72,9 @@ public class FPSInput : MonoBehaviour {
         movement = Vector3.ClampMagnitude( movement, speed );
 
         // use gravity value for vertical movement.
-        movement.y = gravity;
+        if ( _jump == null ) {
+            movement.y = gravity;
+        }
 
         movement *= Time.deltaTime;
 
@@ -72,6 +84,46 @@ public class FPSInput : MonoBehaviour {
         // Tell the character controller to move the player by that vector.
         _charController.Move( movement );
 
+    }
+
+    /// <summary>
+    /// Jump player logic.
+    /// </summary>
+    private IEnumerator Jump() {
+        
+        // temporally disable ground checker.
+        if ( _groundCheckerRoutine == null ) {
+            _groundCheckerRoutine = StartCoroutine( "DisableGrounding" );
+        }
+
+        grounded = false;
+        Debug.Log( "called" );
+        Vector3 movement = Vector3.zero;
+        movement.y = jumpSpeed;
+
+
+        while ( ! grounded ) {
+            movement.y -= ( - gravity ) * Time.deltaTime;
+            _charController.Move( movement * Time.deltaTime );
+            yield return null; 
+        }
+
+        _jump = null;
+    }
+
+    /// <summary>
+    /// Disable gound checker just
+    /// right after jumping, then
+    /// re-enable again to check 
+    /// when the player grounded.
+    /// </summary>
+    private IEnumerator DisableGrounding() {
+        groundChecker.SetActive( false );
+
+        yield return new WaitForSeconds( .1f );
+        groundChecker.SetActive( true ); 
+
+        _groundCheckerRoutine = null;
     }
     
 
