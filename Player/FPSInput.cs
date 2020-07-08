@@ -7,10 +7,11 @@ public class FPSInput : MonoBehaviour {
     public bool isMoving = false;                                       // Flag to control whether the player is moving.
     public bool isRunning = false;                                      // Flat to control whether the player is running.
     public float speed = 6f;                                            // Movement speed.
-    public float runningSpeed = 10f;                                // Boost to assign to speed when running.
+    public float runningSpeed = 10f;                                    // Boost to assign to speed when running.
     public float jumpSpeed = 8f;                                        // Jump speed force.
     public float gravity = - 9.8f;                                       // Grravity value - character controller cannot be used with rigiBody so gravity needs to be defined.
     public GameObject groundChecker;                                    // Player's ground checker.
+    public MainWeapon weapon;                                           // Player's weapon class.
     private Rigidbody _rigidbody;                                       // Rigibody component reference.
     private CharacterController _charController;                        // Character Controller component reference
     private Coroutine _jump;                                            // Jump corotine.
@@ -38,7 +39,6 @@ public class FPSInput : MonoBehaviour {
 
         // run action.
         if ( grounded && isMoving && Input.GetKey( "left shift" ) ) {
-            Debug.Log("running" );
             this.isRunning = true;
         } else {
             this.isRunning = false;
@@ -120,7 +120,7 @@ public class FPSInput : MonoBehaviour {
         }
 
         grounded = false;
-        Debug.Log( "called" );
+
         Vector3 movement = Vector3.zero;
         movement.y = jumpSpeed;
 
