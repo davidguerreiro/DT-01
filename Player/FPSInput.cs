@@ -5,7 +5,9 @@ using UnityEngine;
 public class FPSInput : MonoBehaviour {
     public bool grounded = false;                                       // Flag to check when the player is gounded, that means, it is in contact with a ground suface.
     public bool isMoving = false;                                       // Flag to control whether the player is moving.
+    public bool isRunning = false;                                      // Flat to control whether the player is running.
     public float speed = 6f;                                            // Movement speed.
+    public float runningSpeed = 10f;                                // Boost to assign to speed when running.
     public float jumpSpeed = 8f;                                        // Jump speed force.
     public float gravity = - 9.8f;                                       // Grravity value - character controller cannot be used with rigiBody so gravity needs to be defined.
     public GameObject groundChecker;                                    // Player's ground checker.
@@ -23,13 +25,23 @@ public class FPSInput : MonoBehaviour {
     /// This function is called every fixed framerate frame, if the MonoBehaviour is enabled.
     /// </summary>
     void FixedUpdate() {
+
         // MovePlayerRaw();
+
+        // movement read input.
         MovePlayer();
 
-        Debug.Log( _jump );
-
+        // jump action.
         if ( grounded && Input.GetKeyDown( "space" ) ) {
             _jump = StartCoroutine( "Jump" );
+        }
+
+        // run action.
+        if ( grounded && isMoving && Input.GetKey( "left shift" ) ) {
+            Debug.Log("running" );
+            this.isRunning = true;
+        } else {
+            this.isRunning = false;
         }
     }
 
@@ -63,8 +75,12 @@ public class FPSInput : MonoBehaviour {
     /// using Character Controller component.
     /// </summary>
     private void MovePlayer() {
-        float deltaX = Input.GetAxis( "Horizontal" ) * speed;
-        float deltaZ = Input.GetAxis( "Vertical" ) * speed;
+        
+        // update speed if running.
+        float movementSpeed = ( this.isRunning ) ? runningSpeed : speed;
+
+        float deltaX = Input.GetAxis( "Horizontal" ) * movementSpeed;
+        float deltaZ = Input.GetAxis( "Vertical" ) * movementSpeed;
 
         Vector3 movement = new Vector3( deltaX, 0f, deltaZ );
 
@@ -76,7 +92,7 @@ public class FPSInput : MonoBehaviour {
         }
 
         // limit diagonal movement to the same speed as movement along an axis.
-        movement = Vector3.ClampMagnitude( movement, speed );
+        movement = Vector3.ClampMagnitude( movement, movementSpeed );
 
         // use gravity value for vertical movement.
         if ( _jump == null ) {
