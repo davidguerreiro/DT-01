@@ -68,6 +68,13 @@ public class FPSInput : MonoBehaviour {
 
         Vector3 movement = new Vector3( deltaX, 0f, deltaZ );
 
+        // update player movement flag.
+        if ( movement.magnitude > 0f ) {
+            this.isMoving = true;
+        } else {
+            this.isMoving = false;
+        }
+
         // limit diagonal movement to the same speed as movement along an axis.
         movement = Vector3.ClampMagnitude( movement, speed );
 

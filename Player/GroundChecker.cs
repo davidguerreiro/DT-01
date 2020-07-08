@@ -26,6 +26,12 @@ public class GroundChecker : MonoBehaviour {
         _playerInput = GetComponentInParent<FPSInput>();
     }
 
+    private void OnTriggerExit(Collider other) {
+        if ( other.gameObject.layer == LayerMask.NameToLayer( "Ground" ) ) {
+            _playerInput.grounded = false;
+        }
+    }
+
     /// <summary>
     /// OnTriggerEnter is called when the Collider other enters the trigger.
     /// </summary>
@@ -37,9 +43,9 @@ public class GroundChecker : MonoBehaviour {
         }
     }
 
-    private void OnTriggerExit(Collider other) {
-        if ( other.gameObject.layer == LayerMask.NameToLayer( "Ground" ) ) {
-            _playerInput.grounded = false;
-        }
+    private void OnTriggerStay(Collider other) {
+         if ( other.gameObject.layer == LayerMask.NameToLayer( "Ground" ) ) {
+            _playerInput.grounded = true;
+        }   
     }
 }
