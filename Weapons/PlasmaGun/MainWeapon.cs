@@ -6,6 +6,7 @@ public class MainWeapon : MonoBehaviour {
     public FPSInput player;                                     // Player controller class.
     public float idleSpeed = 0.2f;                              // Idle animation speed.
     public float idleWalkingSpeed = 0.7f;                       // Idle animtion walking speed.
+    public float idleRunningSpeed = 2f;                         // Idle animation running speed.
     private Animator animator;                                  // Animator component reference.
     [HideInInspector]
     public enum AnimStates {                                    // Machine states for the animation.
@@ -39,6 +40,10 @@ public class MainWeapon : MonoBehaviour {
 
             if ( player.isMoving ) {
                 animStates = AnimStates.Walking;
+
+                if ( player.isRunning ) {
+                    animStates = AnimStates.Running;
+                }
             } else {
                 animStates = AnimStates.Stopped;
             }
@@ -54,6 +59,9 @@ public class MainWeapon : MonoBehaviour {
                 break;
             case AnimStates.Walking:
                 animator.SetFloat( "idleSpeed", idleWalkingSpeed );
+                break;
+            case AnimStates.Running:
+                animator.SetFloat( "idleSpeed", idleRunningSpeed );
                 break;
             default:
                 animator.SetFloat( "idleSpeed", idleSpeed );
