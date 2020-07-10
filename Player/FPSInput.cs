@@ -16,6 +16,7 @@ public class FPSInput : MonoBehaviour {
     private CharacterController _charController;                        // Character Controller component reference
     private Coroutine _jump;                                            // Jump corotine.
     private Coroutine _groundCheckerRoutine;                            // Ground checker coroutine.
+    private AudioSource _audio;                                         // Audio source component.
 
     // Start is called before the first frame update.
     void Start() {
@@ -43,18 +44,6 @@ public class FPSInput : MonoBehaviour {
         } else {
             this.isRunning = false;
         }
-    }
-
-    /// <summary>
-    /// Init class method.
-    /// </summary>
-    private void Init() {
-
-        // get rigibody component reference.
-        _rigidbody = GetComponent<Rigidbody>();
-
-        // get character component reference.
-        _charController = GetComponent<CharacterController>();
     }
 
     /// <summary>
@@ -121,6 +110,9 @@ public class FPSInput : MonoBehaviour {
 
         grounded = false;
 
+        // play jump sound.
+        _audio.Play();
+
         Vector3 movement = Vector3.zero;
         movement.y = jumpSpeed;
 
@@ -148,6 +140,22 @@ public class FPSInput : MonoBehaviour {
 
         _groundCheckerRoutine = null;
     }
+
+    /// <summary>
+    /// Init class method.
+    /// </summary>
+    private void Init() {
+
+        // get rigibody component reference.
+        _rigidbody = GetComponent<Rigidbody>();
+
+        // get character component reference.
+        _charController = GetComponent<CharacterController>();
+
+        // get audio source component reference.
+        _audio = GetComponent<AudioSource>();
+    }
+
     
 
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AudioComponent : MonoBehaviour {
     public AudioClip[] audioClips;                              // Audioclips to use with this audio component instance.
-    
+
     [HideInInspector]
     public AudioSource audio;                                  // Audio component reference.
     private int currentAudioClipIndex;                          // Current audio clip index assigned to the audio clip.
@@ -50,6 +50,7 @@ public class AudioComponent : MonoBehaviour {
         }
 
         audio.Play();
+
     }
 
     /// <summary>
