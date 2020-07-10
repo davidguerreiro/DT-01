@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RayShooter : MonoBehaviour {
+    public Vector3 centerPoint;                             // Point in the middle where the player aim pointer is looking at.
     private Camera _camera;                                 // Private Camera object.
 
     // Start is called before the first frame update
@@ -10,19 +11,19 @@ public class RayShooter : MonoBehaviour {
         Init();
     }
 
-    // Update is called once per frame
-    void Update() {
+    /// <summary>
+    /// This function is called every fixed framerate frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void FixedUpdate() {
         
-        // check if the player is shooting with the mouse.
-        if ( Input.GetMouseButtonDown( 0 ) || Input.GetKeyDown( "e" ) ) {
-            ShootShootingRay();
-        }
+        // update center point to shoot.
+        UpdateShootHitPoint();
     }
 
     /// <summary>
     /// Shoot ray used for shooting.
     /// </summary>
-    private void ShootShootingRay() {
+    private void UpdateShootHitPoint() {
 
         RaycastHit hit;
 
@@ -32,8 +33,11 @@ public class RayShooter : MonoBehaviour {
         // create ray from camera to center of the camera point.
         Ray ray = _camera.ScreenPointToRay( point );
 
+        // update center point.
         if ( Physics.Raycast( ray, out hit ) ) {
-            StartCoroutine( SphereIndicator( hit.point ) );
+            centerPoint = hit.point;
+        } else {
+            centerPoint = Vector3.zero;
         }
     }
 
@@ -59,6 +63,11 @@ public class RayShooter : MonoBehaviour {
     /// Init class method.
     /// </summary>
     private void Init() {
+
+        // get main camera.
         _camera = GetComponent<Camera>();
+
+        // set default value for centerPoint.
+        centerPoint = Vector3.zero;
     }
 }

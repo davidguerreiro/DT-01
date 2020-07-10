@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour {
     /// Update is called every frame, if the MonoBehaviour is enabled.
     /// </summary>
     void Update() {
-        
+        CheckCursor();
     }
 
     /// <summary>

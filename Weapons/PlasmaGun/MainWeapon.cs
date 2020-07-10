@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class MainWeapon : MonoBehaviour {
     public FPSInput player;                                     // Player controller class.
+    [Header("Shooting") ]
+    public float shootForce;                                    // Shoot force which determines the speed of the projectile.
+    private RayShooter _rayShooter;                             // Component used to aim when shooting.
     
     [Header( "Weapon Animation" ) ]
     public float idleSpeed = 0.2f;                              // Idle animation speed.
@@ -17,6 +20,8 @@ public class MainWeapon : MonoBehaviour {
     public GameObject shootingOrigin;                           // Shooting origin - point from where the proyectiles are shoot from the weapon. 
     private static List<GameObject> ammoPool;                   // Ammo pool list of gameObjects - used to save a ready-to-use pool of ammo objects to shoot.
     public int poolSize;                                        // Number of ammo obejcts to keep in the object pool.
+    public float freeAiminDistance = 50f;                       // Distance used to calculate where to shoot when no middle screen hit point is set.                                 
+    private Camera _mainCamera;                                  // Main camera component - used to calculate middle of the point when the player is not shooting at any object with a collider attached.
     
 
     [HideInInspector]
@@ -48,6 +53,13 @@ public class MainWeapon : MonoBehaviour {
     /// </summary>
     void Update() {
         SetAnimation();
+        
+        UpdateShootingOriginPosition();
+
+        if ( Input.GetMouseButtonDown( 0 ) ) {
+            Shoot();
+        }
+
     }
 
     /// <summary>
@@ -135,9 +147,44 @@ public class MainWeapon : MonoBehaviour {
             }
 
         }
-        
+
         return null;
     }
+
+    /// <summary>
+    /// Shoot proyectiles through
+    /// the main weapon.
+    /// </summary>
+    private void Shoot() {
+
+        GameObject ammo = SpawnAmmo();
+
+        if ( ammo != null ) {
+
+            // add force so proyectile is shoot.
+            ammo.GetComponent<Rigidbody>().AddForce( Vector3.right * shootForce );
+        }
+    }
+
+    /// <summary>
+    /// Update shoot origin position.
+    /// This is done to ensure we always shoot
+    /// through the middle of the screen.
+    /// </summary>
+    private void UpdateShootingOriginPosition() {
+
+        if ( _rayShooter.centerPoint.magnitude > 0f ) {
+            shootingOrigin.transform.LookAt( _rayShooter.centerPoint );
+        } else {
+
+            Vector3 aimSpot = _mainCamera.gameObject.transform.position;
+            aimSpot += _mainCamera.gameObject.transform.forward * freeAiminDistance;
+
+            shootingOrigin.transform.LookAt( aimSpot );
+        }
+
+    }
+
 
 
     /// <summary>
@@ -147,6 +194,12 @@ public class MainWeapon : MonoBehaviour {
 
         // get animator component
         animator = GetComponent<Animator>();
+
+        // get camera component from parent.
+        _mainCamera = GetComponentInParent<Camera>();
+
+        // get ray shooter component from camera.
+        _rayShooter = GetComponentInParent<RayShooter>();
     }
     
 }
