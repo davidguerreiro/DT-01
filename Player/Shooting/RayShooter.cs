@@ -14,7 +14,7 @@ public class RayShooter : MonoBehaviour {
     void Update() {
         
         // check if the player is shooting with the mouse.
-        if ( Input.GetMouseButtonDown( 0 ) ) {
+        if ( Input.GetMouseButtonDown( 0 ) || Input.GetKeyDown( "e" ) ) {
             ShootShootingRay();
         }
     }
