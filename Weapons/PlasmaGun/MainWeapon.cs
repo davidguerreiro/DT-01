@@ -167,15 +167,16 @@ public class MainWeapon : MonoBehaviour {
 
             Vector3 destination = _rayShooter.centerPoint;
 
-            if ( destination.magnitude != 0f ) {
-                ammo.GetComponent<Bullet>().ShootBullet( destination, shootForce );
-            } else {
+            // old code do not remove yet.
+            //if ( destination.magnitude != 0f ) {
+              //  ammo.GetComponent<Bullet>().ShootBullet( destination, shootForce );
+            //} else {
 
                 Vector3 aimSpot = _mainCamera.gameObject.transform.position;
                 aimSpot += _mainCamera.gameObject.transform.forward * freeAiminDistance;
 
                 ammo.GetComponent<Bullet>().ShootBullet( aimSpot, shootForce );
-            }
+            //}
 
             // display shooting sound.
             _audio.PlaySound( 0 );

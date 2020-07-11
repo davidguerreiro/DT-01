@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
+    void FixedUpdate() {
         
         if ( _shooted ) {
             SentBullet();
@@ -50,7 +50,7 @@ public class Bullet : MonoBehaviour {
 
         // check distance to disable bullet if it never collides to any object.
         distance = Vector3.Distance( _originalPosition, transform.localPosition );
-        
+
         if ( distance >= maximunDistance ) {
             RestoreBullet();
         }
@@ -62,7 +62,8 @@ public class Bullet : MonoBehaviour {
     /// </summary>
     /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerEnter(Collider other) {
-        Debug.Log( LayerMask.LayerToName( other.gameObject.layer) );
+        //Debug.Log( LayerMask.LayerToName( other.gameObject.layer) );
+        Debug.Log( "enter here" );
         
         RestoreBullet();
     }
@@ -72,7 +73,15 @@ public class Bullet : MonoBehaviour {
     /// that is touching the trigger.
     /// </summary>
     /// <param name="other">The other Collider involved in this collision.</param>
-    void OnTriggerStay(Collider other) {
+    void OnTriggerStay( Collider other ) {
+        RestoreBullet();
+    }
+
+    /// <summary>
+    /// OnTriggerExit is called when the Collider other has stopped touching the trigger.
+    /// </summary>
+    /// <param name="other">The other Collider involved in this collision.</param>
+    void OnTriggerExit(Collider other) {
         RestoreBullet();
     }
 
