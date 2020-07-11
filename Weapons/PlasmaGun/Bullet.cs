@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour {
     public int damage = 1;                                           // Damage caused by this bullet.
-    public float maximunDistance = 0f;                               // Maximun distance the bullet can move towards before being restore to the bullet object pool.                           
+    public float maximunDistance = 150f;                               // Maximun distance the bullet can move towards before being restore to the bullet object pool.                           
     private Vector3 _originalPosition;                               // Original bullet position. Used to restore bullet to weapoin shooting origin after the bullet is destroyed.                  
     private Vector3 _destination;                                    // Where the bullet is shot towards.
     private float _speed;                                            // Movement speed. Defined by weapon.
@@ -31,6 +31,7 @@ public class Bullet : MonoBehaviour {
     public void ShootBullet( Vector3 destination, float speed ) {
 
         this._destination = destination;
+
         this._speed = speed;
 
         _shooted = true;
@@ -48,11 +49,12 @@ public class Bullet : MonoBehaviour {
         transform.position = Vector3.MoveTowards( transform.position, _destination, _speed * Time.deltaTime );
 
         // check distance to disable bullet if it never collides to any object.
-        distance = Vector3.Distance( _originalPosition, transform.position );
+        distance = Vector3.Distance( _originalPosition, transform.localPosition );
         
         if ( distance >= maximunDistance ) {
             RestoreBullet();
         }
+        
     }
 
     /// <summary>
@@ -60,7 +62,7 @@ public class Bullet : MonoBehaviour {
     /// </summary>
     /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerEnter(Collider other) {
-        // Debug.Log( LayerMask.LayerToName( other.gameObject.layer) );
+        Debug.Log( LayerMask.LayerToName( other.gameObject.layer) );
         
         RestoreBullet();
     }

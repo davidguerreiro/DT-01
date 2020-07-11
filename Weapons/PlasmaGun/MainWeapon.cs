@@ -164,6 +164,7 @@ public class MainWeapon : MonoBehaviour {
         if ( ammo != null ) {
 
             Vector3 destination = _rayShooter.centerPoint;
+            Debug.Log( destination );
 
             if ( destination.magnitude != 0f ) {
                 ammo.GetComponent<Bullet>().ShootBullet( destination, shootForce );
