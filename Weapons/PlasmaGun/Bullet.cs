@@ -68,6 +68,15 @@ public class Bullet : MonoBehaviour {
     }
 
     /// <summary>
+    /// OnTriggerStay is called once per frame for every Collider other
+    /// that is touching the trigger.
+    /// </summary>
+    /// <param name="other">The other Collider involved in this collision.</param>
+    void OnTriggerStay(Collider other) {
+        RestoreBullet();
+    }
+
+    /// <summary>
     /// Restore bullet to obejct pool
     /// original state.
     /// </sumamry>
