@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// GETASSETS2020
+
 public class MainWeapon : MonoBehaviour {
     public FPSInput player;                                     // Player controller class.
     [Header("Shooting") ]
@@ -173,8 +175,6 @@ public class MainWeapon : MonoBehaviour {
                 ammo.GetComponent<Bullet>().ShootBullet( aimSpot, shootForce );
             }
 
-            // add force so proyectile is shoot.
-            // ammo.GetComponent<Rigidbody>().AddForce( Vector3.right * shootForce );
         }
     }
 
