@@ -161,8 +161,20 @@ public class MainWeapon : MonoBehaviour {
 
         if ( ammo != null ) {
 
+            Vector3 destination = _rayShooter.centerPoint;
+
+            if ( destination.magnitude != 0f ) {
+                ammo.GetComponent<Bullet>().ShootBullet( destination, shootForce );
+            } else {
+
+                Vector3 aimSpot = _mainCamera.gameObject.transform.position;
+                aimSpot += _mainCamera.gameObject.transform.forward * freeAiminDistance;
+
+                ammo.GetComponent<Bullet>().ShootBullet( aimSpot, shootForce );
+            }
+
             // add force so proyectile is shoot.
-            ammo.GetComponent<Rigidbody>().AddForce( Vector3.right * shootForce );
+            // ammo.GetComponent<Rigidbody>().AddForce( Vector3.right * shootForce );
         }
     }
 
