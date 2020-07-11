@@ -24,6 +24,8 @@ public class MainWeapon : MonoBehaviour {
     public int poolSize;                                        // Number of ammo obejcts to keep in the object pool.
     public float freeAiminDistance = 50f;                       // Distance used to calculate where to shoot when no middle screen hit point is set.                                 
     private Camera _mainCamera;                                  // Main camera component - used to calculate middle of the point when the player is not shooting at any object with a collider attached.
+
+    private AudioComponent _audio;                               // Audio component reference.
     
 
     [HideInInspector]
@@ -175,6 +177,9 @@ public class MainWeapon : MonoBehaviour {
                 ammo.GetComponent<Bullet>().ShootBullet( aimSpot, shootForce );
             }
 
+            // display shooting sound.
+            _audio.PlaySound( 0 );
+
         }
     }
 
@@ -212,6 +217,9 @@ public class MainWeapon : MonoBehaviour {
 
         // get ray shooter component from camera.
         _rayShooter = GetComponentInParent<RayShooter>();
+
+        // get audio component reference.
+        _audio = GetComponent<AudioComponent>();
     }
     
 }
