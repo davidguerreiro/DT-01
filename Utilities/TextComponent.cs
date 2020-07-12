@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class TextComponent : MonoBehaviour {
     
-    private Text content;                                          // Text component reference.
+    private Text _content;                                          // Text component reference.
 
     // Start is called before the first frame update
     void Start() { 
@@ -18,7 +18,7 @@ public class TextComponent : MonoBehaviour {
     /// </summary>
     /// <returns>string</returns>
     public string GetContent() {
-        return content.text;
+        return _content.text;
     }
 
     /// <summary>
@@ -27,11 +27,11 @@ public class TextComponent : MonoBehaviour {
     /// <param name="newContent">string - new content to be displayed in this text component.</param>
     public void UpdateContent( string newContent ) {
 
-        if ( content == null ) {
-            content = GetComponent<Text>();
+        if ( _content == null ) {
+            _content = GetComponent<Text>();
         }
 
-        content.text = newContent;
+        _content.text = newContent;
     }
 
     /// <summary>
@@ -39,7 +39,7 @@ public class TextComponent : MonoBehaviour {
     /// </summary>
     /// <param name="colour">color - Colour to apply to the text</param>
     public void UpdateColour( Color colour ) {
-        content.color = colour;
+        _content.color = colour;
     }
 
     /// <summary>
@@ -48,8 +48,8 @@ public class TextComponent : MonoBehaviour {
     public void Init() {
 
         // get text component reference.
-        if ( content == null ) {
-            content = GetComponent<Text>();
+        if ( _content == null ) {
+            _content = GetComponent<Text>();
         }
     }
 }
