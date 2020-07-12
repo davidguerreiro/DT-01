@@ -2,17 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildInfo : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+public class BuildInfo : ScriptableObject {
+    public string version;                                  // Current build version.
+    public string lastBuildDate;                            // Current build date.
 }
