@@ -14,7 +14,6 @@ public class DebugMenuItem : MonoBehaviour {
     /// Hover item.
     /// </summary>
     public void Hover() {
-        Debug.Log( "hover" );
         _animator.SetBool( "Hover", true );
     }
 
@@ -22,7 +21,6 @@ public class DebugMenuItem : MonoBehaviour {
     /// Unhover item.
     /// </summary>
     public void UnHover() {
-        Debug.Log( "unhover" );
         _animator.SetBool( "Hover", false );
     }
 

@@ -114,9 +114,7 @@ public class MainWeapon : MonoBehaviour {
     /// </summary>
     private void SetAmmoPool() {
 
-        if ( ammoPool == null ) {
-            ammoPool = new List<GameObject>();
-        }
+        ammoPool = new List<GameObject>();
 
         for ( int i = 0; i < poolSize; i++ ) {
 
@@ -134,6 +132,8 @@ public class MainWeapon : MonoBehaviour {
     /// </summary>
     /// <returns>GameObject</returns>
     public GameObject SpawnAmmo() {
+
+        Debug.Log( ammoPool.Count );
 
         foreach ( GameObject ammo in ammoPool ) {
             
