@@ -14,7 +14,7 @@ public class MainWeapon : MonoBehaviour {
     public float idleSpeed = 0.2f;                              // Idle animation speed.
     public float idleWalkingSpeed = 0.7f;                       // Idle animtion walking speed.
     public float idleRunningSpeed = 2f;                         // Idle animation running speed.
-    private Animator animator;                                  // Animator component reference.
+    private Animator _animator;                                  // Animator component reference.
 
     // shooting object pool variables.
     [Header( "Shooting Ammo" ) ]
@@ -23,6 +23,7 @@ public class MainWeapon : MonoBehaviour {
     private static List<GameObject> ammoPool;                   // Ammo pool list of gameObjects - used to save a ready-to-use pool of ammo objects to shoot.
     public int poolSize;                                        // Number of ammo obejcts to keep in the object pool.
     public float freeAiminDistance = 50f;                       // Distance used to calculate where to shoot when no middle screen hit point is set.                                 
+    public ParticleSystem shootingParticles;                    // Shooting particle system for shooting effect.
     private Camera _mainCamera;                                  // Main camera component - used to calculate middle of the point when the player is not shooting at any object with a collider attached.
 
     private AudioComponent _audio;                               // Audio component reference.
@@ -91,16 +92,16 @@ public class MainWeapon : MonoBehaviour {
         // trigger animation.
         switch( animStates ) {
             case AnimStates.Stopped:
-                animator.SetFloat( "idleSpeed", idleSpeed );
+                _animator.SetFloat( "idleSpeed", idleSpeed );
                 break;
             case AnimStates.Walking:
-                animator.SetFloat( "idleSpeed", idleWalkingSpeed );
+                _animator.SetFloat( "idleSpeed", idleWalkingSpeed );
                 break;
             case AnimStates.Running:
-                animator.SetFloat( "idleSpeed", idleRunningSpeed );
+                _animator.SetFloat( "idleSpeed", idleRunningSpeed );
                 break;
             default:
-                animator.SetFloat( "idleSpeed", idleSpeed );
+                _animator.SetFloat( "idleSpeed", idleSpeed );
                 break;
         }
     }
@@ -132,8 +133,6 @@ public class MainWeapon : MonoBehaviour {
     /// </summary>
     /// <returns>GameObject</returns>
     public GameObject SpawnAmmo() {
-
-        Debug.Log( ammoPool.Count );
 
         foreach ( GameObject ammo in ammoPool ) {
             
@@ -181,6 +180,14 @@ public class MainWeapon : MonoBehaviour {
             // display shooting sound.
             _audio.PlaySound( 0 );
 
+            // display shooting animation.
+            _animator.SetTrigger( "baseShooting" );
+
+            // display shooting particle effect.
+            if ( ! shootingParticles.isPlaying ) {
+                shootingParticles.Play();
+            }
+
         }
     }
 
@@ -211,7 +218,7 @@ public class MainWeapon : MonoBehaviour {
     private void Init() {
 
         // get animator component
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
 
         // get camera component from parent.
         _mainCamera = GetComponentInParent<Camera>();
