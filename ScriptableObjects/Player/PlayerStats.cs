@@ -10,4 +10,6 @@ public class PlayerStats : ScriptableObject {
     public float maxEnergy = 60f;                       // Current player maximun energy.
     public int defense = 2;                             // Player defense values. The higher this value, the less the damage player will get.
     public float physicalCondition = 2f;                // The physical condition defines how fast the player recovers energy.
+    public int shards = 0;                              // Current player cristal shards. Shards are used to unlock new abilities.
+    public int maxShards = 9999;                        // Maximun number of shards the player can hold without spending.
 }
