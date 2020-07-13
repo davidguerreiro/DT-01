@@ -23,4 +23,21 @@ public static class ScriptablesMenu  {
 
         ProjectWindowUtil.CreateAsset( asset, path );
     }
+
+    [MenuItem( "Assets/Create/Scriptables/PlayerStats")]
+    /// <summary>
+    /// Add build scriptable item
+    /// in the scriptables menu.
+    /// </summary>
+    public static void AddPlayerStatsScriptableObject() {
+
+        var asset = ScriptableObject.CreateInstance<PlayerStats>();
+
+        // if needs preconfiguration, add here.
+
+        var path = AssetDatabase.GetAssetPath( Selection.activeObject );
+        path += "/NewPlayerStats.asset";
+
+        ProjectWindowUtil.CreateAsset( asset, path );
+    }
 }
