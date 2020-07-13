@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour {
     public int damage = 1;                                           // Damage caused by this bullet.
-    public float maximunDistance = 150f;                               // Maximun distance the bullet can move towards before being restore to the bullet object pool.                           
+    public float maximunDistance = 150f;                             // Maximun distance the bullet can move towards before being restore to the bullet object pool.
+    public GameObject impactParticles;                               // GameObject which contains impact particle effect.             
     private Vector3 _originalPosition;                               // Original bullet position. Used to restore bullet to weapoin shooting origin after the bullet is destroyed.                  
     private Vector3 _destination;                                    // Where the bullet is shot towards.
     private float _speed;                                            // Movement speed. Defined by weapon.
@@ -62,10 +63,12 @@ public class Bullet : MonoBehaviour {
     /// </summary>
     /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerEnter(Collider other) {
-        //Debug.Log( LayerMask.LayerToName( other.gameObject.layer) );
-        Debug.Log( "enter here" );
+        Debug.Log( LayerMask.LayerToName( other.gameObject.layer) );
+
+        Instantiate( impactParticles, transform.position, Quaternion.identity );
         
         RestoreBullet();
+        
     }
 
     /// <summary>
