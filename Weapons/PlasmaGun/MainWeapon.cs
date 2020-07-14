@@ -8,6 +8,7 @@ public class MainWeapon : MonoBehaviour {
     public FPSInput player;                                     // Player controller class.
     [Header("Shooting") ]
     public float shootForce;                                    // Shoot force which determines the speed of the projectile.
+    public PlasmaGun plasmaGunData;                             // Plasma gun scriptable object.
     private RayShooter _rayShooter;                             // Component used to aim when shooting.
     
     [Header( "Weapon Animation" ) ]
@@ -61,7 +62,7 @@ public class MainWeapon : MonoBehaviour {
         
         UpdateShootingOriginPosition();
 
-        if ( Input.GetMouseButtonDown( 0 ) ) {
+        if ( Input.GetMouseButtonDown( 0 ) && ! plasmaGunData.heated ) {
             Shoot();
         }
 
@@ -164,18 +165,26 @@ public class MainWeapon : MonoBehaviour {
 
         if ( ammo != null ) {
 
+
             Vector3 destination = _rayShooter.centerPoint;
+            Bullet bullet = ammo.GetComponent<Bullet>();
 
             // old code do not remove yet.
             //if ( destination.magnitude != 0f ) {
               //  ammo.GetComponent<Bullet>().ShootBullet( destination, shootForce );
             //} else {
+            
+            // set bullet direction
+            Vector3 aimSpot = _mainCamera.gameObject.transform.position;
+            aimSpot += _mainCamera.gameObject.transform.forward * freeAiminDistance;
 
-                Vector3 aimSpot = _mainCamera.gameObject.transform.position;
-                aimSpot += _mainCamera.gameObject.transform.forward * freeAiminDistance;
-
-                ammo.GetComponent<Bullet>().ShootBullet( aimSpot, shootForce );
+            // set bullet damage
+            bullet.damage = plasmaGunData.baseDamage;
+            bullet.ShootBullet( aimSpot, shootForce );
             //}
+
+            // update plasma gun data.
+            plasmaGunData.UpdatePlasma();
 
             // display shooting sound.
             _audio.PlaySound( 0 );
@@ -209,7 +218,6 @@ public class MainWeapon : MonoBehaviour {
         }
 
     }
-
 
 
     /// <summary>
