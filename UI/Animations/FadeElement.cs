@@ -27,6 +27,8 @@ public class FadeElement : MonoBehaviour {
     /// </summary>
     /// <param name="speed">float - fade out speed for animation</param>
     public void FadeOut( float speed ) {
+
+        Debug.Log( _animator );
         
         if ( _animator != null ) {
             _animator.SetFloat( "FadeOutSpeed", speed );

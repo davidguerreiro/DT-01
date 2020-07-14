@@ -14,7 +14,7 @@ public class BaseHealthBar : MonoBehaviour {
     public float fadeOutSpeed = 0.3f;                               // HP text fade out animation.
     private Slider _slider;                                         // UI slider component reference.
     private TextComponent _hpText;                                  // HP displayed text component reference.
-    private Animator _hpAnimator;                                   // HP displayed animator component reference.
+    private FadeElement _hpTextFade;                                // HP displayed text fade element component reference.
     private float _hideCounter = 0f;                                // Hide text value counter.                             
 
     // Start is called before the first frame update
@@ -26,9 +26,12 @@ public class BaseHealthBar : MonoBehaviour {
     void Update() {
 
         // check if text hp value has to be hidden.
-        if ( _hpText.displayed ) {
+        if ( toHideHP && _hpTextFade.displayed ) {
             HideHPValueChecker();
         }
+
+        // update text value from health bar data.
+        _hpText.UpdateContent( _slider.value.ToString() );
     }
 
     /// <summary>
@@ -41,19 +44,10 @@ public class BaseHealthBar : MonoBehaviour {
         } else {
 
             // trigger hide hp animation.
-            _hpAnimator.SetTrigger( "FadeOut" );
-            _hpText.displayed = false;
+            _hpTextFade.FadeOut( fadeOutSpeed );
 
             _hideCounter = 0f;
         }
-    }
-
-    /// <summary>
-    /// Display hp text value.
-    /// </summary>
-    public void DisplayHPValue() {
-        _hpAnimator.SetTrigger( "FadeIn" );
-        _hpText.displayed = true;
     }
 
     /// <summary>
@@ -69,11 +63,8 @@ public class BaseHealthBar : MonoBehaviour {
             // get text component from hp text gameObject.
             _hpText = hpDisplayed.GetComponent<TextComponent>();
 
-            // get animator component from hp text gameObject.
-            _hpAnimator = hpDisplayed.GetComponent<Animator>();
-
-            // set fade out speed animation parameter.
-            _hpAnimator.SetFloat( "FadeOutSpeed", fadeOutSpeed );
+            // get fade component from hp text gameObject.
+            _hpTextFade = hpDisplayed.GetComponent<FadeElement>();
 
         }
     }
