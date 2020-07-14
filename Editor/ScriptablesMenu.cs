@@ -57,4 +57,21 @@ public static class ScriptablesMenu  {
 
         ProjectWindowUtil.CreateAsset( asset, path );
     }
+
+    [MenuItem( "Assets/Create/Scriptables/PlasmaGun")]
+    /// <summary>
+    /// Add build scriptable item
+    /// in the scriptables menu.
+    /// </summary>
+    public static void AddPlasmaGunScriptableObject() {
+
+        var asset = ScriptableObject.CreateInstance<PlasmaGun>();
+
+        // if needs preconfiguration, add here.
+
+        var path = AssetDatabase.GetAssetPath( Selection.activeObject );
+        path += "/newPlasmaGun.asset";
+
+        ProjectWindowUtil.CreateAsset( asset, path );
+    }
 }
