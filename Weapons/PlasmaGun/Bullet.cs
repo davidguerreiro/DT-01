@@ -37,6 +37,8 @@ public class Bullet : MonoBehaviour {
 
         transform.parent = null;
 
+        _originalPosition = transform.position;
+
         _shooted = true;
     }
 
@@ -65,6 +67,7 @@ public class Bullet : MonoBehaviour {
     /// </summary>
     /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerEnter(Collider other) {
+        Debug.Log( "called" );
         Debug.Log( LayerMask.LayerToName( other.gameObject.layer) );
 
         Instantiate( impactParticles, transform.position, Quaternion.identity );
@@ -109,12 +112,11 @@ public class Bullet : MonoBehaviour {
     /// </summary>
     private void Init() {
 
-        // get parent gameObject
-        _parent = GameObject.Find( "ShootingOrigin" );
-
         // set original position attribute.
-        _originalPosition = transform.position;
+        // _originalPosition = transform.position;
 
+        // get parent gameObject
+        _parent = GameObject.FindGameObjectWithTag( "ShootingOrigin" );
 
     }
 }
