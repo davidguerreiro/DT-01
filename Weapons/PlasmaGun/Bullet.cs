@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour {
     private Vector3 _destination;                                    // Where the bullet is shot towards.
     private float _speed;                                            // Movement speed. Defined by weapon.
     private bool _shooted = false;                                   // When true, bullet can move towards destination.
+    private GameObject _parent;                                      // Shooting original position parent. This is the gameObject which holds the object pool. 
 
     void Awake() {
         Init();
@@ -32,8 +33,9 @@ public class Bullet : MonoBehaviour {
     public void ShootBullet( Vector3 destination, float speed ) {
 
         this._destination = destination;
-
         this._speed = speed;
+
+        transform.parent = null;
 
         _shooted = true;
     }
@@ -50,7 +52,7 @@ public class Bullet : MonoBehaviour {
         transform.position = Vector3.MoveTowards( transform.position, _destination, _speed * Time.deltaTime );
 
         // check distance to disable bullet if it never collides to any object.
-        distance = Vector3.Distance( _originalPosition, transform.localPosition );
+        distance = Vector3.Distance( _originalPosition, transform.position );
 
         if ( distance >= maximunDistance ) {
             RestoreBullet();
@@ -95,7 +97,10 @@ public class Bullet : MonoBehaviour {
     private void RestoreBullet() {
         _shooted = false;
 
-        transform.localPosition = _originalPosition;
+        // reasing to object pool.
+        transform.parent = _parent.transform;
+
+        transform.localPosition = Vector3.zero;
         gameObject.SetActive( false );
     }
 
@@ -104,7 +109,12 @@ public class Bullet : MonoBehaviour {
     /// </summary>
     private void Init() {
 
+        // get parent gameObject
+        _parent = GameObject.Find( "ShootingOrigin" );
+
         // set original position attribute.
-        _originalPosition = transform.localPosition;
+        _originalPosition = transform.position;
+
+
     }
 }

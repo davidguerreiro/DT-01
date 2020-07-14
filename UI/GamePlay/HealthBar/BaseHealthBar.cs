@@ -67,13 +67,13 @@ public class BaseHealthBar : MonoBehaviour {
         if ( hpDisplayed != null ) {
 
             // get text component from hp text gameObject.
-            _hpText = GetComponent<TextComponent>();
+            _hpText = hpDisplayed.GetComponent<TextComponent>();
 
             // get animator component from hp text gameObject.
-            _hpAnimator = GetComponent<Animator>();
+            _hpAnimator = hpDisplayed.GetComponent<Animator>();
 
             // set fade out speed animation parameter.
-            _hpAnimator.SetFloat( "FadeOutSpeed", 0.3f );
+            _hpAnimator.SetFloat( "FadeOutSpeed", fadeOutSpeed );
 
         }
     }
