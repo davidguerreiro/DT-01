@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class TextComponent : MonoBehaviour {
     
     private Text _content;                                          // Text component reference.
+    public bool displayed;                                          // Text displayed status.
 
     // Start is called before the first frame update
     void Start() { 

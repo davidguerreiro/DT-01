@@ -10,11 +10,12 @@ public class BaseHealthBar : MonoBehaviour {
 
     [Header("HP Value Settings")]
     public bool toHideHP = true;                                    // Whether the hp text has to be hidden or not.
-    public float hpSecondsVisible = 3f;                             // Seconds the hp text is visible in the screen.
-    public float fadeOutSpeed = 0.3f;                              // HP text fa
+    public float hpSecondsVisible = 5f;                             // Seconds the hp text is visible in the screen.
+    public float fadeOutSpeed = 0.3f;                               // HP text fade out animation.
     private Slider _slider;                                         // UI slider component reference.
     private TextComponent _hpText;                                  // HP displayed text component reference.
     private Animator _hpAnimator;                                   // HP displayed animator component reference.
+    private float _hideCounter = 0f;                                // Hide text value counter.                             
 
     // Start is called before the first frame update
     void Start() {
@@ -23,7 +24,36 @@ public class BaseHealthBar : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+
+        // check if text hp value has to be hidden.
+        if ( _hpText.displayed ) {
+            HideHPValueChecker();
+        }
+    }
+
+    /// <summary>
+    /// Check if the hp has to be hide.
+    /// </summary>
+    private void HideHPValueChecker() {
         
+        if ( _hideCounter < ( hpSecondsVisible * 60f ) ) {
+            _hideCounter++;
+        } else {
+
+            // trigger hide hp animation.
+            _hpAnimator.SetTrigger( "FadeOut" );
+            _hpText.displayed = false;
+
+            _hideCounter = 0f;
+        }
+    }
+
+    /// <summary>
+    /// Display hp text value.
+    /// </summary>
+    public void DisplayHPValue() {
+        _hpAnimator.SetTrigger( "FadeIn" );
+        _hpText.displayed = true;
     }
 
     /// <summary>
@@ -43,6 +73,7 @@ public class BaseHealthBar : MonoBehaviour {
             _hpAnimator = GetComponent<Animator>();
 
             // set fade out speed animation parameter.
+            _hpAnimator.SetFloat( "FadeOutSpeed", 0.3f );
 
         }
     }
