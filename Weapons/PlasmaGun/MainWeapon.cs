@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// GETASSETS2020
 
 public class MainWeapon : MonoBehaviour {
+    // TODO: Add when the weapon is not longer heated.
     public FPSInput player;                                     // Player controller class.
     [Header("Shooting") ]
     public float shootForce;                                    // Shoot force which determines the speed of the projectile.

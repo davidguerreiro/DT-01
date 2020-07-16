@@ -24,6 +24,14 @@ public class PlasmaGun : ScriptableObject {
     public int heatedRechargeThreeshold;            // Threshold used to calculate when the recharge used heated speed or normal speed.
 
     /// <summary>
+    /// Start is called on the frame when a script is enabled just before
+    /// any of the Update methods is called the first time.
+    /// </summary>
+    void Start() {
+        Init();
+    }
+
+    /// <summary>
     /// Consume weapon's plasma
     /// when the weapon is shooter.
     /// </summary>
@@ -37,5 +45,15 @@ public class PlasmaGun : ScriptableObject {
         if ( plasma <= 0 ) {
             heated = true;
         }
+    }
+
+    /// <summary>
+    /// Init class method.
+    /// </summary>
+    private void Init() {
+
+        // restore values to original start level values.
+        plasma = maxPlasma;
+        heated = false;
     }
 }

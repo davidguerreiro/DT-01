@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class PlasmaBar : MonoBehaviour {
 
+    // TODO: Add fade in / fade out methods for images.
+
     [Header("Data Source")]
     public PlasmaGun plasmaGunData;                                     // Plasma gun scriptable object reference.
 
@@ -50,7 +52,7 @@ public class PlasmaBar : MonoBehaviour {
     /// Update slider value based in
     /// plasma gun.
     /// </summary>
-    public void UpdateSliderValue() {
+    private void UpdateSliderValue() {
         if ( _slider != null && plasmaGunData != null ) {
             _slider.value = plasmaGunData.plasma;
             _plasmaTextComponent.UpdateContent( _slider.value.ToString() );
@@ -149,8 +151,7 @@ public class PlasmaBar : MonoBehaviour {
 
         // calculate headed threshold.
         if ( _slider != null ) {
-            _heatedThreshold =  ( _slider.maxValue / plasmaGunData.heatedRechargeThreeshold ) * 100f;
-            Debug.Log( _heatedThreshold );
+            _heatedThreshold =  ( plasmaGunData.heatedRechargeThreeshold / _slider.maxValue ) * 100f;
         }
     }
 
