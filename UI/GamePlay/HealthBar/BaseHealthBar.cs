@@ -39,6 +39,7 @@ public class BaseHealthBar : MonoBehaviour {
     /// </summary>
     private void HideHPValueChecker() {
         
+        // use 60 for frame standard count.
         if ( _hideCounter < ( hpSecondsVisible * 60f ) ) {
             _hideCounter++;
         } else {

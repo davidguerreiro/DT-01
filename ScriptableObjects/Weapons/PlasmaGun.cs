@@ -14,13 +14,14 @@ public class PlasmaGun : ScriptableObject {
     [Header("Munition")]
     public int plasma;                              // Plasma charged in the weapon.
     public int maxPlasma;                           // Maximun amount of plasma in the weapon.
-    public float shootCost;                         // Plasma shoot cost - how much plasma is used to shoot base fire.
-    public float chargedShootCost;                  // Plasma charged shoot cost - how much plasma is used to shoot a charged attack.
+    public int shootCost;                         // Plasma shoot cost - how much plasma is used to shoot base fire.
+    public int chargedShootCost;                  // Plasma charged shoot cost - how much plasma is used to shoot a charged attack.
 
     [Header("Weapon state")]
     public bool heated;                             // If the weapon runs out of plasma, it will heated and will take more time to recharge.
     public float rechargeSpeed;                     // Weapon recharge speed - weapon charges automatically when cooling.
-    public float headerRechargeSpeed;               // Weapon recharge speed when heated. When cooling after heated, the weapon takes more time to recharge.
+    public float heatedRechargeSpeed;               // Weapon recharge speed when heated. When cooling after heated, the weapon takes more time to recharge.
+    public int heatedRechargeThreeshold;            // Threshold used to calculate when the recharge used heated speed or normal speed.
 
     /// <summary>
     /// Consume weapon's plasma
@@ -28,9 +29,9 @@ public class PlasmaGun : ScriptableObject {
     /// </summary>
     /// <param name="isCharged">bool - if charged shoot, consumes more plasma when shooting.</param>
     public void UpdatePlasma( bool isCharged = false ) {
-        float toSubstract = ( isCharged ) ? chargedShootCost : shootCost;
+        int toSubstract = ( isCharged ) ? chargedShootCost : shootCost;
 
-        plasma -= (int) toSubstract;
+        plasma -= toSubstract;
 
         // check if heated.
         if ( plasma <= 0 ) {
