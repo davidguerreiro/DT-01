@@ -95,13 +95,16 @@ public class PlasmaBar : MonoBehaviour {
     /// Fade out plasma bar.
     /// </summary>
     private void FadeOutBar() {
-
+        
         if ( backgroundFade != null && fillFade != null && _plasmaTextFade != null ) {
             backgroundFade.FadeOut( fadeOutSpeed );
             fillFade.FadeOut( fadeOutSpeed );
             _plasmaTextFade.FadeOut( fadeOutSpeed );
+
+            Debug.Log( "is this called" );
             displayed = false;
         }
+
     }
 
     /// <summary>
@@ -113,8 +116,12 @@ public class PlasmaBar : MonoBehaviour {
             backgroundFade.FadeIn();
             fillFade.FadeIn();
             _plasmaTextFade.FadeIn();
+
+            // reset hide counter.
+            _hideCounter = 0f;
             displayed = true;
         }
+
     }
 
     /// <summary>
@@ -123,8 +130,8 @@ public class PlasmaBar : MonoBehaviour {
     /// </summary>
     public void SliderValueOnChange() {
 
-        if ( ! displayed ) {
-            FadeInBar();
+        if ( _slider != null && ! displayed && ( _slider.value < _slider.maxValue ) ) {
+           FadeInBar();
         }
 
     }

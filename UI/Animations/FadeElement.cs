@@ -15,7 +15,7 @@ public class FadeElement : MonoBehaviour {
     /// Fade out element.
     /// </summary>
     public void FadeOut() {
-        
+
         if ( _animator != null ) {
             _animator.SetTrigger( "FadeOut" );
             displayed = false;

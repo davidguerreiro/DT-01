@@ -4,6 +4,8 @@ using UnityEngine;
 
 
 public class MainWeapon : MonoBehaviour {
+    // TODO: Fix shooting when moving has deviation for bullets.
+    
     public FPSInput player;                                     // Player controller class.
     [Header("Shooting") ]
     public float shootForce;                                    // Shoot force which determines the speed of the projectile.
@@ -181,7 +183,7 @@ public class MainWeapon : MonoBehaviour {
             // old code do not remove yet.
             //if ( destination.magnitude != 0f ) {
               //  ammo.GetComponent<Bullet>().ShootBullet( destination, shootForce );
-            //} else {
+            //} else {q
             
             // set bullet direction
             Vector3 aimSpot = _mainCamera.gameObject.transform.position;
