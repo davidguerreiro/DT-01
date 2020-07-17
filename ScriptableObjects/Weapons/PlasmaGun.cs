@@ -23,6 +23,7 @@ public class PlasmaGun : ScriptableObject {
     public float heatedRechargeSpeed;               // Weapon recharge speed when heated. When cooling after heated, the weapon takes more time to recharge.
     public int heatedRechargeThreeshold;            // Threshold used to calculate when the recharge used heated speed or normal speed.
 
+
     /// <summary>
     /// Start is called on the frame when a script is enabled just before
     /// any of the Update methods is called the first time.
@@ -41,6 +42,10 @@ public class PlasmaGun : ScriptableObject {
 
         plasma -= toSubstract;
 
+        if ( plasma < 0 ) {
+            plasma = 0;
+        }
+
         // check if heated.
         if ( plasma <= 0 ) {
             heated = true;
@@ -55,5 +60,21 @@ public class PlasmaGun : ScriptableObject {
         // restore values to original start level values.
         plasma = maxPlasma;
         heated = false;
+    }
+
+    /// <summary>
+    /// Restart default changing values.
+    /// </summary>
+    /// <param name="toGameInit">bool - wheter to restart parameters to the default value at the beginning of the game, including those modify by skills and items</param>
+    public void RestartDefaultValues( bool toGameInit = false ) {
+
+        // restore plasma munition and heated status.
+        plasma = 80;                                        // Original plasma value at the beginning of the game.
+        heated = false;                                     // Original heated value at the beginning of the game.
+
+        if ( toGameInit ) {
+            maxPlasma = plasma;                             
+        }
+
     }
 }

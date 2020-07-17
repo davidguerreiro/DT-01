@@ -4,7 +4,6 @@ using UnityEngine;
 
 
 public class MainWeapon : MonoBehaviour {
-    // TODO: Add when the weapon is not longer heated.
     public FPSInput player;                                     // Player controller class.
     [Header("Shooting") ]
     public float shootForce;                                    // Shoot force which determines the speed of the projectile.
@@ -26,6 +25,7 @@ public class MainWeapon : MonoBehaviour {
     public float freeAiminDistance = 50f;                       // Distance used to calculate where to shoot when no middle screen hit point is set.                                 
     public ParticleSystem shootingParticles;                    // Shooting particle system for shooting effect.
     private Camera _mainCamera;                                  // Main camera component - used to calculate middle of the point when the player is not shooting at any object with a collider attached.
+    private float _heatedThreshold;                              // Threshold used to calculate when the weapoin is heated or not.
 
     private AudioComponent _audio;                               // Audio component reference.
     
@@ -58,10 +58,19 @@ public class MainWeapon : MonoBehaviour {
     /// Update is called every frame, if the MonoBehaviour is enabled.
     /// </summary>
     void Update() {
+
+        // set the weapon animation.
         SetAnimation();
         
+        // calculate point in the screen where the bullet is going to be shot at.
         UpdateShootingOriginPosition();
 
+        // check if weapon has cooled.
+        if ( plasmaGunData.heated ) {
+            CheckHeatedStatus();
+        }
+
+        // check if the user is clicking the left button mouse to shoot.
         if ( Input.GetMouseButtonDown( 0 ) && ! plasmaGunData.heated ) {
             Shoot();
         }
@@ -219,6 +228,16 @@ public class MainWeapon : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// Check if the weapon is
+    /// heated.
+    /// </summary>
+    private void CheckHeatedStatus() {
+        if ( plasmaGunData.plasma >= _heatedThreshold ) {
+            plasmaGunData.heated = false;
+        }
+    }
+
 
     /// <summary>
     /// Init class method.
@@ -236,6 +255,11 @@ public class MainWeapon : MonoBehaviour {
 
         // get audio component reference.
         _audio = GetComponent<AudioComponent>();
+
+        // calculate heated threshold - this is used to check and update heated weapon status.
+        if ( plasmaGunData != null ) {
+            _heatedThreshold =  ( plasmaGunData.heatedRechargeThreeshold / plasmaGunData.maxPlasma ) * 100f;
+        }
     }
     
 }
