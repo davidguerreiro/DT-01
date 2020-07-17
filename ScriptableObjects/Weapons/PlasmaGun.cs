@@ -29,7 +29,6 @@ public class PlasmaGun : ScriptableObject {
     /// any of the Update methods is called the first time.
     /// </summary>
     void Start() {
-        Init();
     }
 
     /// <summary>
@@ -50,16 +49,6 @@ public class PlasmaGun : ScriptableObject {
         if ( plasma <= 0 ) {
             heated = true;
         }
-    }
-
-    /// <summary>
-    /// Init class method.
-    /// </summary>
-    private void Init() {
-
-        // restore values to original start level values.
-        plasma = maxPlasma;
-        heated = false;
     }
 
     /// <summary>

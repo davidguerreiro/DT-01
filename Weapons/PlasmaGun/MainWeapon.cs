@@ -258,7 +258,8 @@ public class MainWeapon : MonoBehaviour {
 
         // calculate heated threshold - this is used to check and update heated weapon status.
         if ( plasmaGunData != null ) {
-            _heatedThreshold =  ( plasmaGunData.heatedRechargeThreeshold / plasmaGunData.maxPlasma ) * 100f;
+            float temp = (float) plasmaGunData.heatedRechargeThreeshold / (float) plasmaGunData.maxPlasma;
+            _heatedThreshold = temp * 100f;
         }
     }
     
