@@ -6,6 +6,12 @@ public class FadeElement : MonoBehaviour {
     public bool displayed;                                  // Flag to control displayed status.
     private Animator _animator;                             // Animator component reference.
 
+    /**
+    * Fade idle = 0
+    * Fade Out  = -1
+    * Fade In   = 1
+    */
+
     // Start is called before the first frame update
     void Start() {
         Init();
@@ -17,7 +23,7 @@ public class FadeElement : MonoBehaviour {
     public void FadeOut() {
 
         if ( _animator != null ) {
-            _animator.SetTrigger( "FadeOut" );
+            _animator.SetInteger( "FadeState", -1 );
             displayed = false;
         }
     }
@@ -30,7 +36,7 @@ public class FadeElement : MonoBehaviour {
         
         if ( _animator != null ) {
             _animator.SetFloat( "FadeOutSpeed", speed );
-            _animator.SetTrigger( "FadeOut" );
+            _animator.SetInteger( "FadeState", -1 );
             displayed = false;
         }
     }
@@ -41,7 +47,7 @@ public class FadeElement : MonoBehaviour {
     public void FadeIn() {
 
         if ( _animator != null ) {
-            _animator.SetTrigger( "FadeIn" );
+            _animator.SetInteger( "FadeState", 1 );
             displayed = true;
         }
     }
@@ -53,7 +59,7 @@ public class FadeElement : MonoBehaviour {
 
         if ( _animator != null ) {
             _animator.SetFloat( "FadeInSpeed", speed );
-            _animator.SetTrigger( "FadeIn" );
+            _animator.SetInteger( "FadeState", 1 );
             displayed = true;
         }
     }

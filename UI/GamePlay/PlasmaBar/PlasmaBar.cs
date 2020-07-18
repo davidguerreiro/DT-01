@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlasmaBar : MonoBehaviour {
 
-    // TODO: Add fade in / fade out methods for images.
+    // TODO: Fix plasma bar does not dissapear after calling fade out.
 
     [Header("Data Source")]
     public PlasmaGun plasmaGunData;                                     // Plasma gun scriptable object reference.
@@ -100,8 +100,6 @@ public class PlasmaBar : MonoBehaviour {
             backgroundFade.FadeOut( fadeOutSpeed );
             fillFade.FadeOut( fadeOutSpeed );
             _plasmaTextFade.FadeOut( fadeOutSpeed );
-
-            Debug.Log( "is this called" );
             displayed = false;
         }
 
@@ -131,7 +129,7 @@ public class PlasmaBar : MonoBehaviour {
     public void SliderValueOnChange() {
 
         if ( _slider != null && ! displayed && ( _slider.value < _slider.maxValue ) ) {
-           FadeInBar();
+            FadeInBar();
         }
 
     }
@@ -158,7 +156,7 @@ public class PlasmaBar : MonoBehaviour {
 
         // calculate headed threshold.
         if ( _slider != null ) {
-            _heatedThreshold =  ( plasmaGunData.heatedRechargeThreeshold / _slider.maxValue ) * 100f;
+            _heatedThreshold = ( plasmaGunData.heatedRechargeThreeshold / _slider.maxValue ) * 100f;
         }
     }
 

@@ -67,7 +67,7 @@ public class Bullet : MonoBehaviour {
     /// </summary>
     /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerEnter(Collider other) {
-        Debug.Log( LayerMask.LayerToName( other.gameObject.layer) );
+        // Debug.Log( LayerMask.LayerToName( other.gameObject.layer) );
 
         Instantiate( impactParticles, transform.position, Quaternion.identity );
         
