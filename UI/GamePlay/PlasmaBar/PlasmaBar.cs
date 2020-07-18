@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class PlasmaBar : MonoBehaviour {
 
-    // TODO: Fix plasma bar does not dissapear after calling fade out.
-
     [Header("Data Source")]
     public PlasmaGun plasmaGunData;                                     // Plasma gun scriptable object reference.
 
@@ -116,7 +114,6 @@ public class PlasmaBar : MonoBehaviour {
             _plasmaTextFade.FadeIn();
 
             // reset hide counter.
-            _hideCounter = 0f;
             displayed = true;
         }
 
@@ -131,6 +128,8 @@ public class PlasmaBar : MonoBehaviour {
         if ( _slider != null && ! displayed && ( _slider.value < _slider.maxValue ) ) {
             FadeInBar();
         }
+
+        _hideCounter = 0f;
 
     }
 
