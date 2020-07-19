@@ -16,6 +16,7 @@ public class MainWeapon : MonoBehaviour {
     public float idleSpeed = 0.2f;                              // Idle animation speed.
     public float idleWalkingSpeed = 0.7f;                       // Idle animtion walking speed.
     public float idleRunningSpeed = 2f;                         // Idle animation running speed.
+    public Animator heatedLight;                                // Gun light used for heating input.
     private Animator _animator;                                  // Animator component reference.
 
     // shooting object pool variables.
@@ -68,9 +69,7 @@ public class MainWeapon : MonoBehaviour {
         UpdateShootingOriginPosition();
 
         // check if weapon has cooled.
-        if ( plasmaGunData.heated ) {
-            CheckHeatedStatus();
-        }
+        CheckHeatedStatus();
 
         // check if the user is clicking the left button mouse to shoot.
         if ( Input.GetMouseButtonDown( 0 ) && ! plasmaGunData.heated ) {
@@ -116,6 +115,7 @@ public class MainWeapon : MonoBehaviour {
                 _animator.SetFloat( "idleSpeed", idleSpeed );
                 break;
         }
+
     }
 
     /// <summary>
@@ -237,6 +237,13 @@ public class MainWeapon : MonoBehaviour {
     private void CheckHeatedStatus() {
         if ( plasmaGunData.plasma >= _heatedThreshold ) {
             plasmaGunData.heated = false;
+
+            // remove heated light.
+            heatedLight.SetBool( "heatedLight", false );
+        } else {
+
+            // enable heated light.
+            heatedLight.SetBool( "heatedLight", true );
         }
     }
 
