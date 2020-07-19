@@ -15,8 +15,10 @@ public class PlasmaBar : MonoBehaviour {
     public float fadeOutSpeed;                                          // Fade out animation speed.
     public FadeElement backgroundFade;                                  // Background Fade element class reference.
     public FadeElement fillFade;                                        // Fill Fade element class reference.
+
     [Header("Text Displayed")]
     public GameObject plasmaText;                                       // Plasma text value gameObject.
+    public Animator heatedWarningText;                                  // Heated warning text animator.
     private Slider _slider;                                             // Slider component reference.
     private TextComponent _plasmaTextComponent;                         // Plasma text value displayed component.
     private FadeElement _plasmaTextFade;                                // Plasma text Fade component class reference.
@@ -44,6 +46,11 @@ public class PlasmaBar : MonoBehaviour {
         if ( displayed && _slider.value == _slider.maxValue ) {
             CheckIfFadeOut();
         }
+
+        // check for heated status.
+        if ( displayed ) {
+            CheckIfHeated();
+        }
     }
 
     /// <summary>
@@ -54,6 +61,19 @@ public class PlasmaBar : MonoBehaviour {
         if ( _slider != null && plasmaGunData != null ) {
             _slider.value = plasmaGunData.plasma;
             _plasmaTextComponent.UpdateContent( _slider.value.ToString() );
+        }
+    }
+
+    /// <summary>
+    /// Check if the pasma gun is
+    /// heated.
+    /// </summary>
+    private void CheckIfHeated() {
+
+        if ( plasmaGunData.heated ) {
+            heatedWarningText.SetBool( "displayWarning", true );
+        } else {
+            heatedWarningText.SetBool( "displayWarning", false );
         }
     }
 
