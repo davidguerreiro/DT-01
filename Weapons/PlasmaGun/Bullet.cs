@@ -33,9 +33,10 @@ public class Bullet : MonoBehaviour {
     /// <param name="player">FPSInput - player input class reference. Used to calculate variations on destination point based on player's speed and direction.</param>
     public void ShootBullet( Vector3 destination, float speed, FPSInput player ) {
 
+        Debug.Log( destination.x );
+
         if ( player.xDirection != "" ) {
-            destination = new Vector3( destination.x + player.deltaX, destination.y, destination.z );
-            Debug.Log( player.deltaX );
+            destination = AdjustDestination( destination, player );
         }
 
         this._destination = destination;
@@ -53,7 +54,26 @@ public class Bullet : MonoBehaviour {
     /// based on whether the player is moving to 
     /// left or right.
     /// </summary>
-    /// <param name="xMovement">PlayerXMovement player's movement in the X axis</param>
+    /// <parma name="destination">Vector3 - bullet default destination point.</param>
+    /// <param name="xMovement">FPSInput - player input class reference.</param>
+    /// <returns>Vector3</returns>
+    private Vector3 AdjustDestination( Vector3 destination,  FPSInput player ) {
+
+        float desviation = ( player.isRunning ) ? 17f : 15f;                    // Bullet desviation when moving or running.
+
+        if ( player.xDirection == "right" ) {
+            destination = new Vector3( destination.x + desviation, destination.y, destination.z );
+        } else {
+
+            if ( player.isRunning ) {
+                desviation += 10f;
+            }
+
+            destination = new Vector3( destination.x - desviation, destination.y, destination.z );
+        }
+
+        return destination;
+    }
 
 
     /// <summary>
