@@ -33,6 +33,11 @@ public class Bullet : MonoBehaviour {
     /// <param name="player">FPSInput - player input class reference. Used to calculate variations on destination point based on player's speed and direction.</param>
     public void ShootBullet( Vector3 destination, float speed, FPSInput player ) {
 
+        if ( player.xDirection != "" ) {
+            destination = new Vector3( destination.x + player.deltaX, destination.y, destination.z );
+            Debug.Log( player.deltaX );
+        }
+
         this._destination = destination;
         this._speed = speed;
 

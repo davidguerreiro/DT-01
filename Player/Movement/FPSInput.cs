@@ -20,11 +20,15 @@ public class FPSInput : MonoBehaviour {
     [Header("Movement / Direction")]
     public string xDirection;                                           // Player's x direction.
     public string zDirection;                                           // Player's z direction.
+    [HideInInspector]
+    public float deltaX;                                                // Defines the distance the player is moving in the X axis.
+    public float deltaZ;                                                // Defines the distance the player is moving in the Z axis.                                    
     private Rigidbody _rigidbody;                                       // Rigibody component reference.
     private CharacterController _charController;                        // Character Controller component reference
     private Coroutine _jump;                                            // Jump corotine.
     private Coroutine _groundCheckerRoutine;                            // Ground checker coroutine.
     private AudioSource _audio;                                         // Audio source component.
+    private
 
     
 
@@ -78,8 +82,8 @@ public class FPSInput : MonoBehaviour {
         // update speed if running.
         float movementSpeed = ( this.isRunning ) ? runningSpeed : speed;
 
-        float deltaX = Input.GetAxis( "Horizontal" ) * movementSpeed;
-        float deltaZ = Input.GetAxis( "Vertical" ) * movementSpeed;
+        deltaX = Input.GetAxis( "Horizontal" ) * movementSpeed;
+        deltaZ = Input.GetAxis( "Vertical" ) * movementSpeed;
 
         // update player's direction.
         UpdatePlayerMovementDirection( deltaX, deltaZ );
