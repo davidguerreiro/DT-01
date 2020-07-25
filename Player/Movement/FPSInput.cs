@@ -3,38 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FPSInput : MonoBehaviour {
+    [Header("Actions / Status")]
     public bool grounded = false;                                       // Flag to check when the player is gounded, that means, it is in contact with a ground suface.
     public bool isMoving = false;                                       // Flag to control whether the player is moving.
     public bool isRunning = false;                                      // Flat to control whether the player is running.
+
+    [Header("Variables")]
     public float speed = 6f;                                            // Movement speed.
     public float runningSpeed = 10f;                                    // Boost to assign to speed when running.
     public float jumpSpeed = 8f;                                        // Jump speed force.
     public float gravity = - 9.8f;                                       // Grravity value - character controller cannot be used with rigiBody so gravity needs to be defined.
+
+    [Header("References")]
     public GameObject groundChecker;                                    // Player's ground checker.
     public MainWeapon weapon;                                           // Player's weapon class.
+    [Header("Movement / Direction")]
+    public string xDirection;                                           // Player's x direction.
+    public string zDirection;                                           // Player's z direction.
     private Rigidbody _rigidbody;                                       // Rigibody component reference.
     private CharacterController _charController;                        // Character Controller component reference
     private Coroutine _jump;                                            // Jump corotine.
     private Coroutine _groundCheckerRoutine;                            // Ground checker coroutine.
     private AudioSource _audio;                                         // Audio source component.
 
-    [HideInInspector]
-    public enum PlayerXMovement {                                       // Player directions in the X axis.
-        None,
-        MovingRight,
-        MovingLeft,
-    };
-
-    public PlayerXMovement xMovement;                             // Reference to current player's movement direction in the X axis.
-
-    [HideInInspector]
-    public enum PlayerZMovement {                                       // Player directions in the Z axis.
-        None,
-        MovingForward,
-        MovingBackward,
-    };
     
-    public PlayerZMovement zMovement;                             // Reference to current player's movement direction in the Z axis.
 
     // Start is called before the first frame update.
     void Start() {
@@ -89,6 +81,9 @@ public class FPSInput : MonoBehaviour {
         float deltaX = Input.GetAxis( "Horizontal" ) * movementSpeed;
         float deltaZ = Input.GetAxis( "Vertical" ) * movementSpeed;
 
+        // update player's direction.
+        UpdatePlayerMovementDirection( deltaX, deltaZ );
+
         Vector3 movement = new Vector3( deltaX, 0f, deltaZ );
 
         // update player movement flag.
@@ -126,20 +121,20 @@ public class FPSInput : MonoBehaviour {
 
         // X axis.
         if ( deltaX > 0f ) {
-            xMovement = PlayerXMovement.MovingRight;
+            xDirection = "right";
         } else if ( deltaX < 0f ) {
-            xMovement = PlayerXMovement.MovingLeft;
+            xDirection = "left";
         } else {
-            xMovement = PlayerXMovement.None;
+            xDirection = "";
         }
 
         // Z axis.
         if ( deltaZ > 0f ) {
-            zMovement = PlayerZMovement.MovingForward;
+            zDirection = "forward";
         } else if ( deltaZ < 0f ) {
-            zMovement = PlayerZMovement.MovingBackward;
+            zDirection = "backward";
         } else {
-            zMovement = PlayerZMovement.None;
+            zDirection = "";
         }
     }
 
@@ -201,8 +196,8 @@ public class FPSInput : MonoBehaviour {
         _audio = GetComponent<AudioSource>();
 
         // set default direction in the player movement direction control variables.
-        xMovement = PlayerXMovement.None;
-        zMovement = PlayerZMovement.None;
+        xDirection = "";
+        zDirection = "";
     }
 
     

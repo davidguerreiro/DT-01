@@ -30,7 +30,8 @@ public class Bullet : MonoBehaviour {
     /// </summary>
     /// <parma name="destination">Vector3 - bullet destination - it is the point where the player has shot.</param>
     /// <param name="speed">float - movement speed</param>
-    public void ShootBullet( Vector3 destination, float speed ) {
+    /// <param name="player">FPSInput - player input class reference. Used to calculate variations on destination point based on player's speed and direction.</param>
+    public void ShootBullet( Vector3 destination, float speed, FPSInput player ) {
 
         this._destination = destination;
         this._speed = speed;
@@ -41,6 +42,13 @@ public class Bullet : MonoBehaviour {
 
         _shooted = true;
     }
+
+    /// <summary>
+    /// Adjust destination point when shooting
+    /// based on whether the player is moving to 
+    /// left or right.
+    /// </summary>
+    /// <param name="xMovement">PlayerXMovement player's movement in the X axis</param>
 
 
     /// <summary>

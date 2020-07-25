@@ -199,7 +199,7 @@ public class MainWeapon : MonoBehaviour {
 
             // set bullet damage
             bullet.damage = plasmaGunData.baseDamage;
-            bullet.ShootBullet( aimSpot, shootForce );
+            bullet.ShootBullet( aimSpot, shootForce, player );
             //}
 
             // update plasma gun data.
