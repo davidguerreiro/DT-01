@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MainWeapon : MonoBehaviour {
     // TODO: Fix shooting when moving has deviation for bullets.
+    // TODO: Add heated shoot not possible to perform sound or animation.
     
     public FPSInput player;                                     // Player controller class.
     [Header("Shooting") ]
@@ -74,6 +75,13 @@ public class MainWeapon : MonoBehaviour {
         // check if the user is clicking the left button mouse to shoot.
         if ( Input.GetMouseButtonDown( 0 ) && ! plasmaGunData.heated ) {
             Shoot();
+        }
+
+        // display no ammo sound if the users tries to shoot and the plasma gun is heated.
+        if ( Input.GetMouseButtonDown( 0 ) && plasmaGunData.heated ) {
+
+            // display no ammo sound.
+            _audio.PlaySound( 1 );
         }
 
     }
