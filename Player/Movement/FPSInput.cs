@@ -18,6 +18,24 @@ public class FPSInput : MonoBehaviour {
     private Coroutine _groundCheckerRoutine;                            // Ground checker coroutine.
     private AudioSource _audio;                                         // Audio source component.
 
+    [HideInInspector]
+    public enum PlayerXMovement {                                       // Player directions in the X axis.
+        None,
+        MovingRight,
+        MovingLeft,
+    };
+
+    public PlayerXMovement xMovement;                             // Reference to current player's movement direction in the X axis.
+
+    [HideInInspector]
+    public enum PlayerZMovement {                                       // Player directions in the Z axis.
+        None,
+        MovingForward,
+        MovingBackward,
+    };
+    
+    public PlayerZMovement zMovement;                             // Reference to current player's movement direction in the Z axis.
+
     // Start is called before the first frame update.
     void Start() {
         Init();
@@ -99,6 +117,33 @@ public class FPSInput : MonoBehaviour {
     }
 
     /// <summary>
+    /// Update player movement
+    /// direction.
+    /// </summary>
+    /// <param name="deltaX">float - movement speed in the X axis.</param>
+    /// <param name="deltaZ">float - movement speed in the Z axis.</param>
+    private void UpdatePlayerMovementDirection( float deltaX, float deltaZ ) {
+
+        // X axis.
+        if ( deltaX > 0f ) {
+            xMovement = PlayerXMovement.MovingRight;
+        } else if ( deltaX < 0f ) {
+            xMovement = PlayerXMovement.MovingLeft;
+        } else {
+            xMovement = PlayerXMovement.None;
+        }
+
+        // Z axis.
+        if ( deltaZ > 0f ) {
+            zMovement = PlayerZMovement.MovingForward;
+        } else if ( deltaZ < 0f ) {
+            zMovement = PlayerZMovement.MovingBackward;
+        } else {
+            zMovement = PlayerZMovement.None;
+        }
+    }
+
+    /// <summary>
     /// Jump player logic.
     /// </summary>
     private IEnumerator Jump() {
@@ -154,6 +199,10 @@ public class FPSInput : MonoBehaviour {
 
         // get audio source component reference.
         _audio = GetComponent<AudioSource>();
+
+        // set default direction in the player movement direction control variables.
+        xMovement = PlayerXMovement.None;
+        zMovement = PlayerZMovement.None;
     }
 
     
