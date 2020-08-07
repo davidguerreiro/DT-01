@@ -196,6 +196,11 @@ public class MainWeapon : MonoBehaviour {
             // set bullet direction
             Vector3 aimSpot = _mainCamera.gameObject.transform.position;
             aimSpot += _mainCamera.gameObject.transform.forward * freeAiminDistance;
+            
+            // adjust bullet direction if the player is moving or running.
+            if ( player.xDirection != "" ) {
+                aimSpot = AdjustDestination( aimSpot );
+            } 
 
             // set bullet damage
             bullet.damage = plasmaGunData.baseDamage;
@@ -217,6 +222,31 @@ public class MainWeapon : MonoBehaviour {
             }
 
         }
+    }
+
+    /// <summary>
+    /// Adjust aim point when shooting to
+    /// when the player is moving or running
+    /// to fix speed variation.
+    /// </summary>
+    /// <param name="destination">Vector3 - point in the world where the bullet is going to be shot</param>
+    /// <returns>Vector3</returns>
+    private Vector3 AdjustDestination( Vector3 destination ) {
+
+        float desviation = ( player.isRunning ) ? 12f : 10f;                    // Bullet desviation when moving or running.
+
+        if ( player.xDirection == "right" ) {
+            destination += _mainCamera.gameObject.transform.right * desviation;
+        } else {
+
+            if ( player.isRunning ) {
+                desviation += 10f;
+            }
+
+            destination += _mainCamera.gameObject.transform.right * ( - desviation );
+        }
+
+        return destination;
     }
 
     /// <summary>

@@ -10,7 +10,19 @@ public class Player : MonoBehaviour {
     /// Check if the player is in
     /// control of the game.
     /// </summary>
+    /// <returns>bool</returns>
     public bool CanMove() {
         return playerData.canMove;
     }
+
+
+    /// <summary>
+    /// Init class method.
+    /// </summary>
+    private void Init() {
+
+        // restore playerData values after gameplay - remove from production builds.
+        playerData.RestoreDefaultValues();
+    }
+    
 }
