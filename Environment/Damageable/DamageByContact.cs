@@ -20,6 +20,7 @@ public class DamageByContact : MonoBehaviour {
     /// </summary>
     /// <returns>IEnumerator</returns>
     public IEnumerator CauseDamage() {
+
         Player player = Player.instance;
 
         if ( player != null ) {
@@ -54,6 +55,7 @@ public class DamageByContact : MonoBehaviour {
         // TODO: Add enemy damage when the enemies have been developed.
         if ( _causeDamage != null ) {
             StopCoroutine( _causeDamage );
+            _causeDamage = null;
         }
     }
 }
