@@ -16,6 +16,7 @@ public class BaseHealthBar : MonoBehaviour {
     private TextComponent _hpText;                                  // HP displayed text component reference.
     private FadeElement _hpTextFade;                                // HP displayed text fade element component reference.
     private float _hideCounter = 0f;                                // Hide text value counter.                             
+    private float _prevValue = 0f;                                  // Previous health value. Used to check wheter we add or subtract hp in the bar.
 
     // Start is called before the first frame update
     void Start() {
@@ -30,8 +31,24 @@ public class BaseHealthBar : MonoBehaviour {
             HideHPValueChecker();
         }
 
+        // update health bar with real player hp data.
+        UpdateSliderFromPlayerData();
+    }
+
+    /// <summary>
+    /// Update hp bar slider
+    /// value and text value from player
+    /// stats real hp data.
+    /// </summary>
+    /// <returns>void</returns>
+    private void UpdateSliderFromPlayerData() {
+
+        // update slider value.
+        _prevValue = _slider.value;
+        _slider.value   = playerData.hitPoints;
+
         // update text value from health bar data.
-        _hpText.UpdateContent( _slider.value.ToString() );
+        _hpText.UpdateContent( _slider.value.ToString() );  
     }
 
     /// <summary>
@@ -49,6 +66,20 @@ public class BaseHealthBar : MonoBehaviour {
 
             _hideCounter = 0f;
         }
+    }
+
+    /// <summary>
+    /// Display health value when player's
+    /// hit ponits are updated.
+    /// </summary>
+    /// <returns>void</returns>
+    public void DisplayHPValue() {
+
+        if ( _hpTextFade == null ) {
+            _hpTextFade = hpDisplayed.GetComponent<FadeElement>();
+        }
+        
+        _hpTextFade.FadeIn();
     }
 
     /// <summary>
