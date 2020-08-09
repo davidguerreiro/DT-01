@@ -4,8 +4,18 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Utils : MonoBehaviour {
+    public static Utils instance;                   // Class public static instance - this is the unique instance of this class.
 
-    // Update is called once per frame
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
+    void Awake() {
+        if ( instance == null ) {
+            instance = this;
+        }
+    }
+
+    // Update is called once per frame.
     void Update() {
         
         // Quit game when pressing escape key.
@@ -35,7 +45,7 @@ public class Utils : MonoBehaviour {
     }
 
     /// <summary>
-    /// Quite game.
+    /// Quit game.
     /// </summary>
     private void QuitGame() {
         Application.Quit();
