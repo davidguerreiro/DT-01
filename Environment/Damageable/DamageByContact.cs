@@ -26,7 +26,9 @@ public class DamageByContact : MonoBehaviour {
         if ( player != null ) {
 
             while ( player.playerData.hitPoints > 0f ) {
-                player.playerData.UpdateHitPoints( - damage );
+
+                // update player hitPoints.
+                player.GetDamage( - damage );
 
                 yield return new WaitForSecondsRealtime( interval );
             }

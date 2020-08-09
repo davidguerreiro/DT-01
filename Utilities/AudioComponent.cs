@@ -82,6 +82,18 @@ public class AudioComponent : MonoBehaviour {
     }
 
     /// <summary>
+    /// Set current audio clip
+    /// index.
+    /// </summary>
+    /// <param name="index">int - which index is new current audioClip</param>
+    public void SetCurrentAudioClip( int index ) {
+        
+        if ( index < audioClips.Length && index >= 0 ) {
+            this.currentAudioClipIndex = index;
+        }
+    }
+
+    /// <summary>
     /// Init class method.
     /// </summary>
     private void Init() {
