@@ -33,12 +33,13 @@ public class Player : MonoBehaviour {
     public void GetDamage( float damage ) {
 
         // update player damage.
-        playerData.UpdateHitPoints( - damage );
+        playerData.UpdateHitPoints( damage );
 
         if ( playerData.hitPoints > 0f ) {
-            
+
             // generate a radom number between all the damage sounds keys for player ( currently 2 ).
-            int index = Random.Range( 1, 2 );
+            int index = Random.Range( 1, 3 );
+            Debug.Log( index );
 
             // play damage audio.
             _audio.PlaySound( index );

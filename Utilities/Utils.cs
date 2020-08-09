@@ -27,6 +27,14 @@ public class Utils : MonoBehaviour {
     }
 
     /// <summary>
+    /// Load scene.
+    /// </summary>
+    /// <param name="sceneName">string - scene name to be loaded.</param>
+    public void LoadScene( string sceneName ) {
+        SceneManager.LoadScene( sceneName );
+    }
+
+    /// <summary>
     /// Quite game.
     /// </summary>
     private void QuitGame() {
