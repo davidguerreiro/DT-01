@@ -61,10 +61,10 @@ public class Player : MonoBehaviour {
     /// <param name="recoveryPoints">float - how many points the player recovers</param>
     public void RecoverHP( float recoveryPoints ) {
         
-        // update player damage.
-        playerData.UpdateHitPoints( recoveryPoints );
-
         if ( playerData.hitPoints < playerData.maxHitPoints ) {
+            
+            // update player damage.
+            playerData.UpdateHitPoints( recoveryPoints );
 
             // play healing sound.
             _audio.PlaySound( 3 );

@@ -155,7 +155,7 @@ public class FPSInput : MonoBehaviour {
         grounded = false;
 
         // play jump sound.
-        _audio.Play();
+        _audio.Play( 0 );
 
         Vector3 movement = Vector3.zero;
         movement.y = jumpSpeed;
