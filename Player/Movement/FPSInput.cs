@@ -28,7 +28,7 @@ public class FPSInput : MonoBehaviour {
     private CharacterController _charController;                        // Character Controller component reference
     private Coroutine _jump;                                            // Jump corotine.
     private Coroutine _groundCheckerRoutine;                            // Ground checker coroutine.
-    private AudioSource _audio;                                         // Audio source component.
+    private AudioComponent _audio;                                      // Audio source component.
 
     
 
@@ -155,7 +155,7 @@ public class FPSInput : MonoBehaviour {
         grounded = false;
 
         // play jump sound.
-        _audio.Play( 0 );
+        _audio.PlaySound(0);
 
         Vector3 movement = Vector3.zero;
         movement.y = jumpSpeed;
@@ -197,7 +197,7 @@ public class FPSInput : MonoBehaviour {
         _charController = GetComponent<CharacterController>();
 
         // get audio source component reference.
-        _audio = GetComponent<AudioSource>();
+        _audio = GetComponent<AudioComponent>();
 
         // set default direction in the player movement direction control variables.
         xDirection = "";
