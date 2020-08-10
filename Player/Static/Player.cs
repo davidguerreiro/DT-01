@@ -27,7 +27,7 @@ public class Player : MonoBehaviour {
     }
 
     /// <summary>
-    /// Set player damage sound.
+    /// Get damage.
     /// </summary>
     /// <param name="damage">float - how much damage the player has received</param>
     public void GetDamage( float damage ) {
@@ -39,7 +39,6 @@ public class Player : MonoBehaviour {
 
             // generate a radom number between all the damage sounds keys for player ( currently 2 ).
             int index = Random.Range( 1, 3 );
-            Debug.Log( index );
 
             // play damage audio.
             _audio.PlaySound( index );
@@ -54,6 +53,27 @@ public class Player : MonoBehaviour {
             // TODO: Add game over call here.
         }
 
+    }
+
+    /// <summary>
+    /// Get healed
+    /// </summary>
+    /// <param name="recoveryPoints">float - how many points the player recovers</param>
+    public void RecoverHP( float recoveryPoints ) {
+        
+        // update player damage.
+        playerData.UpdateHitPoints( recoveryPoints );
+
+        if ( playerData.hitPoints < playerData.maxHitPoints ) {
+
+            // play healing sound.
+            _audio.PlaySound( 3 );
+
+            // display UI elements.
+            if ( GamePlayUI.instance != null ) {
+                GamePlayUI.instance.PlayerHealed();
+            }
+        }
     }
 
 

@@ -32,7 +32,7 @@ public class GamePlayUI : MonoBehaviour {
     /// Display player healing
     /// animation in the UI.
     /// </summary>
-    public void PlayerHealth() {
+    public void PlayerHealed() {
 
         if ( playerHealComponent.healthPanel != null ) {
             playerHealComponent.healthPanel.Display();
