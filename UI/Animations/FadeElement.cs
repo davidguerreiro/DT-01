@@ -7,7 +7,7 @@ public class FadeElement : MonoBehaviour {
     private Animator _animator;                             // Animator component reference.
 
     /**
-    * Fade idle = 0
+    * Fade idle / half fade from displayed = 0
     * Fade Out  = -1
     * Fade In   = 1
     */
@@ -61,6 +61,17 @@ public class FadeElement : MonoBehaviour {
             _animator.SetFloat( "FadeInSpeed", speed );
             _animator.SetInteger( "FadeState", 1 );
             displayed = true;
+        }
+    }
+
+    /// <summary>
+    /// Apply only a half fade out
+    /// from displayed element.
+    /// </summary>
+    public void HalfFadeOut() {
+
+        if ( _animator != null ) {
+            _animator.SetInteger( "FadeState", 0 );
         }
     }
 

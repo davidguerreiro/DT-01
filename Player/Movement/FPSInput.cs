@@ -20,6 +20,7 @@ public class FPSInput : MonoBehaviour {
     [Header("Movement / Direction")]
     public string xDirection;                                           // Player's x direction.
     public string zDirection;                                           // Player's z direction.
+    
     // [HideInInspector]
     public float deltaX;                                                // Defines the distance the player is moving in the X axis.
     [HideInInspector]
@@ -155,7 +156,7 @@ public class FPSInput : MonoBehaviour {
         grounded = false;
 
         // play jump sound.
-        _audio.PlaySound(0);
+        _audio.PlaySound( 0 );
 
         Vector3 movement = Vector3.zero;
         movement.y = jumpSpeed;
