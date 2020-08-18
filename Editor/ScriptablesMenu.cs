@@ -26,7 +26,7 @@ public static class ScriptablesMenu  {
 
     [MenuItem( "Assets/Create/Scriptables/PlayerStats")]
     /// <summary>
-    /// Add build scriptable item
+    /// Add Player State scriptable item
     /// in the scriptables menu.
     /// </summary>
     public static void AddPlayerStatsScriptableObject() {
@@ -43,7 +43,7 @@ public static class ScriptablesMenu  {
 
     [MenuItem( "Assets/Create/Scriptables/PlayerSkill")]
     /// <summary>
-    /// Add build scriptable item
+    /// Add Player Skill scriptable item
     /// in the scriptables menu.
     /// </summary>
     public static void AddPlayerSkillScriptableObject() {
@@ -60,7 +60,7 @@ public static class ScriptablesMenu  {
 
     [MenuItem( "Assets/Create/Scriptables/PlasmaGun")]
     /// <summary>
-    /// Add build scriptable item
+    /// Add PlasmaGun scriptable item
     /// in the scriptables menu.
     /// </summary>
     public static void AddPlasmaGunScriptableObject() {
@@ -71,6 +71,23 @@ public static class ScriptablesMenu  {
 
         var path = AssetDatabase.GetAssetPath( Selection.activeObject );
         path += "/newPlasmaGun.asset";
+
+        ProjectWindowUtil.CreateAsset( asset, path );
+    }
+
+    [MenuItem( "Assets/Create/Scriptables/Lintern")]
+    /// <summary>
+    /// Add Lintern scriptable item
+    /// in the scriptables menu.
+    /// </summary>
+    public static void AddLinternScriptableObject() {
+
+        var asset = ScriptableObject.CreateInstance<Lintern>();
+
+        // if needs preconfiguration. add here.
+
+        var path = AssetDatabase.GetAssetPath( Selection.activeObject );
+        path += "/newLintern.asset";
 
         ProjectWindowUtil.CreateAsset( asset, path );
     }
