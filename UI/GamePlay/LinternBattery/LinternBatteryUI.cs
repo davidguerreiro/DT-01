@@ -1,0 +1,117 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class LinternBatteryUI : MonoBehaviour {
+
+    [Header("Data Source")]
+    public Lintern linternData;                             // Lintern data scriptable object reference.
+
+    [Header("Status")]
+    public bool displayed;                                  // Flag to control whether the lintern battery UI is displayed. 
+
+    [Header("Visual Elements")]
+    public FadeElement icon;                                // Linter icon.
+    public FadeElement barBackground;                       // Battery bar background image.
+    public FadeElement barFill;                             // Battery bar fill. 
+    public FadeElement barText;                             // Battery text displayed below the battery bar.
+
+    private Slider _slider;                                 // Slider UI component reference.
+
+
+    // Start is called before the first frame update.
+    void Start() {
+        Init();
+    }
+
+    // Update is called once per frame.
+    void Update() {
+        
+    }
+    
+    /// <summary>
+    /// Set lintern battery current
+    /// values when the UI is initialised.
+    /// </summary>
+    private void SetInitialValues() {
+
+        if ( _slider != null ) {
+            _slider.maxValue = linternData.maxBattery;
+            _slider.value = linternData.currentBattery;
+        }
+    }
+
+    /// <summary>
+    /// Display UI elements.
+    /// </summary>
+    public void Display() {
+        icon.FadeIn();
+        barBackground.FadeIn();
+        barFill.FadeIn();
+        barText.FadeIn();
+        displayed = true;
+    }
+
+    /// <summary>
+    /// Hide UI elements.
+    /// </summary>
+    public void Hide() {
+        icon.FadeOut();
+        barBackground.FadeOut();
+        barFill.FadeOut();
+        barText.FadeOut();
+        displayed = false;
+    }
+
+    /// <summary>
+    /// Set UI items transparent
+    /// </summary>
+    public void SemiHide() {
+        icon.HalfFadeOut();
+        barBackground.HalfFadeOut();
+        barFill.HalfFadeOut();
+        barText.HalfFadeOut();
+    }
+
+    /// <summary>
+    /// Fill out the bar.
+    /// </summary>
+    private void FillOut() {
+        if ( _slider.value > 0f ) {
+            
+            _slider.value -= linternData.dischargeSpeed * Time.deltaTime;
+
+            if ( _slider.value < 0f ) {
+                _slider.value = 0f;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Fill in the bar.
+    /// </summary>
+    private void FillIn() {
+
+        if ( _slider.value < linternData.maxBattery ) {
+             
+             _slider.value += linternData.chargeSpeed * Time.deltaTime;
+
+             if ( _slider.value > linternData.maxBattery ) {
+                 _slider.value = linternData.maxBattery;
+             }
+        }
+    }
+
+    /// <summary>
+    /// Init class method.
+    /// </summary>
+    private void Init() {
+
+        // get slider component.
+        _slider = GetComponent<Slider>();
+
+        // set initial values for the slider UI component.
+        SetInitialValues();
+    }
+}

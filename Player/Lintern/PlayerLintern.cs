@@ -19,6 +19,9 @@ public class PlayerLintern : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         ListenForUserEvent();
+
+        // check if the battery level has been drained.
+        CheckBatteryLevel();
     }
 
     /// <summary>
@@ -63,6 +66,19 @@ public class PlayerLintern : MonoBehaviour {
 
         _audio.PlaySound();
     }
+
+    /// <summary>
+    /// Check battery level.
+    /// Switch off the lintern if
+    /// the battery is empty.
+    /// </summary>
+    private void CheckBatteryLevel() {
+        if ( linternData.currentBattery == 0f || linternData.currentBattery < 0f ) {
+            SwitchOff();
+        }
+    }
+
+
 
     /// <summary>
     /// Init class method.
