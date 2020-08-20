@@ -4,12 +4,8 @@ using UnityEngine;
 
 public class PlayerLintern : MonoBehaviour {
     public Lintern linternData;                         // Lintern scriptable object reference.
-    private Animator _animator;                         // Animator component reference.
-
-    // Start is called before the first frame update
-    void Start() {
-        Init();
-    }
+    public LinternFocus leftFocus;                      // Lintern left focus object reference.
+    public LinternFocus rightFocus;                     // Lintern right focus object reference.
 
     // Update is called once per frame
     void Update() {
@@ -39,7 +35,11 @@ public class PlayerLintern : MonoBehaviour {
 
         if ( linternData.currentBattery > 0f ) {
             linternData.enabled = true;
-            _animator.SetBool( "SwitchOn", true );
+            
+            leftFocus.SwitchOn();
+            rightFocus.SwitchOn();
+
+            // TODO: Add swicht sound effect here.
         }
     }
 
@@ -48,15 +48,11 @@ public class PlayerLintern : MonoBehaviour {
     /// </summary>
     private void SwitchOff() {
         linternData.enabled = false;
-        _animator.SetBool( "SwitchOn", false );
+        
+        leftFocus.SwitchOff();
+        rightFocus.SwitchOff();
+
+        // TODO: Add swicth sound effect here.
     }
 
-    /// <summary>
-    /// Init class method.
-    /// </summary>
-    private void Init() {
-
-        // get animator component reference.
-        _animator = GetComponent<Animator>();
-    }
 }
