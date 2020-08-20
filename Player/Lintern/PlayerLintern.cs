@@ -6,6 +6,15 @@ public class PlayerLintern : MonoBehaviour {
     public Lintern linternData;                         // Lintern scriptable object reference.
     public LinternFocus leftFocus;                      // Lintern left focus object reference.
     public LinternFocus rightFocus;                     // Lintern right focus object reference.
+    private AudioComponent _audio;                      // Audio component class reference.
+
+    /// <summary>
+    /// Start is called on the frame when a script is enabled just before
+    /// any of the Update methods is called the first time.
+    /// </summary>
+    void Start() {
+        Init();
+    }
 
     // Update is called once per frame
     void Update() {
@@ -39,7 +48,7 @@ public class PlayerLintern : MonoBehaviour {
             leftFocus.SwitchOn();
             rightFocus.SwitchOn();
 
-            // TODO: Add swicht sound effect here.
+            _audio.PlaySound();
         }
     }
 
@@ -52,7 +61,16 @@ public class PlayerLintern : MonoBehaviour {
         leftFocus.SwitchOff();
         rightFocus.SwitchOff();
 
-        // TODO: Add swicth sound effect here.
+        _audio.PlaySound();
+    }
+
+    /// <summary>
+    /// Init class method.
+    /// </summary>
+    private void Init() {
+
+        // get audio component reference.
+        _audio = GetComponent<AudioComponent>();
     }
 
 }
