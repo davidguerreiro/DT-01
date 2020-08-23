@@ -35,19 +35,23 @@ public class LinternBatteryUI : MonoBehaviour {
     // Update is called once per frame.
     void Update() {
         
-        // check if the battery bar has to be displayed.
+        // update slider value based on lintern data object value.
+        _slider.value = linternData.currentBattery;
+        Debug.Log( _slider.value );
+
+        // check if the bar has to be displayed.
         if ( ! displayed && linternData.enabled ) {
             Display();
         }
 
-        // check if the battery bar has to start filling in.
-        if ( displayed && ! linternData.enabled ) {
-            FillIn();
+        // check whether the bar needs to become transparent.
+        if ( displayed && ! _isTransparent && ! linternData.enabled && _slider.value < _slider.maxValue ) {
+            UpdateToTransparent();
         }
 
-        // fill out battery bar if the lintern is in use.
-        if ( linternData.enabled ) {
-            FillOut();
+        // check whether the bar needs to be hiden.
+        if ( _slider.value == _slider.maxValue ) {
+            Hide();
         }
     }
     
@@ -90,6 +94,7 @@ public class LinternBatteryUI : MonoBehaviour {
 
         displayed = false;
         _isTransparent = false;
+        _toHalf = 0;
         _toHide = 0;
     }
 
@@ -106,43 +111,6 @@ public class LinternBatteryUI : MonoBehaviour {
         _toHalf = 0;
     }
 
-    /// <summary>
-    /// Fill out the bar.
-    /// </summary>
-    private void FillOut() {
-        if ( _slider.value > 0f ) {
-            
-            _slider.value -= linternData.dischargeSpeed * Time.deltaTime;
-
-            if ( _slider.value < 0f ) {
-                _slider.value = 0f;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Fill in the bar.
-    /// </summary>
-    private void FillIn() {
-
-        if ( _slider.value < linternData.maxBattery ) {
-             
-             _slider.value += linternData.chargeSpeed * Time.deltaTime;
-
-             if ( _slider.value > linternData.maxBattery ) {
-                 _slider.value = linternData.maxBattery;
-             }
-             
-             // check if has to become transparent.
-             if ( ! _isTransparent ) {
-                 UpdateToTransparent();
-             }
-        } else {
-
-            // check when to hide the bar.
-            UpdateToHide();
-        }
-    }
 
     /// <summary>
     /// Check wheter the bar has to become
