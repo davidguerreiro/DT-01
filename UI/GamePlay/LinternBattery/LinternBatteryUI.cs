@@ -76,6 +76,7 @@ public class LinternBatteryUI : MonoBehaviour {
         _toHide = 0;
 
         displayed = true;
+        _isTransparent = false;
     }
 
     /// <summary>
@@ -86,7 +87,10 @@ public class LinternBatteryUI : MonoBehaviour {
         barBackground.FadeOut();
         barFill.FadeOut();
         barText.FadeOut();
+
         displayed = false;
+        _isTransparent = false;
+        _toHide = 0;
     }
 
     /// <summary>
@@ -98,6 +102,7 @@ public class LinternBatteryUI : MonoBehaviour {
         barFill.HalfFadeOut();
         barText.HalfFadeOut();
 
+        _isTransparent = true;
         _toHalf = 0;
     }
 
@@ -127,6 +132,43 @@ public class LinternBatteryUI : MonoBehaviour {
              if ( _slider.value > linternData.maxBattery ) {
                  _slider.value = linternData.maxBattery;
              }
+             
+             // check if has to become transparent.
+             if ( ! _isTransparent ) {
+                 UpdateToTransparent();
+             }
+        } else {
+
+            // check when to hide the bar.
+            UpdateToHide();
+        }
+    }
+
+    /// <summary>
+    /// Check wheter the bar has to become
+    /// transparent.
+    /// </summary>
+    private void UpdateToTransparent() {
+
+        // use 60 as a base reference for 1 sec = 60 frames.
+        if ( _toHalf < timeToTransparent * 60 ) {
+            _toHalf++;
+        } else {
+            SemiHide();
+        }
+    }
+
+    /// <summary>
+    /// Check when the bar has to be
+    /// hiden.
+    /// </summary>
+    private void UpdateToHide() {
+
+        // use 60 as a base reference for 1 sec = 60 frames.
+        if ( _toHide < timeToTransparent * 60 ) {
+            _toHide++;
+        } else {
+            Hide();
         }
     }
 
