@@ -101,12 +101,12 @@ public class LinternBatteryUI : MonoBehaviour {
     /// Set UI items transparent
     /// </summary>
     public void SemiHide() {
-        Debug.Log( "this is trigger" );
         icon.HalfFadeOut();
         barBackground.HalfFadeOut();
         barFill.HalfFadeOut();
         barText.HalfFadeOut();
 
+        displayed = false;
         _isTransparent = true;
         _toHalf = 0;
     }
