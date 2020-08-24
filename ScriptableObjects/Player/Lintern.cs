@@ -15,28 +15,13 @@ public class Lintern : ScriptableObject {
     public float dischargeSpeed;                         // Rate used to calculate how fast the battery is drained when the lintern is in usage by the player.
     public float chargeSpeed;                            // Rate used to calculate how fast the lintern battery recharges when the player is not using the lintern.                             
 
-    // Start is called before the first frame update
-    void Start() {
-        
-    }
-
-    // Update is called once per frame
-    void Update() {
-        
-        if ( enabled ) {
-            DischargeBattery();
-        } else {
-            ChargeBattery();
-        }
-    }
-
     /// <summary>
     /// Discharge battery when it is in use.
     /// </summary>
-    private void DischargeBattery() {
+    public void DischargeBattery() {
 
         if ( currentBattery > 0f ) {
-            currentBattery -= dischargeSpeed / Time.deltaTime;
+            currentBattery -= dischargeSpeed * Time.deltaTime;
 
             if ( currentBattery < 0f ) {
                 currentBattery = 0f;
@@ -48,10 +33,10 @@ public class Lintern : ScriptableObject {
     /// Charge battery when it is not
     /// in use by the player.
     /// </summary>
-    private void ChargeBattery() {
+    public void ChargeBattery() {
         
         if ( currentBattery < maxBattery ) {
-            currentBattery += chargeSpeed / Time.deltaTime;
+            currentBattery += chargeSpeed * Time.deltaTime;
 
             if ( currentBattery > maxBattery ) {
                 currentBattery = maxBattery;

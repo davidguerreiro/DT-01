@@ -20,6 +20,9 @@ public class PlayerLintern : MonoBehaviour {
     void Update() {
         ListenForUserEvent();
 
+        // update battery level based on usage.
+        UpdateBatteryLevel();
+
         // check if the battery level has been drained.
         CheckBatteryLevel();
     }
@@ -38,6 +41,7 @@ public class PlayerLintern : MonoBehaviour {
                 SwitchOff();
             }
         }
+
     }
 
     /// <summary>
@@ -68,6 +72,21 @@ public class PlayerLintern : MonoBehaviour {
     }
 
     /// <summary>
+    /// Check if lintern is being
+    /// used by the player or not, and
+    /// update battery value accordingly.
+    /// </summary>
+    private void UpdateBatteryLevel() {
+
+        if ( linternData.enabled ) {
+            linternData.DischargeBattery();
+        } else {
+            linternData.ChargeBattery();
+        }
+
+    }
+
+    /// <summary>
     /// Check battery level.
     /// Switch off the lintern if
     /// the battery is empty.
@@ -87,6 +106,11 @@ public class PlayerLintern : MonoBehaviour {
 
         // get audio component reference.
         _audio = GetComponent<AudioComponent>();
+
+        // restore lintern to default values.
+        if ( linternData != null ) {
+            linternData.Reset();
+        }
     }
 
 }

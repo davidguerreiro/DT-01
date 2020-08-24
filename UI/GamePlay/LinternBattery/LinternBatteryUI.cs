@@ -34,10 +34,14 @@ public class LinternBatteryUI : MonoBehaviour {
 
     // Update is called once per frame.
     void Update() {
+
+        // check whether the bar needs to be hiden.
+        if ( _slider.value == _slider.maxValue ) {
+            Hide();
+        }
         
         // update slider value based on lintern data object value.
         _slider.value = linternData.currentBattery;
-        Debug.Log( _slider.value );
 
         // check if the bar has to be displayed.
         if ( ! displayed && linternData.enabled ) {
@@ -47,11 +51,6 @@ public class LinternBatteryUI : MonoBehaviour {
         // check whether the bar needs to become transparent.
         if ( displayed && ! _isTransparent && ! linternData.enabled && _slider.value < _slider.maxValue ) {
             UpdateToTransparent();
-        }
-
-        // check whether the bar needs to be hiden.
-        if ( _slider.value == _slider.maxValue ) {
-            Hide();
         }
     }
     
@@ -102,6 +101,7 @@ public class LinternBatteryUI : MonoBehaviour {
     /// Set UI items transparent
     /// </summary>
     public void SemiHide() {
+        Debug.Log( "this is trigger" );
         icon.HalfFadeOut();
         barBackground.HalfFadeOut();
         barFill.HalfFadeOut();
