@@ -11,6 +11,8 @@ public class Player : MonoBehaviour {
         if ( instance == null ) {
             instance = this;
         }
+
+        
     }
 
     void Start() {
@@ -41,7 +43,9 @@ public class Player : MonoBehaviour {
             int index = Random.Range( 1, 3 );
 
             // play damage audio.
+            
             _audio.PlaySound( index );
+
 
             // display UI damage elements.
             if ( GamePlayUI.instance != null ) {
@@ -86,7 +90,8 @@ public class Player : MonoBehaviour {
         playerData.RestoreDefaultValues();
 
         // get audio component.
-        _audio = GetComponent<AudioComponent>();
+        _audio = gameObject.GetComponent<AudioComponent>();
+
     }
     
 }
