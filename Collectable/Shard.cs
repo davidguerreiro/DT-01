@@ -25,7 +25,7 @@ public class Shard : Collectable {
     }
 
     /// <summary>
-    /// Collected.
+    /// Collect shard.
     /// Update player's total number of shards.
     /// </summary>
     public override void Collect() {
@@ -61,7 +61,7 @@ public class Shard : Collectable {
     /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerEnter( Collider other ) {
         
-        if ( other.tag == "Player" && ! _collided ) {
+        if ( other.tag == "Player" && ! base._collided ) {
             Collect();
         }
     }
@@ -74,7 +74,8 @@ public class Shard : Collectable {
         // set audio component reference.
         if ( _audio == null ) {
             _audio = GetComponent<AudioComponent>();
-        }
+        }   
+
     }
 
 
