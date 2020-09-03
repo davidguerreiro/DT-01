@@ -6,6 +6,7 @@ public class GamePlayUI : MonoBehaviour {
     public static GamePlayUI instance;                      // Class static instance reference - unique class instance.
     public PlayerDamagedComponent playerDamagedComponent;   // Player damage component wrapper for blood damage elemnts in the gameplay UI.
     public PlayerHealComponent playerHealComponent;         // Player health component wrapper to be used when the player recovers health.
+    public ShardsSectionUI shardsComponent;                 // Shards section component wrapper to be used when the player collects a shard in real time gameplay.
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
