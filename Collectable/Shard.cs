@@ -45,6 +45,11 @@ public class Shard : Collectable {
         // update player shards and remove parent gameObject from the scene.
         playerStats.UpdateShards( value );
         Destroy( this.transform.parent.gameObject, 1f );
+
+        // display shards UI if required.
+        if ( ! GamePlayUI.instance.shardsComponent.displayed ) {
+            GamePlayUI.instance.shardsComponent.Display();
+        }
     }
 
     /// <summary>
