@@ -67,6 +67,7 @@ public class Bullet : MonoBehaviour {
     /// OnTriggerEnter is called when the Collider other enters the trigger.
     /// </summary>
     /// <param name="other">The other Collider involved in this collision.</param>
+    /*
     void OnTriggerEnter(Collider other) {
         // Debug.Log( LayerMask.LayerToName( other.gameObject.layer) );
 
@@ -90,6 +91,36 @@ public class Bullet : MonoBehaviour {
     /// </summary>
     /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerExit(Collider other) {
+        RestoreBullet();
+    }
+    */
+
+    /// <summary>
+    /// OnCollisionEnter is called when this collider/rigidbody has begun
+    /// touching another rigidbody/collider.
+    /// </summary>
+    /// <param name="other">The Collision data associated with this collision.</param>
+    void OnCollisionEnter(Collision other) {
+        Instantiate( impactParticles, transform.position, Quaternion.identity );
+        
+        RestoreBullet();
+    }
+
+    /// <summary>
+    /// OnCollisionStay is called once per frame for every collider/rigidbody
+    /// that is touching rigidbody/collider.
+    /// </summary>
+    /// <param name="other">The Collision data associated with this collision.</param>
+    void OnCollisionStay(Collision other) {
+        RestoreBullet();
+    }
+
+    /// <summary>
+    /// OnCollisionExit is called when this collider/rigidbody has
+    /// stopped touching another rigidbody/collider.
+    /// </summary>
+    /// <param name="other">The Collision data associated with this collision.</param>
+    void OnCollisionExit(Collision other) {
         RestoreBullet();
     }
 
