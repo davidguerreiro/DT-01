@@ -100,7 +100,7 @@ public class ShardCristal : Cristal {
             }
         }
 
-        yield return new WaitForSeconds( 1f );
+        yield return new WaitForSeconds( .5f );
 
         // disable 3D models
         cristalModel.SetActive( false );
