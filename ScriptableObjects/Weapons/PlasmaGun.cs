@@ -29,6 +29,7 @@ public class PlasmaGun : ScriptableObject {
     /// any of the Update methods is called the first time.
     /// </summary>
     void Start() {
+        
     }
 
     /// <summary>

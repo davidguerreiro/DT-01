@@ -10,7 +10,7 @@ public class PlasmaBar : MonoBehaviour {
 
 
     [Header("Animation")]
-    public bool displayed;                                             // Wheter the plasma bar is displayed by default. Should be false at initiation level.
+    public bool displayed;                                              // Wheter the plasma bar is displayed by default. Should be false at initiation level.
     public float secondsVisible;                                        // For how long it should be visible after updating.
     public float fadeOutSpeed;                                          // Fade out animation speed.
     public FadeElement backgroundFade;                                  // Background Fade element class reference.
