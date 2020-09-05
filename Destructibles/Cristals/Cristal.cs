@@ -6,9 +6,6 @@ public abstract class Cristal : MonoBehaviour {
     public float resistance;                              // Resistance - defines how many hits the cristal can take before breaking into different parts.
 
     [HideInInspector]
-    public Animator _animator;                         // Animator component refernece.
-
-    [HideInInspector]
     public AudioComponent _audio;                      // Audio component class refernece.
 
     // Start is called before the first frame update
@@ -24,10 +21,7 @@ public abstract class Cristal : MonoBehaviour {
     /// <summary>
     /// Init class method.
     /// </summary>
-    private void Init() {
-
-        // get animator component
-        _animator = GetComponent<Animator>();
+    public virtual void Init() {
 
         // get audio class component.
         _audio = GetComponent<AudioComponent>();

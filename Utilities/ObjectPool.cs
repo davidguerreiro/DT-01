@@ -9,6 +9,13 @@ public class ObjectPool : MonoBehaviour {
     private static List<GameObject> pool;                   // Object pool list.
 
     /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
+    void Awake() {
+        SetUpPool();
+    }
+
+    /// <summary>
     /// Set up object pool.
     /// </summary>
     private void SetUpPool() {

@@ -3,11 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ShardCristal : Cristal {
-    private SphereCollider sphereCollider;
+
+    [Header( "Models")]
+    public GameObject cristalModel;                             // Crystal 3D model gameobject reference.
+
+    [Header( "Components")]
+    public ObjectPool splinters;                                 // Spliters object pool - Used to display crystal spliters each time the crystal receives a hit from player.
+
+    [Header( "Settings")]
+    public int splintersDisplayed;                               // Spliters displayed by each player hit.
+
+    private SphereCollider sphereCollider;                      // Crystal sphere collider component reference.
+    private Animator _animator;                                 // 3D Model animator component reference.
     
     // Start is called before the first frame update
     void Start() {
         Init();
+
+        Debug.Log( splinters.gameObject.transform.localPosition );
     }
 
     // Update is called once per frame
@@ -36,9 +49,22 @@ public class ShardCristal : Cristal {
         base.Hit( damage );
 
         if ( resistance > 0 ) {
-            base._animator.SetTrigger( "hit" );
+            
+            // display crystal hit animation.
+            if ( _animator != null ) {
+                _animator.SetFloat( "Speed", 2f );
+                _animator.SetTrigger( "Hit" );
+            }
 
             // display hit particles here.
+            for ( int i = 0; i < splintersDisplayed; i++ ) {
+                GameObject splinter = splinters.SpawnPrefab( splinters.gameObject.transform.localPosition );
+
+                if ( splinter != null ) {
+                    StartCoroutine( splinter.GetComponent<CristalSplinter>().SplitFromCrystal() );
+                }
+            }
+        
             
         } else {
             // destroy here.
@@ -52,6 +78,9 @@ public class ShardCristal : Cristal {
     public override void Destroyed() {
         base.Destroyed();
 
+        // disable 3D models
+        cristalModel.SetActive( false );
+
         // disable collider.
         Destroy( sphereCollider );
     }
@@ -59,10 +88,16 @@ public class ShardCristal : Cristal {
     /// <summary>
     /// Init class method.
     /// </summary>
-    private void Init() {
+    public override void Init() {
+        base.Init();
 
         // get sphere collider reference.
         sphereCollider = GetComponent<SphereCollider>();
+
+        // get 3D model animator componentr.
+        if ( cristalModel != null ) {
+            _animator = cristalModel.GetComponent<Animator>();
+        }
     }
 
 
