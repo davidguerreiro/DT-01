@@ -8,7 +8,8 @@ public class ShardCristal : Cristal {
     public GameObject cristalModel;                             // Crystal 3D model gameobject reference.
 
     [Header( "Components")]
-    private ObjectPool splinters;                                 // Spliters object pool - Used to display crystal spliters each time the crystal receives a hit from player.
+    public ObjectPool splinters;                                 // Spliters object pool - Used to display crystal spliters each time the crystal receives a hit from player.
+    public ObjectPool destroyedSplinters;                        // Splinters object pool - Used for destroyed cristal animation.
 
     [Header( "Settings")]
     public int splintersDisplayed;                               // Spliters displayed by each player hit.
@@ -76,11 +77,33 @@ public class ShardCristal : Cristal {
     public override void Destroyed() {
         base.Destroyed();
 
-        // disable 3D models
-        cristalModel.SetActive( false );
-
         // disable collider.
         Destroy( sphereCollider );
+
+        StartCoroutine( DestroyedAnimation() );
+
+    }
+
+    /// <summary>
+    /// Crystal destroyed animation.
+    /// </summary>
+    private IEnumerator DestroyedAnimation() {
+
+        _animator.SetBool( "Destroy", true );
+
+        // display all broken splinters.
+        for ( int i = 0; i < splinters.poolSize; i++ ) {
+            GameObject splinter = splinters.SpawnPrefab( splinters.gameObject.transform.localPosition );
+
+            if ( splinter != null ) {
+                StartCoroutine( splinter.GetComponent<CristalSplinter>().SplitFromCrystal() );
+            }
+        }
+
+        yield return new WaitForSeconds( 1f );
+
+        // disable 3D models
+        cristalModel.SetActive( false );
     }
 
     /// <summary>
@@ -96,8 +119,6 @@ public class ShardCristal : Cristal {
         if ( cristalModel != null ) {
             _animator = cristalModel.GetComponent<Animator>();
         }
-
-        splinters = GetComponentInChildren<ObjectPool>();
     }
 
 
