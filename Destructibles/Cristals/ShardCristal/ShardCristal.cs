@@ -8,7 +8,7 @@ public class ShardCristal : Cristal {
     public GameObject cristalModel;                             // Crystal 3D model gameobject reference.
 
     [Header( "Components")]
-    public ObjectPool splinters;                                 // Spliters object pool - Used to display crystal spliters each time the crystal receives a hit from player.
+    private ObjectPool splinters;                                 // Spliters object pool - Used to display crystal spliters each time the crystal receives a hit from player.
 
     [Header( "Settings")]
     public int splintersDisplayed;                               // Spliters displayed by each player hit.
@@ -19,8 +19,6 @@ public class ShardCristal : Cristal {
     // Start is called before the first frame update
     void Start() {
         Init();
-
-        Debug.Log( splinters.gameObject.transform.localPosition );
     }
 
     // Update is called once per frame
@@ -98,6 +96,8 @@ public class ShardCristal : Cristal {
         if ( cristalModel != null ) {
             _animator = cristalModel.GetComponent<Animator>();
         }
+
+        splinters = GetComponentInChildren<ObjectPool>();
     }
 
 

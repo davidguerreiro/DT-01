@@ -6,12 +6,12 @@ public class ObjectPool : MonoBehaviour {
 
     public GameObject prefab;                               // Prefab to be used in the object pool.
     public int poolSize;                                    // Size of the object pool.
-    private static List<GameObject> pool;                   // Object pool list.
+    private List<GameObject> pool;                   // Object pool list.
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
     /// </summary>
-    void Awake() {
+    void Start () {
         SetUpPool();
     }
 
@@ -20,9 +20,7 @@ public class ObjectPool : MonoBehaviour {
     /// </summary>
     private void SetUpPool() {
 
-        if ( pool == null ) {
-            pool =  new List<GameObject>();
-        }
+        pool = new List<GameObject>();
 
         for ( int i = 0; i < poolSize; i++ ) {
             GameObject prefabObject = Instantiate( prefab );
