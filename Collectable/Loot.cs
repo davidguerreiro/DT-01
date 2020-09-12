@@ -18,9 +18,9 @@ public class Loot : MonoBehaviour {
     [Header( "Settings" )]
     public int minDrop = 1;                             // Minimun of items dropped by this enemy / destructible.
     public int maxDrop = 2;                             // Maxumun of items dropped by this enemy / destructible.
-    public float heightDrop = 50f;                      // Height at where the dropped item will be displayed in the game scene.
-    public float xVariableDistance = 15f;               // X Variable distance used to randomize X position.
-    public float zVariableDistance = 15f;               // Z Variable distance used to randomize Z position.                
+    public float heightDrop = 5f;                      // Height at where the dropped item will be displayed in the game scene.
+    public float xVariableDistance = 1f;               // X Variable distance used to randomize X position.
+    public float zVariableDistance = 1f;               // Z Variable distance used to randomize Z position.                
 
 
     /// <summary>
@@ -102,11 +102,14 @@ public class Loot : MonoBehaviour {
         for ( int i = 0; i < loot.Length; i++ ) {
 
             // calculate drop variations.
-            xVariation = UnityEngine.Random.Range( origin.position.x - xVariableDistance, origin.position.x + ( xVariableDistance + 1f ) );
-            zVariation = UnityEngine.Random.Range( origin.position.z - zVariableDistance, origin.position.z + ( zVariableDistance + 1f ) );
+            xVariation = UnityEngine.Random.Range( origin.position.x - xVariableDistance, origin.position.x + ( xVariableDistance + .01f ) );
+            zVariation = UnityEngine.Random.Range( origin.position.z - zVariableDistance, origin.position.z + ( zVariableDistance + .01f ) );
+
+            Debug.Log( xVariation / 10f );
+            Debug.Log( zVariation / 10f );
 
             // instance loot.
-            Instantiate( itemsToDrop[ i ], new Vector3( origin.position.x + xVariation, origin.position.y + heightDrop, origin.position.z + zVariation ), Quaternion.identity );
+            Instantiate( itemsToDrop[ i ], new Vector3( origin.position.x + ( xVariation / 10f ), origin.position.y + heightDrop, origin.position.z + ( zVariation / 10f ) ), Quaternion.identity );
         }
     }
 

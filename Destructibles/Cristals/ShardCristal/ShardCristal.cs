@@ -78,6 +78,8 @@ public class ShardCristal : Cristal {
     public override void Destroyed() {
         base.Destroyed();
 
+        // Transform crystalModelPosition = cristalModel.transform;
+
         // disable collider.
         Destroy( _sphereCollider );
 
