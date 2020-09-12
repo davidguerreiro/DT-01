@@ -14,8 +14,9 @@ public class ShardCristal : Cristal {
     [Header( "Settings")]
     public int splintersDisplayed;                               // Spliters displayed by each player hit.
 
-    private SphereCollider sphereCollider;                      // Crystal sphere collider component reference.
+    private SphereCollider _sphereCollider;                     // Crystal sphere collider component reference.
     private Animator _animator;                                 // 3D Model animator component reference.
+    private Loot _loot;                                         // Loot to drop after the cristal has been destroyed.
     
     // Start is called before the first frame update
     void Start() {
@@ -78,9 +79,15 @@ public class ShardCristal : Cristal {
         base.Destroyed();
 
         // disable collider.
-        Destroy( sphereCollider );
+        Destroy( _sphereCollider );
 
+        // display destroyed animation.
         StartCoroutine( DestroyedAnimation() );
+
+        // drop loot.
+        if ( _loot != null ) {
+            _loot.DropLoot( this.gameObject.transform );
+        }
 
     }
 
@@ -113,12 +120,15 @@ public class ShardCristal : Cristal {
         base.Init();
 
         // get sphere collider reference.
-        sphereCollider = GetComponent<SphereCollider>();
+        _sphereCollider = GetComponent<SphereCollider>();
 
         // get 3D model animator componentr.
         if ( cristalModel != null ) {
             _animator = cristalModel.GetComponent<Animator>();
         }
+
+        // get loot class reference.
+        _loot = GetComponent<Loot>();
     }
 
 
