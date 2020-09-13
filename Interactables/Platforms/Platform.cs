@@ -132,15 +132,16 @@ public class Platform : MonoBehaviour {
         }
 
         if ( ! singleMovement ) {
-            
+
             // static time, no movement for the platform.
             yield return new WaitForSeconds( staticWait );
 
             targetPosition = pointA.transform.position;
             moveTime = 0f;
 
+            // back movement
             while ( Vector3.Distance( targetPosition, transform.position ) > Mathf.Epsilon ) {
-
+                
                 moveTime += Time.deltaTime;
                 transform.position = Vector3.Lerp( pointB.transform.position, targetPosition, moveTime / movingSpeed );
 
@@ -148,6 +149,6 @@ public class Platform : MonoBehaviour {
             }
         }
 
-        isMoving = false;
+        _movementFlag = false;
     }
 }
