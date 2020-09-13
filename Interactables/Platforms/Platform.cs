@@ -38,7 +38,7 @@ public class Platform : MonoBehaviour {
         
         // start floating if required.
         if ( isFloating && ! _floatingFlag ) {
-            // _floatingCoroutine = StartCoroutine( "Floating" );
+            _floatingCoroutine = StartCoroutine( "Floating" );
         }
     }
 
@@ -50,7 +50,7 @@ public class Platform : MonoBehaviour {
         _initialHeight = transform.position.y;
 
         if ( isFloating ) {
-            transform.position = new Vector3( transform.position.x, transform.position.y - minHeight, transform.position.z );
+            // transform.position = new Vector3( transform.position.x, transform.position.y - minHeight, transform.position.z );
 
             _minimunPosition = new Vector3( transform.position.x, transform.position.y - minHeight, transform.position.z );
             _maxPosition = new Vector3( transform.position.x, transform.position.y + maxHeight, transform.position.z );
@@ -78,6 +78,7 @@ public class Platform : MonoBehaviour {
 
             moveTime += Time.deltaTime;
             transform.position = Vector3.Lerp( _minimunPosition, targetPosition, moveTime / floatingSpeed );
+            yield return null;
         }
 
         // static time, no movement for the platform.
@@ -85,11 +86,13 @@ public class Platform : MonoBehaviour {
 
         // down time.
         targetPosition = _minimunPosition;
+        moveTime = 0f;
 
         while ( Vector3.Distance( targetPosition, transform.position ) > Mathf.Epsilon ) {
 
             moveTime += Time.deltaTime;
             transform.position = Vector3.Lerp( _maxPosition, targetPosition, moveTime / floatingSpeed );
+            yield return null;
         }
         
         _floatingFlag = false;
