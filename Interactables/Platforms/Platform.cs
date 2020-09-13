@@ -16,7 +16,8 @@ public class Platform : MonoBehaviour {
 
     [Header("Moving Settings")]
     public float movingSpeed;                                 // Platform moving speed.
-    public Vector3 distance;                                  // Platform moving distance.
+    public bool loop = false;                                 // Whether is moving in loop.
+    public bool singleMovement = false;                       // Whether it moves from point A to B only and never returns.
     public Transform pointA;                                  // Initial lerp position.
     public Transform pointB;                                  // End lerp position.
     
@@ -31,6 +32,11 @@ public class Platform : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         Init();
+
+        // move platform once.
+        if ( isMoving && ! loop ) {
+            _movingCoroutine = StartCoroutine( "Moving" );
+        }
     }
 
     // Update is called once per frame
@@ -39,6 +45,11 @@ public class Platform : MonoBehaviour {
         // start floating if required.
         if ( isFloating && ! _floatingFlag ) {
             _floatingCoroutine = StartCoroutine( "Floating" );
+        }
+
+        // start moving if required.
+        if ( isMoving && loop && ! _movementFlag ) {
+            _movingCoroutine = StartCoroutine( "Moving" );
         }
     }
 
@@ -96,5 +107,47 @@ public class Platform : MonoBehaviour {
         }
         
         _floatingFlag = false;
+    }
+
+    /// <summary>
+    /// Moving platform coroutine.
+    /// </summary>
+    /// <returns>IEnumerator</returns>
+    private IEnumerator Moving() {
+
+        _movementFlag = true;
+        Vector3 targetPosition = pointB.transform.position;
+        float moveTime = 0f;
+
+        // static time, no movement for the platform.
+        yield return new WaitForSeconds( staticWait );
+
+        // forward movement.
+        while ( Vector3.Distance( targetPosition, transform.position ) > Mathf.Epsilon ) {
+
+            moveTime += Time.deltaTime;
+            transform.position = Vector3.Lerp( pointA.transform.position, targetPosition, moveTime / movingSpeed );
+
+            yield return null;
+        }
+
+        if ( ! singleMovement ) {
+            
+            // static time, no movement for the platform.
+            yield return new WaitForSeconds( staticWait );
+
+            targetPosition = pointA.transform.position;
+            moveTime = 0f;
+
+            while ( Vector3.Distance( targetPosition, transform.position ) > Mathf.Epsilon ) {
+
+                moveTime += Time.deltaTime;
+                transform.position = Vector3.Lerp( pointB.transform.position, targetPosition, moveTime / movingSpeed );
+
+                yield return null;
+            }
+        }
+
+        isMoving = false;
     }
 }
