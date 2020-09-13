@@ -17,12 +17,16 @@ public class Platform : MonoBehaviour {
     [Header("Moving Settings")]
     public float movingSpeed;                                 // Platform moving speed.
     public Vector3 distance;                                  // Platform moving distance.
-
+    public Transform pointA;                                  // Initial lerp position.
+    public Transform pointB;                                  // End lerp position.
+    
     private float _initialHeight;                             // Initial height reference.
     private Coroutine _floatingCoroutine;                     // Floating coroutine reference.
     private Coroutine _movingCoroutine;                       // Moving coroutine reference.
     private Vector3 _minimunPosition;                         // Lowest position for floating animation.
     private Vector3 _maxPosition;                             // Highest position for floating animation.
+    private bool _floatingFlag = false;                       // Floating coroutine control flag.
+    private bool _movementFlag = false;                       // Movement coroutine control flag.
 
     // Start is called before the first frame update
     void Start() {
@@ -32,6 +36,10 @@ public class Platform : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         
+        // start floating if required.
+        if ( isFloating && ! _floatingFlag ) {
+            // _floatingCoroutine = StartCoroutine( "Floating" );
+        }
     }
 
     /// <summary>
@@ -57,6 +65,7 @@ public class Platform : MonoBehaviour {
     /// </summary>
     /// <returns>IEnumerator</returns>
     private IEnumerator Floating() {
+        _floatingFlag = true;
         
         Vector3 targetPosition = _maxPosition;
         float moveTime = 0f;
@@ -75,6 +84,14 @@ public class Platform : MonoBehaviour {
         yield return new WaitForSeconds( staticWait );
 
         // down time.
+        targetPosition = _minimunPosition;
+
+        while ( Vector3.Distance( targetPosition, transform.position ) > Mathf.Epsilon ) {
+
+            moveTime += Time.deltaTime;
+            transform.position = Vector3.Lerp( _maxPosition, targetPosition, moveTime / floatingSpeed );
+        }
         
+        _floatingFlag = false;
     }
 }
