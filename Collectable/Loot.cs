@@ -37,7 +37,7 @@ public class Loot : MonoBehaviour {
     /// <returns>GameObject[]</returns>
     private GameObject[] GenerateLoot() {
 
-        int totalLoot = UnityEngine.Random.Range( minDrop, maxDrop );
+        int totalLoot = UnityEngine.Random.Range( minDrop, maxDrop + 1 );
         GameObject[] lootToDrop = new GameObject[ totalLoot ];
 
         // check if we shuffle the loop array. Shuffle the array will increase rng chances
@@ -84,7 +84,6 @@ public class Loot : MonoBehaviour {
             lootToDrop[ i ] = itemToDrop;
         }
 
-
         return lootToDrop;
     }
 
@@ -99,14 +98,11 @@ public class Loot : MonoBehaviour {
         float xVariation;
         float zVariation;
         
-        for ( int i = 0; i < loot.Length; i++ ) {
+        for ( int i = 0; i < itemsToDrop.Length; i++ ) {
 
             // calculate drop variations.
             xVariation = UnityEngine.Random.Range( origin.position.x - xVariableDistance, origin.position.x + ( xVariableDistance + .01f ) );
             zVariation = UnityEngine.Random.Range( origin.position.z - zVariableDistance, origin.position.z + ( zVariableDistance + .01f ) );
-
-            Debug.Log( xVariation / 10f );
-            Debug.Log( zVariation / 10f );
 
             // instance loot.
             Instantiate( itemsToDrop[ i ], new Vector3( origin.position.x + ( xVariation / 10f ), origin.position.y + heightDrop, origin.position.z + ( zVariation / 10f ) ), Quaternion.identity );
