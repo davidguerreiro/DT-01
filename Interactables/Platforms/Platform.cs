@@ -151,4 +151,43 @@ public class Platform : MonoBehaviour {
 
         _movementFlag = false;
     }
+
+    /// <summary>
+    /// Joint player to the platform, so the player
+    /// moves along within the platform.
+    /// </summary>
+    /// <param name="player">GameObject - player gameobject reference</param>
+    private void JointPlayerToPlatform( GameObject player ) {
+
+        // check if player grounded on the platform.
+        FPSInput playerInput = player.GetComponent<FPSInput>();
+
+        if ( playerInput != null && playerInput.grounded ) {
+            player.transform.parent = this.gameObject.transform.parent;
+        }
+    }
+
+    /// <summary>
+    /// OnCollisionEnter is called when this collider/rigidbody has begun
+    /// touching another rigidbody/collider.
+    /// </summary>
+    /// <param name="other">The Collision data associated with this collision.</param>
+    void OnCollisionEnter( Collision other ) {
+        
+        if ( other.gameObject.tag == "Player" ) {
+            JointPlayerToPlatform( other.gameObject );
+        } 
+    }
+
+    /// <summary>
+    /// OnCollisionExit is called when this collider/rigidbody has
+    /// stopped touching another rigidbody/collider.
+    /// </summary>
+    /// <param name="other">The Collision data associated with this collision.</param>
+    void OnCollisionExit( Collision other ) {
+
+        if ( other.gameObject.tag == "Player" ) {
+            other.gameObject.transform.parent = null;
+        }
+    }
 }
