@@ -40,7 +40,7 @@ public class Platform : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
+    void FixedUpdate() {
         
         // start floating if required.
         if ( isFloating && ! _floatingFlag ) {
@@ -160,22 +160,23 @@ public class Platform : MonoBehaviour {
     private void JointPlayerToPlatform( GameObject player ) {
 
         // check if player grounded on the platform.
-        FPSInput playerInput = player.GetComponent<FPSInput>();
+        FPSInput playerInput = player.GetComponentInParent<FPSInput>();
 
         if ( playerInput != null && playerInput.grounded ) {
-            player.transform.parent = this.gameObject.transform.parent;
+            player.transform.parent.transform.parent = this.gameObject.transform;
         }
     }
+
 
     /// <summary>
     /// OnCollisionEnter is called when this collider/rigidbody has begun
     /// touching another rigidbody/collider.
     /// </summary>
     /// <param name="other">The Collision data associated with this collision.</param>
-    void OnCollisionEnter( Collision other ) {
+    void OnTriggerEnter( Collider other ) {
         
         if ( other.gameObject.tag == "Player" ) {
-            JointPlayerToPlatform( other.gameObject );
+           JointPlayerToPlatform( other.gameObject );
         } 
     }
 
@@ -184,10 +185,10 @@ public class Platform : MonoBehaviour {
     /// stopped touching another rigidbody/collider.
     /// </summary>
     /// <param name="other">The Collision data associated with this collision.</param>
-    void OnCollisionExit( Collision other ) {
+    void OnTriggerExit( Collider other ) {
 
         if ( other.gameObject.tag == "Player" ) {
-            other.gameObject.transform.parent = null;
+            other.gameObject.transform.parent.transform.parent = null;
         }
     }
 }
