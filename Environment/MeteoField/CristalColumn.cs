@@ -22,7 +22,6 @@ public class CristalColumn : MonoBehaviour {
     /// <returns>IEnumerator</returns>
     public IEnumerator Disable() {
 
-        Debug.Log( "called" );
 
         // switch cristal light off.
         cristalLight.SwitchOff();
@@ -37,6 +36,7 @@ public class CristalColumn : MonoBehaviour {
         // shards to be removed from game scene.
         foreach ( RedShardEnviroment redShard in redShards ) {
             Destroy( redShard );
+            Debug.Log( "called" );
         }
     }
 }

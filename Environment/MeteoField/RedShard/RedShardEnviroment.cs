@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class RedShardEnviroment : MonoBehaviour {
 
+    [Header("Settings")]
+    public Vector3 forceOnDrop;                         // Force to apply when the cristal drops.
+
     private Rigidbody _rigi;                            // Rigibody component reference.
     private RotateItself _rotateItself;                 // Rotate itsefl class component reference.
     private RotateAround _rotateAround;                 // Rotate around class component reference.
@@ -22,6 +25,8 @@ public class RedShardEnviroment : MonoBehaviour {
         _rotateAround.Stop();
         _rigi.isKinematic = false;
         _rigi.useGravity = true;
+
+        _rigi.AddForce( forceOnDrop, ForceMode.Impulse );
     }
 
     /// <summary>
