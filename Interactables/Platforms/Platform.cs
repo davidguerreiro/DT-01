@@ -176,7 +176,7 @@ public class Platform : MonoBehaviour {
     void OnTriggerEnter( Collider other ) {
         
         if ( other.gameObject.tag == "Player" ) {
-           JointPlayerToPlatform( other.gameObject );
+           // JointPlayerToPlatform( other.gameObject );
         } 
     }
 
@@ -188,7 +188,7 @@ public class Platform : MonoBehaviour {
     void OnTriggerExit( Collider other ) {
 
         if ( other.gameObject.tag == "Player" ) {
-            other.gameObject.transform.parent.transform.parent = null;
+            // other.gameObject.transform.parent.transform.parent = null;
         }
     }
 }
