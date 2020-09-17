@@ -10,12 +10,6 @@ public class CristalColumn : MonoBehaviour {
     [Header("Settings")]
     public float shardsLifeTime = 5f;                   // How many seconds the shards will stay in the game scene before being destroyed.
 
-    void Update() {
-        if ( Input.GetKeyDown( "m" ) ) {
-            StartCoroutine( Disable() );
-        }
-    }
-
     /// <summary>
     /// Disable crital column.
     /// </summary>
@@ -35,8 +29,7 @@ public class CristalColumn : MonoBehaviour {
 
         // shards to be removed from game scene.
         foreach ( RedShardEnviroment redShard in redShards ) {
-            Destroy( redShard );
-            Debug.Log( "called" );
+            Destroy( redShard.gameObject );
         }
     }
 }
