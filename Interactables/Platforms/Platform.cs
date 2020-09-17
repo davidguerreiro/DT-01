@@ -163,7 +163,7 @@ public class Platform : MonoBehaviour {
         FPSInput playerInput = player.GetComponentInParent<FPSInput>();
 
         if ( playerInput != null && playerInput.grounded ) {
-            player.transform.parent.transform.parent = this.gameObject.transform;
+            // player.transform.parent.transform.parent = this.gameObject.transform;
         }
     }
 
