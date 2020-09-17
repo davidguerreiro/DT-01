@@ -8,9 +8,14 @@ public class RotateItself : MonoBehaviour {
     public bool rotateY = true;
     public bool rotateZ = true;
 
+    private bool _canMove = true;                               // Flag used to stop movement.
+
     // Update is called once per frame
     void Update() {
-        RotateObject();
+
+        if ( _canMove ) {
+            RotateObject();
+        }
     }
 
     /// <summary>
@@ -24,5 +29,12 @@ public class RotateItself : MonoBehaviour {
         float rotateZvalue = ( this.rotateZ ) ? rotationValue : 0f;
 
         transform.Rotate( new Vector3( rotateXValue, rotateYValue, rotateZvalue ) );
+    }
+
+    /// <summary>
+    /// Stop rotation.
+    /// </summary>
+    public void Stop() {
+        _canMove = false;
     }
 }

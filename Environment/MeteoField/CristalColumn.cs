@@ -22,6 +22,8 @@ public class CristalColumn : MonoBehaviour {
     /// <returns>IEnumerator</returns>
     public IEnumerator Disable() {
 
+        Debug.Log( "called" );
+
         // switch cristal light off.
         cristalLight.SwitchOff();
 

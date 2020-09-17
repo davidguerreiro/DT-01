@@ -18,9 +18,10 @@ public class RedShardEnviroment : MonoBehaviour {
     /// or rotating around.
     /// </summary>
     public void Drop() {
+        _rotateItself.Stop();
+        _rotateAround.Stop();
+        _rigi.isKinematic = false;
         _rigi.useGravity = true;
-        _rotateItself.speed = 0f;
-        _rotateAround.speed = 0f;
     }
 
     /// <summary>

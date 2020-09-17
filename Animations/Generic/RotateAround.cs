@@ -10,9 +10,14 @@ public class RotateAround : MonoBehaviour {
     public bool rotateZ;                                    // Wheter or not the object rotates in the Z axis.
     public bool invertDirection = false;                    // Invert rotation.
 
+    private bool _canMove = true;                           // Flag used to stop any movememnt from this script.
+
     // Update is called once per frame
     void FixedUpdate(){
-        RotateObject();
+
+        if ( _canMove ) {
+            RotateObject();
+        }
     }
 
     /// <summary>
@@ -28,5 +33,12 @@ public class RotateAround : MonoBehaviour {
         Vector3 axis = new Vector3( rotateXValue, rotateYValue, rotateZValue );
 
         transform.RotateAround( pivot.transform.position, axis, angles );
+    }
+
+    /// <summary>
+    /// Stop any movement or rotation.
+    /// </summary>
+    public void Stop() {
+        _canMove = false;
     }
 }
