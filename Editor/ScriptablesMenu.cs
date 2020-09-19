@@ -92,9 +92,9 @@ public static class ScriptablesMenu  {
         ProjectWindowUtil.CreateAsset( asset, path );
     }
 
-    [MenuItem( "Assets/Create/EnemyDataObject")]
+    [MenuItem( "Assets/Create/Enemies/EnemyDataObject")]
     /// <summary>
-    /// Add Lintern scriptable item
+    /// Add Enemy data object scriptable item
     /// in the scriptables menu.
     /// </summary>
     public static void AddEnemyDataObjectScriptableObject() {
@@ -105,6 +105,23 @@ public static class ScriptablesMenu  {
 
         var path = AssetDatabase.GetAssetPath( Selection.activeObject );
         path += "/newEnemyData.asset";
+
+        ProjectWindowUtil.CreateAsset( asset, path );
+    }
+
+    [MenuItem( "Assets/Create/Enemies/EnemyAttack")]
+    /// <summary>
+    /// Add Enemy data object scriptable item
+    /// in the scriptables menu.
+    /// </summary>
+    public static void AddEnemyAttackObjectScriptableObject() {
+
+        var asset = ScriptableObject.CreateInstance<EnemyAttack>();
+
+        // if needs preconfiguration. add here.
+
+        var path = AssetDatabase.GetAssetPath( Selection.activeObject );
+        path += "/newEnemyAttack.asset";
 
         ProjectWindowUtil.CreateAsset( asset, path );
     }

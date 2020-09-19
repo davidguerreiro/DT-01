@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: MeteoWorm
   m_EditorClassIdentifier: 
   id: 0
-  enemyName: 
+  enemyName: MeteoWorm
   enemySprite: {fileID: 0}
-  dataNumber: 0
-  hp: 0
-  attack: 0
-  defense: 0
-  speed: 0
-  attackRatio: 0
+  dataNumber: 1
+  hp: 12
+  attack: 2
+  defense: 3
+  speed: 1
+  attackRatio: 6
   descriptionEsp: 
   descriptionEng: 
   defeated: 0
