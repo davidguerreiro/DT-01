@@ -91,4 +91,21 @@ public static class ScriptablesMenu  {
 
         ProjectWindowUtil.CreateAsset( asset, path );
     }
+
+    [MenuItem( "Assets/Create/EnemyDataObject")]
+    /// <summary>
+    /// Add Lintern scriptable item
+    /// in the scriptables menu.
+    /// </summary>
+    public static void AddEnemyDataObjectScriptableObject() {
+
+        var asset = ScriptableObject.CreateInstance<EnemyData>();
+
+        // if needs preconfiguration. add here.
+
+        var path = AssetDatabase.GetAssetPath( Selection.activeObject );
+        path += "/newEnemyData.asset";
+
+        ProjectWindowUtil.CreateAsset( asset, path );
+    }
 }
