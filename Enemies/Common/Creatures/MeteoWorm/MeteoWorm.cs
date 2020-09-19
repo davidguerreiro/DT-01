@@ -16,6 +16,8 @@ public class MeteoWorm : Enemy {
         
     }
 
+    
+
     /// <summary>
     /// Init class method.
     /// </summary>
