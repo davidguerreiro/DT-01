@@ -21,9 +21,10 @@ public class EnemyData : ScriptableObject {
     [Header("Description")]
     [TextArea]
     public string descriptionEsp;           // Enemy Spanish description, displayed in the Data Center module.
+    [TextArea]
     public string descriptionEng;           // Enemy English description, displayed in the Data Center module.
 
-    [Header("OtherData")]
+    [Header("Extra Data")]
     public int defeated = 0;                // Enemies of this tipe defeated by the player across the entire game.
     
     [Header("Debug")]
