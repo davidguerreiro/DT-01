@@ -21,7 +21,12 @@ MonoBehaviour:
   defense: 3
   speed: 1
   attackRatio: 6
-  descriptionEsp: 
-  descriptionEng: 
+  descriptionEsp: "Esta peque\xF1a larva de MeteoSaur anida en las cuevas de los
+    peque\xF1os planetoides y campos de meteritos cercanos a algunos planetas. /pEs
+    bast\xE1nte d\xE9bil, pero cuidado si te encuentras con un nido, sus hermanos
+    mayores podr\xEDan andar cerca."
+  descriptionEng: This little MeteoSaur larva nests in small planets and meteo caves.
+    It is not a real hazard by itself, but watch out for their bigger siblings, they
+    might be closer than you think.
   defeated: 0
   reset: 0

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ public class EnemyData : ScriptableObject {
 
     [Header("UI")]
     public string enemyName;                // Enemy display name.                     
-    public Image enemySprite;               // Enemy 2D sprite. Displayed in the UI during combat and in the Data Center.
+    public Sprite enemySprite;               // Enemy 2D sprite. Displayed in the UI during combat and in the Data Center.
     public int dataNumber;                  // Data number for data center funcionality.
 
     [Header("Base Stats")]
@@ -23,6 +24,16 @@ public class EnemyData : ScriptableObject {
     public string descriptionEsp;           // Enemy Spanish description, displayed in the Data Center module.
     [TextArea]
     public string descriptionEng;           // Enemy English description, displayed in the Data Center module.
+
+    [Serializable]
+    public struct Actions {
+        public EnemyAttack action;          // Attack which can be performed by the enemy.
+        public int rate;                    // Action rate - used to calculate the chances that this enemy will perform this attack.
+    };
+
+    [Header("Actions")]
+    public Actions[] attacks = new Actions[1];  // Action attacks which can be performed by this enemy.
+    
 
     [Header("Extra Data")]
     public int defeated = 0;                // Enemies of this tipe defeated by the player across the entire game.

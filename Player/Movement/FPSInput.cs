@@ -12,6 +12,7 @@ public class FPSInput : MonoBehaviour {
     public float speed = 6f;                                            // Movement speed.
     public float runningSpeed = 10f;                                    // Boost to assign to speed when running.
     public float jumpSpeed = 8f;                                        // Jump speed force.
+    public float runningJumpBoost = 2.5f;                               // Boost for jumping while running.                   
     public float gravity = - 9.8f;                                       // Grravity value - character controller cannot be used with rigiBody so gravity needs to be defined.
 
     [Header("References")]
@@ -159,7 +160,8 @@ public class FPSInput : MonoBehaviour {
         _audio.PlaySound( 0 );
 
         Vector3 movement = Vector3.zero;
-        movement.y = jumpSpeed;
+        float jumpForce = ( isRunning ) ? jumpSpeed + runningJumpBoost : jumpSpeed;
+        movement.y = jumpForce;
 
 
         while ( ! grounded ) {
