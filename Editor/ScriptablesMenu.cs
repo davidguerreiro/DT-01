@@ -136,7 +136,7 @@ public static class ScriptablesMenu  {
         var asset = ScriptableObject.CreateInstance<EnemyType>();
 
         // if needs preconfiguration. add here.
-\
+
         var path = AssetDatabase.GetAssetPath( Selection.activeObject );
         path += "/newEnemyType.asset";
 

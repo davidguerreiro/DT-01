@@ -18,12 +18,6 @@ public class EnemyData : ScriptableObject {
     public float defense;                   // Used to calculate damage done by the player to this enemy.
     public float speed;                     // Used to calculate movement speed.
     public float attackRatio;               // Used to calculate enemy attack ratio.
-    
-    [Header("Description")]
-    [TextArea]
-    public string descriptionEsp;           // Enemy Spanish description, displayed in the Data Center module.
-    [TextArea]
-    public string descriptionEng;           // Enemy English description, displayed in the Data Center module.
 
     [Serializable]
     public struct Actions {
@@ -33,7 +27,22 @@ public class EnemyData : ScriptableObject {
 
     [Header("Actions")]
     public Actions[] attacks = new Actions[1];  // Action attacks which can be performed by this enemy.
-    
+
+    [Header("Type")]
+    public EnemyType enemyType;                 // Enemy type reference.
+    public bool isBoss;                         // Whether this enemy is a boss or not.
+
+    [Header("Description")]
+    [TextArea]
+    public string descriptionEsp;           // Enemy Spanish description, displayed in the Data Center module.
+    [TextArea]
+    public string descriptionEng;           // Enemy English description, displayed in the Data Center module.
+
+    [Header("Strategy")]
+    [TextArea]
+    public string stratagyEsp;              // Enemy strategy in Spanish.
+    [TextArea]
+    public string strategyEng;              // Enemy strategy in English.
 
     [Header("Extra Data")]
     public int defeated = 0;                // Enemies of this tipe defeated by the player across the entire game.
