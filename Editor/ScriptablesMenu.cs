@@ -111,7 +111,7 @@ public static class ScriptablesMenu  {
 
     [MenuItem( "Assets/Create/Enemies/EnemyAttack")]
     /// <summary>
-    /// Add Enemy data object scriptable item
+    /// Add Enemy attack object scriptable item
     /// in the scriptables menu.
     /// </summary>
     public static void AddEnemyAttackObjectScriptableObject() {
@@ -122,6 +122,23 @@ public static class ScriptablesMenu  {
 
         var path = AssetDatabase.GetAssetPath( Selection.activeObject );
         path += "/newEnemyAttack.asset";
+
+        ProjectWindowUtil.CreateAsset( asset, path );
+    }
+
+    [MenuItem( "Assets/Create/Enemies/EnemyType")]
+    /// <summary>
+    /// Add Enemy type object scriptable item
+    /// in the scriptables menu.
+    /// </summary>
+    public static void AddEnemyTypeObjectScriptableObject() {
+
+        var asset = ScriptableObject.CreateInstance<EnemyType>();
+
+        // if needs preconfiguration. add here.
+\
+        var path = AssetDatabase.GetAssetPath( Selection.activeObject );
+        path += "/newEnemyType.asset";
 
         ProjectWindowUtil.CreateAsset( asset, path );
     }
