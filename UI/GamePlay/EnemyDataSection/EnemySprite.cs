@@ -4,8 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class EnemySprite : MonoBehaviour {
+
+    [HideInInspector]
+    public FadeElement fadeClass;                         // Fade element class component reference.
     private Image _image;                                   // Image component reference.
-    private FadeElement _fadeClass;                         // Fade element class component reference.
+    
 
     // Start is called before the first frame update
     void Start() {
@@ -31,7 +34,7 @@ public class EnemySprite : MonoBehaviour {
         _image = GetComponent<Image>();
 
         // get fade element class component reference.
-        _fadeClass = GetComponent<FadeElement>();
+        fadeClass = GetComponent<FadeElement>();
 
     }
 }
