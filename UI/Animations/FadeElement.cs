@@ -1,10 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FadeElement : MonoBehaviour {
     public bool displayed;                                  // Flag to control displayed status.
+
+    public enum Type {
+        image,
+        text,
+    };
+    
+    public Type type;                                       // To which type of element this script is attached. Text and image requires different components for manipulatin the colour property raw.
     private Animator _animator;                             // Animator component reference.
+    private Image _image;                                   // Image component reference.
+    private Text _text;                                     // Text component reference.
+
 
     /**
     * Fade idle / half fade from displayed = 0
@@ -75,6 +86,61 @@ public class FadeElement : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Get raw colour component.
+    /// </summary>
+    private void GetRawColourComponent() {
+
+        switch ( type ) {
+            case Type.image:
+                _image = GetComponent<Image>();
+                break;
+            case Type.text:
+                _text = GetComponent<Text>();
+                break;
+            default:
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Display element without fade
+    /// animation.
+    /// </summary>
+    public void RawDisplay() {
+        
+        // image.
+        if ( type == Type.image && _image != null ) {
+            _image.color = new Color( _image.color.r, _image.color.g, _image.color.b, 1f );
+            displayed = true;
+        }
+
+        // text.
+        if ( type == Type.text && _text != null ) {
+            _text.color = new Color( _text.color.r, _text.color.g, _text.color.b, 1f );
+            displayed = true;
+        }
+    }
+
+    /// <summary>
+    /// Hide element without fade
+    /// animation.
+    /// </summary>
+    public void RawHide() {
+
+        // image.
+        if ( type == Type.image && _image != null ) {
+            _image.color = new Color( _image.color.r, _image.color.g, _image.color.b, 0f );
+            displayed = false;
+        }
+
+        // text.
+        if ( type == Type.text && _text != null ) {
+            _text.color = new Color( _text.color.r, _text.color.g, _text.color.b, 0f );
+            displayed = false;
+        }
+    }
+
 
     /// <summary>
     /// Init class method.
@@ -83,6 +149,9 @@ public class FadeElement : MonoBehaviour {
 
         // get animator component reference.
         _animator = GetComponent<Animator>();
+
+        // get raw colour component reference.
+        GetRawColourComponent();
     }
 
 }
