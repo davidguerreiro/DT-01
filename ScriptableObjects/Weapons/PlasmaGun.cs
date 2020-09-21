@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlasmaGun : ScriptableObject {
 
     // TODO: Implement changes by player skills.
-
     [Header("Damage")]
     public float baseDamage;                        // Base damage caused by simple shoot impact.
     public float chargedShootBost;                  // Multiplier for charged shoots.

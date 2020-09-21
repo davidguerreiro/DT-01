@@ -27,15 +27,16 @@ public abstract class Enemy : MonoBehaviour {
     [SerializeField]
     protected State currentState = new State();                // Enemy state.
 
-    // TODO: Add reference to UI component.
+    [SerializeField]
+    protected EnemyHPBar enemyHPBar;
 
     /// <summary>
     /// Get damage method.
     /// </summary>
     /// <param name="externalImpactValue">float - damage value caused external attacker, usually the player.</param>
     public virtual void GetDamage( float externalImpactValue ) {
-        float damageReceived = ( externalImpactValue / data.defense ) + UnityEngine.Random.Range( 0f, 2f );
-        Debug.Log( damageReceived );                   
+        float damageReceived = ( externalImpactValue / data.defense ) + UnityEngine.Random.Range( 0f, .5f );
+        Debug.Log( damageReceived );                  
     }
     
     /// <summary>
@@ -45,4 +46,5 @@ public abstract class Enemy : MonoBehaviour {
         currentHp = data.hp;
         maxHP = data.hp;
     }
+
 }
