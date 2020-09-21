@@ -24,7 +24,7 @@ public class MeteoWorm : Enemy {
         if ( other.gameObject.tag == "PlayerProjectile" ) {
             Bullet bullet = other.gameObject.GetComponent<Bullet>();
 
-            GetDamage( bullet.damage );
+            base.GetDamage( bullet.damage );
         }
     }
 
