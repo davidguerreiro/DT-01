@@ -58,12 +58,12 @@ public abstract class Enemy : MonoBehaviour {
     public virtual void GetDamage( float externalImpactValue ) {
         if ( isAlive ) {
             float damageReceived = ( externalImpactValue / data.defense ) + UnityEngine.Random.Range( 0f, .5f );
+            Debug.Log( damageReceived );
             currentHp -= damageReceived;
-
+            
             if ( currentHp <= 0f ) {
                 StartCoroutine( Die() );
             } else {
-
                 UpdateUI();
             }
         }
@@ -94,7 +94,33 @@ public abstract class Enemy : MonoBehaviour {
         isAlive = false;
         currentHp = 0f;
 
+        RemoveCollider();
+
         yield return null;
+    }
+
+    /// <summary>
+    /// Remove collider when the
+    /// enemy is defeated.
+    /// </summary>
+    private void RemoveCollider() {
+
+        switch( colliderType ) {
+            case ColliderType.sphere:
+                Destroy( GetComponent<SphereCollider>() );
+                break;
+            case ColliderType.box:
+                Destroy( GetComponent<BoxCollider>() );
+                break;
+            case ColliderType.capsule:
+                Destroy( GetComponent<CapsuleCollider>() );
+                break;
+            case ColliderType.mesh:
+                Destroy( GetComponent<MeshCollider>() );
+                break;
+            default:
+                break;
+        }
     }
 
     

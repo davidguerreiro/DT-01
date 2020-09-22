@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class EnemyHPBar : MonoBehaviour {
 
     [HideInInspector]
-    public int enemyID;                                     // To which enemy id the bar is linked at the moment.
+    public int enemyID = -1;                                // To which enemy id the bar is linked at the moment.
     public bool displayed;                                  // Wheter the bar is displayed in the UI.
 
     [Header("Components")]

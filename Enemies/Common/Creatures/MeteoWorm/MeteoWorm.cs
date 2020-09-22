@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MeteoWorm : Enemy {
     public Animator anim;                             // Animator component reference.
+    private AudioComponent _audio;                    // Audio component reference.
 
     // Start is called before the first frame update
     void Start() {
@@ -24,8 +25,35 @@ public class MeteoWorm : Enemy {
         if ( other.gameObject.tag == "PlayerProjectile" ) {
             Bullet bullet = other.gameObject.GetComponent<Bullet>();
 
-            base.GetDamage( bullet.damage );
+            GetDamage( bullet.damage );
         }
+    }
+
+    /// <summary>
+    /// Get damage.
+    /// </summary>
+    /// <param name="externalImpactValue">float - damage value caused external attacker, usually the player.</param>
+    public override void GetDamage( float externalImpactValue ) {
+        base.GetDamage( externalImpactValue );
+
+        // play damage animation.
+        anim.SetTrigger( "Hit" );
+
+        // play damage sound.
+        if ( _audio != null ) {
+            _audio.PlaySound( 0 );
+        }
+    }
+
+    /// <summary>
+    /// Die method.
+    /// </summary>
+    public override IEnumerator Die() {
+        StartCoroutine( base.Die() );
+        
+        // play death animation.
+        anim.SetTrigger( "Die" );
+        yield return null;
     }
 
     /// <summary>
@@ -33,5 +61,8 @@ public class MeteoWorm : Enemy {
     /// </summary>
     public override void Init() {
         base.Init();
+
+        // get audio component reference.
+        _audio = GetComponent<AudioComponent>();
     }
 }
