@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MeteoWorm : Enemy {
+
     public Animator anim;                             // Animator component reference.
     private AudioComponent _audio;                    // Audio component reference.
 
@@ -52,8 +53,25 @@ public class MeteoWorm : Enemy {
         StartCoroutine( base.Die() );
         
         // play death animation.
-        anim.SetTrigger( "Die" );
-        yield return null;
+        anim.SetBool( "Die", true );
+        yield return new WaitForSeconds( timeToDissapear );
+
+        // remove enemy from the scene.
+        RemoveEnemy();
+    }
+
+    /// <summary>
+    /// Revove enemy from the scene after
+    /// dying.
+    /// </summary>
+    private void RemoveEnemy() {
+
+        // TODO: Remove enemy with soft transparent animation.
+        if ( parentReference != null ) {
+            Destroy( parentReference );
+        } else {
+            Destroy( this.gameObject );
+        }
     }
 
     /// <summary>

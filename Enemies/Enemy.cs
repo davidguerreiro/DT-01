@@ -4,10 +4,6 @@ using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour {
 
-    // TODO: Display both animation and sound from child class when the enemy is hit.
-    //       Disable collider when diying based on collider enum class.
-    //       Display animation when death.
-
     [SerializeField]
     protected int publicID;                                         // Public id, this is unique for each enemy instance created, only by scene. 
 
@@ -49,7 +45,13 @@ public abstract class Enemy : MonoBehaviour {
 
     [Header("Settings")]
     [SerializeField]
+    protected GameObject parentReference;                      // Parent reference - used to remove enemy gameObject if base script is attached to children.
+    [SerializeField]
+    protected Renderer renderer;                               // Enemy Renderer reference.
+    [SerializeField]
     protected float timeToDissapear = 5f;                      // How long till the 3D model of this enemy is removed from the scene after it gets defeated.
+    [SerializeField]
+    protected float dissapearAnimSpeed = 5f;                   // Dissapear animation speed.
 
     /// <summary>
     /// Get damage method.
