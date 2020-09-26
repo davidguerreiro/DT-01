@@ -58,13 +58,12 @@ public abstract class Enemy : MonoBehaviour {
     public virtual void GetDamage( float externalImpactValue ) {
         if ( isAlive ) {
             float damageReceived = ( externalImpactValue / data.defense ) + UnityEngine.Random.Range( 0f, .5f );
-            Debug.Log( damageReceived );
             currentHp -= damageReceived;
             
+            UpdateUI();
+
             if ( currentHp <= 0f ) {
                 StartCoroutine( Die() );
-            } else {
-                UpdateUI();
             }
         }
     }
@@ -74,7 +73,6 @@ public abstract class Enemy : MonoBehaviour {
     /// enemy gets damaged by the player.
     /// </summary>
     private void UpdateUI() {
-
         // Update UI.
         if ( enemyHPBar.enemyID != publicID ) {
             enemyHPBar.SetUp( publicID, data.enemySprite, currentHp, maxHp );

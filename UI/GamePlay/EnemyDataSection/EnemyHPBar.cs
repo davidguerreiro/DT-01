@@ -42,6 +42,7 @@ public class EnemyHPBar : MonoBehaviour {
     /// UI.
     /// </summary>
     public void Display() {
+        Debug.Log( "called display" );
         enemySprite.fadeClass.RawDisplay();
         background.RawDisplay();
         fill.RawDisplay();
@@ -69,6 +70,7 @@ public class EnemyHPBar : MonoBehaviour {
     public void SetUp( int enemyID, Sprite enemySprite, float currentHP, float maxHP ) {
 
         if ( _slider != null && _rect != null ) {
+
             // set up new enemy ID
             this.enemyID = enemyID;
 
@@ -80,8 +82,8 @@ public class EnemyHPBar : MonoBehaviour {
             _slider.value = currentHP;
 
             // resize enemy HP bar to adjust to enemy max HP.
-            float toAdd = ( maxHP < toIgnoreOffset ) ? offset : 0f;
-            _rect.transform.localScale = new Vector3( toAdd, _rect.transform.localScale.y, _rect.transform.localScale.z );
+            float toAdd = ( maxHP < toIgnoreOffset ) ? maxHP + offset : maxHP;
+            _rect.SetInsetAndSizeFromParentEdge( RectTransform.Edge.Right, 0, toAdd );
 
             if ( ! displayed ) {
                 Display();
@@ -93,6 +95,9 @@ public class EnemyHPBar : MonoBehaviour {
     /// Init class method.
     /// </summary>
     private void Init() {
+
+        // set enemy bar id to -1 so it does not collide with enemies id.
+        enemyID = -1;
 
         // get slider component refernece.
         _slider = GetComponent<Slider>();
