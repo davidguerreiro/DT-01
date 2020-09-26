@@ -63,7 +63,8 @@ public abstract class Enemy : MonoBehaviour {
             UpdateUI();
 
             if ( currentHp <= 0f ) {
-                enemyHPBar.fill.RawHide();
+                // remove fill straight with hight speed animation.
+                enemyHPBar.fill.FadeOut( 50f );
                 StartCoroutine( Die() );
             }
         }

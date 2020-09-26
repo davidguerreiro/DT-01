@@ -17,14 +17,27 @@ public class EnemyHPBar : MonoBehaviour {
     [Header("Settings")]
     public float offset;                                    // Extra value to ensure the bar is not too slow for enemies with low HP.
     public float toIgnoreOffset;                            // Ignore offset for enemy with HP superior to this amount.
+    public float secondsDisplayed;                          // How long the enemy HP bar will be displayed in the screen after the battle has finished.
 
     private Slider _slider;                                 // Slider component reference.
     private RectTransform _rect;                            // Rect transform component reference.
+    private int _counter;                                 // Counter used to calculate how long the enemy UI data is displayed after battle.
 
 
     // Start is called before the first frame update
     void Start() {
         Init();   
+    }
+
+    /// <summary>
+    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void Update() {
+        
+        /// check if the bar has to be hiden only when it is displayed.
+        if ( displayed ) {
+            CheckIfHideBar();
+        }
     }
 
     /// <summary>
@@ -38,8 +51,22 @@ public class EnemyHPBar : MonoBehaviour {
             if ( ! fill.displayed ) {
                 fill.RawDisplay();
             }
-            
+
             _slider.value = currentHP;
+            _counter = 0;
+        }
+    }
+
+    /// <summary>
+    /// Check displayed counter.
+    /// </summary>
+    private void CheckIfHideBar() {
+        // 60 frames.
+        if ( _counter <= ( secondsDisplayed * 60f ) ) {
+            _counter++;
+        } else {
+            Hide();
+            _counter = 0;
         }
     }
 
@@ -47,10 +74,14 @@ public class EnemyHPBar : MonoBehaviour {
     /// Display enemy HP bar in the gameplay
     /// UI.
     /// </summary>
+    /// <param name="rawDisplay">bool - Whether to display the bar raw ( no animation ) or animated. True by default.</param>
     public void Display() {
-        enemySprite.fadeClass.RawDisplay();
-        background.RawDisplay();
-        fill.RawDisplay();
+        float fadeSpeed = 50f;
+
+        enemySprite.fadeClass.FadeIn( fadeSpeed );
+        background.FadeIn( fadeSpeed);
+        fill.FadeIn( fadeSpeed );
+        
         displayed = true;
     }
 
@@ -59,9 +90,11 @@ public class EnemyHPBar : MonoBehaviour {
     /// UI.
     /// </summary>
     public void Hide() {
+
         enemySprite.fadeClass.FadeOut();
         background.FadeOut();
         fill.FadeOut();
+
         displayed = false;
     }
 
@@ -109,5 +142,8 @@ public class EnemyHPBar : MonoBehaviour {
 
         // get rect transform component reference.
         _rect = GetComponent<RectTransform>();
+
+        // set displayed checker counter.
+        _counter = 0;
     }
 }

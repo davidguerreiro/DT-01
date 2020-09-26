@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   enemyName: MeteoWorm
-  enemySprite: {fileID: 21300000, guid: 5e6ecffb4fa4e4420aae5611743a70a7, type: 3}
+  enemySprite: {fileID: 21300000, guid: 0e5816c10a51b4297bf239054b5ccf0c, type: 3}
   dataNumber: 1
   hp: 10
   attack: 2
