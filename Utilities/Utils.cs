@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 public class Utils : MonoBehaviour {
     public static Utils instance;                   // Class public static instance - this is the unique instance of this class.
 
+    [HideInInspector]
+    public StandardShaderUtils standardSharedUtils; // Standard shared Utils class reference. This class contains methods to manipulate Standard Unity Shader materials.
+
+
     /// <summary>
     /// Awake is called when the script instance is being loaded.
     /// </summary>
@@ -13,6 +17,14 @@ public class Utils : MonoBehaviour {
         if ( instance == null ) {
             instance = this;
         }
+    }
+
+    /// <summary>
+    /// Start is called on the frame when a script is enabled just before
+    /// any of the Update methods is called the first time.
+    /// </summary>
+    void Start() {
+        Init();
     }
 
     // Update is called once per frame.
@@ -68,5 +80,14 @@ public class Utils : MonoBehaviour {
             items[i] = items[j];
             items[j] = temp;
         }
+    }
+
+    /// <summary>
+    /// Init class method.
+    /// </summary>
+    private void Init() {
+
+        // get standard shared materials utils class reference.
+        standardSharedUtils = GetComponent<StandardShaderUtils>();
     }
 }
