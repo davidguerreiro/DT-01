@@ -90,7 +90,7 @@ public class ShardCristal : Cristal {
 
         // drop loot.
         if ( _loot != null ) {
-            _loot.DropLoot( this.gameObject.transform );
+            _loot.DropLoot();
         }
 
         // switch light off.
@@ -139,7 +139,7 @@ public class ShardCristal : Cristal {
         }
 
         // get loot class reference.
-        _loot = GetComponent<Loot>();
+        _loot = GetComponentInChildren<Loot>();
     }
 
 

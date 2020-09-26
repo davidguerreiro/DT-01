@@ -91,8 +91,10 @@ public class Loot : MonoBehaviour {
     /// Drop loot into the game scene.
     /// </summary>
     /// <param name="origin">Transform - origin point to calculate drop item position</param>
-    public void DropLoot( Transform origin ) {
+    public void DropLoot() {
 
+        // remove loot from parent object.
+        
         GameObject[] itemsToDrop = GenerateLoot();
 
         float xVariation;
@@ -101,11 +103,17 @@ public class Loot : MonoBehaviour {
         for ( int i = 0; i < itemsToDrop.Length; i++ ) {
 
             // calculate drop variations.
-            xVariation = UnityEngine.Random.Range( origin.position.x - xVariableDistance, origin.position.x + ( xVariableDistance + .01f ) );
-            zVariation = UnityEngine.Random.Range( origin.position.z - zVariableDistance, origin.position.z + ( zVariableDistance + .01f ) );
+            xVariation = UnityEngine.Random.Range( transform.localPosition.x - xVariableDistance, transform.localPosition.x + ( xVariableDistance + .01f ) );
+            zVariation = UnityEngine.Random.Range( transform.localPosition.z - zVariableDistance, transform.localPosition.z + ( zVariableDistance + .01f ) );
 
             // instance loot.
-            Instantiate( itemsToDrop[ i ], new Vector3( origin.position.x + ( xVariation / 10f ), origin.position.y + heightDrop, origin.position.z + ( zVariation / 10f ) ), Quaternion.identity );
+            Vector3 instanceLocalPosition = new Vector3( transform.localPosition.x + ( xVariation / 10f ), transform.localPosition.y + heightDrop, transform.localPosition.z + ( zVariation / 10f ) );
+            GameObject instance = Instantiate( itemsToDrop[ i ], transform.localPosition, Quaternion.identity );
+
+            // set loot position and remove parent to avoid loot dissapearing with the dropper gameObject.
+            instance.transform.parent = this.gameObject.transform;
+            instance.transform.localPosition = instanceLocalPosition;
+            instance.transform.parent = null;
         }
     }
 
