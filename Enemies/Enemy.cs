@@ -63,6 +63,7 @@ public abstract class Enemy : MonoBehaviour {
             UpdateUI();
 
             if ( currentHp <= 0f ) {
+                enemyHPBar.fill.RawHide();
                 StartCoroutine( Die() );
             }
         }

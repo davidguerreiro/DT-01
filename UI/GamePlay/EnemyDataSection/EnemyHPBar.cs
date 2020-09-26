@@ -33,6 +33,12 @@ public class EnemyHPBar : MonoBehaviour {
     /// <param name="currentHP">float - new enemy HP value.</param>
     public void UpdateHP( float currentHP ) {
         if ( _slider != null ) {
+
+            // display fill if hidden in previous bar
+            if ( ! fill.displayed ) {
+                fill.RawDisplay();
+            }
+            
             _slider.value = currentHP;
         }
     }
@@ -42,7 +48,6 @@ public class EnemyHPBar : MonoBehaviour {
     /// UI.
     /// </summary>
     public void Display() {
-        Debug.Log( "called display" );
         enemySprite.fadeClass.RawDisplay();
         background.RawDisplay();
         fill.RawDisplay();
