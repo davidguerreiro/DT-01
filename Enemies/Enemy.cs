@@ -41,6 +41,10 @@ public abstract class Enemy : MonoBehaviour {
     [SerializeField]
     protected Loot loot;                                       // Loot gameObject reference.
 
+    [Header("Particles")]
+    [SerializeField]
+    protected EnemyHitParticles hitParticles;                   // Enemy hit particles reference.
+
     [Header("Settings")]
     [SerializeField]
     protected GameObject parentReference;                      // Parent reference - used to remove enemy gameObject if base script is attached to children.
@@ -65,9 +69,14 @@ public abstract class Enemy : MonoBehaviour {
             UpdateUI();
 
             if ( currentHp <= 0f ) {
-                // remove fill straight with hight speed animation.
+                // remove fill straight with high speed animation.
                 enemyHPBar.fill.FadeOut( 50f );
                 StartCoroutine( Die() );
+            } else {
+                // display hit particles.
+                if ( hitParticles != null ) {
+                    hitParticles.DisplayHitParticles();
+                }
             }
         }
     }

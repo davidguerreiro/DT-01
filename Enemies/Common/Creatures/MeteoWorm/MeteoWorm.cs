@@ -38,7 +38,7 @@ public class MeteoWorm : Enemy {
         base.GetDamage( externalImpactValue );
 
         // play damage animation.
-        anim.SetTrigger( "Hit" );
+        // anim.SetTrigger( "Hit" );
 
         // play damage sound.
         if ( _audio != null ) {
