@@ -37,11 +37,9 @@ public abstract class Enemy : MonoBehaviour {
     [SerializeField]
     protected ColliderType colliderType = new ColliderType();   // Collider type. Used to check which collider we have to disable.
 
-
-
-    [Header("UI")]    
+    [Header("Loot")]
     [SerializeField]
-    protected EnemyHPBar enemyHPBar;
+    protected Loot loot;                                       // Loot gameObject reference.
 
     [Header("Settings")]
     [SerializeField]
@@ -52,6 +50,8 @@ public abstract class Enemy : MonoBehaviour {
     protected float timeToDissapear = 5f;                      // How long till the 3D model of this enemy is removed from the scene after it gets defeated.
     [SerializeField]
     protected float dissapearAnimSpeed = 5f;                   // Dissapear animation speed.
+
+    protected EnemyHPBar enemyHPBar;                           // Enemy HP Bar UI component reference - used to display enemy data in the gameplay UI.
 
     /// <summary>
     /// Get damage method.
@@ -98,6 +98,10 @@ public abstract class Enemy : MonoBehaviour {
 
         RemoveCollider();
 
+        // let animation happnes before the loot drops.
+        yield return new WaitForSeconds( .5f );
+        loot.DropLoot();
+
         yield return null;
     }
 
@@ -132,6 +136,9 @@ public abstract class Enemy : MonoBehaviour {
     public virtual void Init() {
         currentHp = data.hp;
         maxHp = data.hp;
+
+        // set UI enemy bar component.
+        enemyHPBar = GameObject.Find( "EnemyHPBar" ).GetComponent<EnemyHPBar>();
     }
 
 }
