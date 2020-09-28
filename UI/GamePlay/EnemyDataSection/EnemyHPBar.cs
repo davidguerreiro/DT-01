@@ -126,6 +126,10 @@ public class EnemyHPBar : MonoBehaviour {
             if ( ! displayed ) {
                 Display();
             }
+
+            if ( ! fill.displayed ) {
+                fill.FadeIn( 50f );
+            }
         }        
     }
 
