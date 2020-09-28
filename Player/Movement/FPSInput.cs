@@ -6,7 +6,9 @@ public class FPSInput : MonoBehaviour {
     [Header("Actions / Status")]
     public bool grounded = false;                                       // Flag to check when the player is gounded, that means, it is in contact with a ground suface.
     public bool isMoving = false;                                       // Flag to control whether the player is moving.
+    public bool isMovingByInput = false;                                // Checks whether the player is being moved by user input.
     public bool isRunning = false;                                      // Flat to control whether the player is running.
+    public bool canMove = true;                                         // Whether the player can be moved by user input.
 
     [Header("Variables")]
     public float speed = 6f;                                            // Movement speed.
@@ -22,10 +24,17 @@ public class FPSInput : MonoBehaviour {
     public string xDirection;                                           // Player's x direction.
     public string zDirection;                                           // Player's z direction.
     
-    // [HideInInspector]
+    [HideInInspector]
     public float deltaX;                                                // Defines the distance the player is moving in the X axis.
     [HideInInspector]
     public float deltaZ;                                                // Defines the distance the player is moving in the Z axis.                                    
+    [HideInInspector]
+    public bool moveByExternalForces = false;                           // If true, external forces can be applied to the player.
+    [HideInInspector]
+    public float externalSpeed = 1f;                                    // External speed used for external forces applied to the player.
+    [HideInInspector]
+    public Vector3 externalForces;                                      // External forces used to move the player by exterior input, like platforms or being pushed by an enemy.
+    private float currentGravity;                                       // Gravity to apply to player.
     private Rigidbody _rigidbody;                                       // Rigibody component reference.
     private CharacterController _charController;                        // Character Controller component reference
     private Coroutine _jump;                                            // Jump corotine.
@@ -44,7 +53,25 @@ public class FPSInput : MonoBehaviour {
     /// </summary>
     void FixedUpdate() {
 
-        // MovePlayerRaw();
+        // update speed if running.
+        float movementSpeed = ( this.isRunning ) ? runningSpeed : speed;
+
+        // get movement input from the player.
+        deltaX = Input.GetAxis( "Horizontal" ) * movementSpeed;
+        deltaZ = Input.GetAxis( "Vertical" ) * movementSpeed;
+
+        isMovingByInput = false;
+
+        // check for player horizontal movement input.
+        if ( canMove ) {
+            if ( Input.GetKey( "a" ) || Input.GetKey( "d" ) || Input.GetKey( KeyCode.LeftArrow ) || Input.GetKey( KeyCode.RightArrow ) ) {
+                isMovingByInput = true;
+            }
+
+            if ( Input.GetKey( "w" ) || Input.GetKey( "s" ) || Input.GetKey( KeyCode.LeftArrow ) || Input.GetKey( KeyCode.DownArrow ) ) {
+                isMovingByInput = true;
+            }
+        }
 
         // movement read input.
         MovePlayer();
@@ -79,18 +106,36 @@ public class FPSInput : MonoBehaviour {
     /// Move character by user input
     /// using Character Controller component.
     /// </summary>
-    private void MovePlayer() {
+    public void MovePlayer() {
         
+        Vector3 movement = new Vector3();
+        float movementSpeed = speed;
+            
         // update speed if running.
-        float movementSpeed = ( this.isRunning ) ? runningSpeed : speed;
+        movementSpeed = ( this.isRunning ) ? runningSpeed : speed;
 
+        // get movement input from the player.
         deltaX = Input.GetAxis( "Horizontal" ) * movementSpeed;
         deltaZ = Input.GetAxis( "Vertical" ) * movementSpeed;
+
+        movement = new Vector3( deltaX, 0f, deltaZ );
+        
+        if ( moveByExternalForces ) {
+            // if moved by external forces, the player input is override.
+            Debug.Log( "moved by external forces" );
+            movementSpeed = speed * externalSpeed;
+
+            // move player by external forces - used by defaut when player is not moving.
+            movement = externalForces * externalSpeed;
+        }
+
+        
+        // limit diagonal movement to the same speed as movement along an axis.
+        movement = Vector3.ClampMagnitude( movement, movementSpeed );
 
         // update player's direction.
         UpdatePlayerMovementDirection( deltaX, deltaZ );
 
-        Vector3 movement = new Vector3( deltaX, 0f, deltaZ );
 
         // update player movement flag.
         if ( movement.magnitude > 0f ) {
@@ -115,6 +160,16 @@ public class FPSInput : MonoBehaviour {
         // Tell the character controller to move the player by that vector.
         _charController.Move( movement );
 
+    }
+
+    /// <sumamry>
+    /// Reset external forces
+    /// and external speed.
+    /// </summary>
+    public void ResetExternalForces() {
+        moveByExternalForces = false;
+        externalForces = Vector3.zero;
+        externalSpeed = 1f;
     }
 
     /// <summary>
@@ -163,7 +218,6 @@ public class FPSInput : MonoBehaviour {
         float jumpForce = ( isRunning ) ? jumpSpeed + runningJumpBoost : jumpSpeed;
         movement.y = jumpForce;
 
-
         while ( ! grounded ) {
             movement.y -= ( - gravity ) * Time.deltaTime;
             _charController.Move( movement * Time.deltaTime );
@@ -189,6 +243,21 @@ public class FPSInput : MonoBehaviour {
     }
 
     /// <summary>
+    /// Move player by external forces.
+    /// </summary>
+    /// <param name="movementData">Vector3 - Vector which contains movement data.</param>
+    public void MoveFromExternal( Vector3 data ) {
+        Vector3 movement = data;
+        movement *= Time.deltaTime;
+        movement = transform.TransformDirection( movement );
+        
+        
+        deltaX = movement.x;
+        deltaZ = movement.z;
+        MovePlayer();
+    }
+
+    /// <summary>
     /// Init class method.
     /// </summary>
     private void Init() {
@@ -205,8 +274,8 @@ public class FPSInput : MonoBehaviour {
         // set default direction in the player movement direction control variables.
         xDirection = "";
         zDirection = "";
+
+        // set default external forces.
+        externalForces = Vector3.zero;
     }
-
-    
-
 }

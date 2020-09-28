@@ -21,13 +21,16 @@ public class Platform : MonoBehaviour {
     public Transform pointA;                                  // Initial lerp position.
     public Transform pointB;                                  // End lerp position.
     
+    private Rigidbody _rigi;                                  // Rigibody component reference.
     private float _initialHeight;                             // Initial height reference.
     private Coroutine _floatingCoroutine;                     // Floating coroutine reference.
     private Coroutine _movingCoroutine;                       // Moving coroutine reference.
+    private Vector3 _currentPosition;                         // Current platform position.
     private Vector3 _minimunPosition;                         // Lowest position for floating animation.
     private Vector3 _maxPosition;                             // Highest position for floating animation.
     private bool _floatingFlag = false;                       // Floating coroutine control flag.
     private bool _movementFlag = false;                       // Movement coroutine control flag.
+    private FPSInput _playerController;                       // Player controller class.
 
     // Start is called before the first frame update
     void Start() {
@@ -51,6 +54,8 @@ public class Platform : MonoBehaviour {
         if ( isMoving && loop && ! _movementFlag ) {
             _movingCoroutine = StartCoroutine( "Moving" );
         }
+
+        // Debug.Log( _rigi.velocity );
     }
 
     /// <summary>
@@ -58,11 +63,13 @@ public class Platform : MonoBehaviour {
     /// </summary>
     private void Init() {
 
+        // get rigibody component reference.
+        _rigi = GetComponent<Rigidbody>();
+
         _initialHeight = transform.position.y;
 
         if ( isFloating ) {
             // transform.position = new Vector3( transform.position.x, transform.position.y - minHeight, transform.position.z );
-
             _minimunPosition = new Vector3( transform.position.x, transform.position.y - minHeight, transform.position.z );
             _maxPosition = new Vector3( transform.position.x, transform.position.y + maxHeight, transform.position.z );
         }
@@ -88,7 +95,8 @@ public class Platform : MonoBehaviour {
         while ( Vector3.Distance( targetPosition, transform.position ) > Mathf.Epsilon ) {
 
             moveTime += Time.deltaTime;
-            transform.position = Vector3.Lerp( _minimunPosition, targetPosition, moveTime / floatingSpeed );
+            _currentPosition = Vector3.Lerp( _minimunPosition, targetPosition, moveTime / floatingSpeed );
+
             yield return null;
         }
 
@@ -126,8 +134,9 @@ public class Platform : MonoBehaviour {
         while ( Vector3.Distance( targetPosition, transform.position ) > Mathf.Epsilon ) {
 
             moveTime += Time.deltaTime;
-            transform.position = Vector3.Lerp( pointA.transform.position, targetPosition, moveTime / movingSpeed );
+            _currentPosition = Vector3.Lerp( pointA.transform.position, targetPosition, moveTime / movingSpeed );
 
+            _rigi.MovePosition( _currentPosition );
             yield return null;
         }
 
@@ -143,8 +152,9 @@ public class Platform : MonoBehaviour {
             while ( Vector3.Distance( targetPosition, transform.position ) > Mathf.Epsilon ) {
                 
                 moveTime += Time.deltaTime;
-                transform.position = Vector3.Lerp( pointB.transform.position, targetPosition, moveTime / movingSpeed );
+                _currentPosition = Vector3.Lerp( pointB.transform.position, targetPosition, moveTime / movingSpeed );
 
+                _rigi.MovePosition( _currentPosition );
                 yield return null;
             }
         }
@@ -160,10 +170,20 @@ public class Platform : MonoBehaviour {
     private void JointPlayerToPlatform( GameObject player ) {
 
         // check if player grounded on the platform.
-        FPSInput playerInput = player.GetComponentInParent<FPSInput>();
+        _playerController = player.GetComponentInParent<FPSInput>();
 
-        if ( playerInput != null && playerInput.grounded ) {
-            // player.transform.parent.transform.parent = this.gameObject.transform;
+    }
+
+    /// <summary>
+    /// Move player along the platform.
+    /// </summary>
+    private void MovePlayerAlongWithThePlatform() {
+
+        if ( _playerController != null && _playerController.grounded && ! _playerController.isMovingByInput ) {
+            _playerController.moveByExternalForces = true;
+            _playerController.externalForces = _rigi.velocity;
+        } else {
+            _playerController.moveByExternalForces = false;
         }
     }
 
@@ -176,8 +196,20 @@ public class Platform : MonoBehaviour {
     void OnTriggerEnter( Collider other ) {
         
         if ( other.gameObject.tag == "Player" ) {
-           // JointPlayerToPlatform( other.gameObject );
+           JointPlayerToPlatform( other.gameObject );
         } 
+    }
+
+    /// <summary>
+    /// OnTriggerStay is called once per frame for every Collider other
+    /// that is touching the trigger.
+    /// </summary>
+    /// <param name="other">The other Collider involved in this collision.</param>
+    void OnTriggerStay( Collider other ) {
+        
+        if ( other.gameObject.tag == "Player" ) {
+            MovePlayerAlongWithThePlatform();
+        }
     }
 
     /// <summary>
@@ -188,7 +220,8 @@ public class Platform : MonoBehaviour {
     void OnTriggerExit( Collider other ) {
 
         if ( other.gameObject.tag == "Player" ) {
-            // other.gameObject.transform.parent.transform.parent = null;
+            _playerController.ResetExternalForces();
+            _playerController = null;
         }
     }
 }
