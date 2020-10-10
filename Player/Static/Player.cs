@@ -35,7 +35,8 @@ public class Player : MonoBehaviour {
     public void GetDamage( float damage ) {
 
         // update player damage.
-        playerData.UpdateHitPoints( damage );
+        float damageReceived = ( damage / playerData.defense ) + UnityEngine.Random.Range( 0f, .3f );
+        playerData.UpdateHitPoints( damageReceived );
 
         if ( playerData.hitPoints > 0f ) {
 
@@ -43,7 +44,6 @@ public class Player : MonoBehaviour {
             int index = Random.Range( 1, 3 );
 
             // play damage audio.
-            
             _audio.PlaySound( index );
 
 
@@ -55,6 +55,7 @@ public class Player : MonoBehaviour {
         } else {
             // player has no more hit points - gameover
             // TODO: Add game over call here.
+            Debug.Log( "Game Over" );
         }
 
     }
