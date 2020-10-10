@@ -9,6 +9,7 @@ public class FPSInput : MonoBehaviour {
     public bool isMovingByInput = false;                                // Checks whether the player is being moved by user input.
     public bool isRunning = false;                                      // Flat to control whether the player is running.
     public bool canMove = true;                                         // Whether the player can be moved by user input.
+    public bool invencible = false;                                     // Whether the player can take damage from enemies or any other damage input.
 
     [Header("Variables")]
     public float speed = 6f;                                            // Movement speed.
@@ -16,6 +17,9 @@ public class FPSInput : MonoBehaviour {
     public float jumpSpeed = 8f;                                        // Jump speed force.
     public float runningJumpBoost = 2.5f;                               // Boost for jumping while running.                   
     public float gravity = - 9.8f;                                       // Grravity value - character controller cannot be used with rigiBody so gravity needs to be defined.
+
+    [Header("Settings")]
+    public float secondsForInvencible = 1f;                             // Seconds the player is invencible after getting damage.
 
     [Header("References")]
     public GameObject groundChecker;                                    // Player's ground checker.
@@ -44,6 +48,7 @@ public class FPSInput : MonoBehaviour {
     private MouseLook[] _cameraMouseLooks;                              // Main camera mouselook scripts.
     private MouseLook _playerMouseLook;                                  // Player X mouse look component reference.
     private bool _mouseLookSwapt = false;                               // Flag used to control wheter the mouse look component in player has been swapt to children main camera.
+    private float invencibleCounter = 0f;                               // Invencible internal counter.
 
     // Start is called before the first frame update.
     void Start() {
@@ -93,6 +98,11 @@ public class FPSInput : MonoBehaviour {
             this.isRunning = true;
         } else {
             this.isRunning = false;
+        }
+
+        // check invencible counter if the player is invencible.
+        if ( invencible ) {
+             UpdateInvencible();
         }
     }
 
@@ -282,6 +292,20 @@ public class FPSInput : MonoBehaviour {
             }
 
             _mouseLookSwapt = true;
+        }
+    }
+
+    /// <summary>
+    /// Update invencible counter.
+    /// </summary>
+    private void UpdateInvencible() {
+
+        // 60f = 1sec per frame.
+        if ( invencibleCounter < ( secondsForInvencible * 60f ) ) {
+            invencibleCounter++;
+        } else {
+            invencibleCounter = 0;
+            invencible = false;
         }
     }
 

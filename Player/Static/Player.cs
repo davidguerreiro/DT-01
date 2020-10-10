@@ -7,6 +7,9 @@ public class Player : MonoBehaviour {
     public PlayerStats playerData;                          // Player dynamic data coming from PlayerStats scriptable.
     private AudioComponent _audio;                          // Audio component reference.
 
+    [HideInInspector]
+    public FPSInput playerInput;                           // Player input class.
+
     void Awake() {
         if ( instance == null ) {
             instance = this;
@@ -34,9 +37,14 @@ public class Player : MonoBehaviour {
     /// <param name="damage">float - how much damage the player has received</param>
     public void GetDamage( float damage ) {
 
+        Debug.Log( "called" );
+
         // update player damage.
         float damageReceived = ( damage / playerData.defense ) + UnityEngine.Random.Range( 0f, .3f );
         playerData.UpdateHitPoints( - damageReceived );
+        
+        // set player as invencible so it cannot get damage too fast for enemies - FPSInput class will remove invencible status automatically.
+        playerInput.invencible = true;
 
         if ( playerData.hitPoints > 0f ) {
 
@@ -90,8 +98,10 @@ public class Player : MonoBehaviour {
         playerData.RestoreDefaultValues();
 
         // get audio component.
-        _audio = gameObject.GetComponent<AudioComponent>();
+        _audio = GetComponent<AudioComponent>();
 
+        // get player input class reference.
+        playerInput = GetComponent<FPSInput>();
     }
     
 }

@@ -173,8 +173,10 @@ public abstract class Enemy : MonoBehaviour {
             // check if player is colliding.
         if ( other.tag == "Player" ) {
             Player player = other.GetComponent<Player>();
-            Debug.Log( player );
-            DamagePlayer( player );
+            
+            if ( ! player.playerInput.invencible ) {
+                DamagePlayer( player );
+            }
         }
     }
 
