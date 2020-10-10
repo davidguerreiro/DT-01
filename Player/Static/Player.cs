@@ -36,7 +36,7 @@ public class Player : MonoBehaviour {
 
         // update player damage.
         float damageReceived = ( damage / playerData.defense ) + UnityEngine.Random.Range( 0f, .3f );
-        playerData.UpdateHitPoints( damageReceived );
+        playerData.UpdateHitPoints( - damageReceived );
 
         if ( playerData.hitPoints > 0f ) {
 
@@ -45,7 +45,6 @@ public class Player : MonoBehaviour {
 
             // play damage audio.
             _audio.PlaySound( index );
-
 
             // display UI damage elements.
             if ( GamePlayUI.instance != null ) {

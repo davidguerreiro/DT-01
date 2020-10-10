@@ -84,6 +84,14 @@ public abstract class Enemy : MonoBehaviour {
     }
 
     /// <summary>
+    /// Damage player method.
+    /// </summary>
+    /// <param name="Player">Player - player class reference.</param>
+    public virtual void DamagePlayer( Player player ) {
+        player.GetDamage( data.attack );
+    }
+
+    /// <summary>
     /// Update UI when the 
     /// enemy gets damaged by the player.
     /// </summary>
@@ -155,6 +163,19 @@ public abstract class Enemy : MonoBehaviour {
 
         // set UI enemy bar component.
         enemyHPBar = GameObject.Find( "EnemyHPBar" ).GetComponent<EnemyHPBar>();
+    }
+
+    /// <summary>
+    /// OnTriggerEnter is called when the Collider other enters the trigger.
+    /// </summary>
+    /// <param name="other">The other Collider involved in this collision.</param>
+    void OnTriggerEnter(Collider other) {
+            // check if player is colliding.
+        if ( other.tag == "Player" ) {
+            Player player = other.GetComponent<Player>();
+            Debug.Log( player );
+            DamagePlayer( player );
+        }
     }
 
 }
