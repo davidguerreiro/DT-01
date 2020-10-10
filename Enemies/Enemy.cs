@@ -44,6 +44,8 @@ public abstract class Enemy : MonoBehaviour {
     [Header("Particles")]
     [SerializeField]
     protected EnemyHitParticles hitParticles;                   // Enemy hit particles reference.
+    [SerializeField]
+    protected EnemyDeathParticles deathParticles;               // Enemy death particles reference.
 
     [Header("Settings")]
     [SerializeField]
@@ -107,7 +109,12 @@ public abstract class Enemy : MonoBehaviour {
 
         RemoveCollider();
 
-        // let animation happnes before the loot drops.
+        // display death particles if required.
+        if ( deathParticles ) {
+            StartCoroutine( deathParticles.DisplayDeathParticles() );
+        }
+
+        // let animation happen before the loot drops.
         yield return new WaitForSeconds( .5f );
         loot.DropLoot();
 

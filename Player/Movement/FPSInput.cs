@@ -20,6 +20,7 @@ public class FPSInput : MonoBehaviour {
     [Header("References")]
     public GameObject groundChecker;                                    // Player's ground checker.
     public MainWeapon weapon;                                           // Player's weapon class.
+
     [Header("Movement / Direction")]
     public string xDirection;                                           // Player's x direction.
     public string zDirection;                                           // Player's z direction.
@@ -40,8 +41,9 @@ public class FPSInput : MonoBehaviour {
     private Coroutine _jump;                                            // Jump corotine.
     private Coroutine _groundCheckerRoutine;                            // Ground checker coroutine.
     private AudioComponent _audio;                                      // Audio source component.
-
-    
+    private MouseLook[] _cameraMouseLooks;                              // Main camera mouselook scripts.
+    private MouseLook _playerMouseLook;                                  // Player X mouse look component reference.
+    private bool _mouseLookSwapt = false;                               // Flag used to control wheter the mouse look component in player has been swapt to children main camera.
 
     // Start is called before the first frame update.
     void Start() {
@@ -70,6 +72,11 @@ public class FPSInput : MonoBehaviour {
 
             if ( Input.GetKey( "w" ) || Input.GetKey( "s" ) || Input.GetKey( KeyCode.LeftArrow ) || Input.GetKey( KeyCode.DownArrow ) ) {
                 isMovingByInput = true;
+            }
+
+            if ( isMovingByInput ) {
+                // set mouse X axis rotation looker to parent ( player ).
+                SwiftMouseLookers( "toParent" );
             }
         }
 
@@ -121,8 +128,8 @@ public class FPSInput : MonoBehaviour {
         movement = new Vector3( deltaX, 0f, deltaZ );
         
         if ( moveByExternalForces ) {
+
             // if moved by external forces, the player input is override.
-            Debug.Log( "moved by external forces" );
             movementSpeed = speed * externalSpeed;
 
             // move player by external forces - used by defaut when player is not moving.
@@ -243,19 +250,41 @@ public class FPSInput : MonoBehaviour {
     }
 
     /// <summary>
-    /// Move player by external forces.
+    /// Swift mouse X components.
+    /// This is used to ensure external physics can
+    /// move the player indepently of orientation.
     /// </summary>
-    /// <param name="movementData">Vector3 - Vector which contains movement data.</param>
-    public void MoveFromExternal( Vector3 data ) {
-        Vector3 movement = data;
-        movement *= Time.deltaTime;
-        movement = transform.TransformDirection( movement );
-        
-        
-        deltaX = movement.x;
-        deltaZ = movement.z;
-        MovePlayer();
+    /// <param name="where">string - where to set the mouse X component.</param>
+    public void SwiftMouseLookers( string where ) {
+
+        if ( where == "toParent" ) {
+            // enable mouse look in the parent and disable in children.
+            _playerMouseLook.enabled = true;
+
+            foreach ( MouseLook mouseLookComponent in _cameraMouseLooks ) {
+                if ( mouseLookComponent.axes == MouseLook.RotationAxes.MouseX && mouseLookComponent.gameObject.name != "Player" ) {
+                    mouseLookComponent.enabled = false;
+                }
+            }
+
+            // TODO: Correct parent orientation to look at the same direction as children.
+            _mouseLookSwapt = false;
+        }
+
+        if ( where == "toChildren" ) {
+            // enable mouse look in the children and disable in the parent.
+            _playerMouseLook.enabled = false;
+
+            foreach ( MouseLook mouseLookComponent in _cameraMouseLooks ) {
+                if ( mouseLookComponent.axes == MouseLook.RotationAxes.MouseX && mouseLookComponent.gameObject.name != "Player" ) {
+                    mouseLookComponent.enabled = true;
+                }
+            }
+
+            _mouseLookSwapt = true;
+        }
     }
+
 
     /// <summary>
     /// Init class method.
@@ -264,6 +293,12 @@ public class FPSInput : MonoBehaviour {
 
         // get rigibody component reference.
         _rigidbody = GetComponent<Rigidbody>();
+
+        // get mouse look component reference.
+        _playerMouseLook = GetComponent<MouseLook>();
+
+        // get camera mouse look components.
+        _cameraMouseLooks = GetComponentsInChildren<MouseLook>();
 
         // get character component reference.
         _charController = GetComponent<CharacterController>();

@@ -95,7 +95,7 @@ public class Platform : MonoBehaviour {
         while ( Vector3.Distance( targetPosition, transform.position ) > Mathf.Epsilon ) {
 
             moveTime += Time.deltaTime;
-            _currentPosition = Vector3.Lerp( _minimunPosition, targetPosition, moveTime / floatingSpeed );
+            transform.position = Vector3.Lerp( _minimunPosition, targetPosition, moveTime / floatingSpeed );
 
             yield return null;
         }
@@ -171,6 +171,7 @@ public class Platform : MonoBehaviour {
 
         // check if player grounded on the platform.
         _playerController = player.GetComponentInParent<FPSInput>();
+        _playerController.SwiftMouseLookers( "toChildren" );
 
     }
 
@@ -196,7 +197,8 @@ public class Platform : MonoBehaviour {
     void OnTriggerEnter( Collider other ) {
         
         if ( other.gameObject.tag == "Player" ) {
-           JointPlayerToPlatform( other.gameObject );
+            // TODO: Uncomment when working in platform restarts.
+           // JointPlayerToPlatform( other.gameObject );
         } 
     }
 
@@ -208,7 +210,8 @@ public class Platform : MonoBehaviour {
     void OnTriggerStay( Collider other ) {
         
         if ( other.gameObject.tag == "Player" ) {
-            MovePlayerAlongWithThePlatform();
+            // TODO: Uncomment when working in platform restarts.
+            // MovePlayerAlongWithThePlatform();
         }
     }
 
