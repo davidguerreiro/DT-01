@@ -175,6 +175,10 @@ public abstract class Enemy : MonoBehaviour {
         isAlive = false;
         currentHp = 0f;
 
+        if ( isMoving ) {
+            StopMoving();
+        }
+
         RemoveCollider();
 
         // display death particles if required.

@@ -15,7 +15,7 @@ public class MeteoWorm : Enemy {
         Init();
 
         if ( destinationTest != null ) {
-            Move( new Vector3( destinationTest.position.x, transform.position.y, destinationTest.position.z ) );
+            Move( new Vector3( destinationTest.position.x, parentReference.transform.position.y, destinationTest.position.z ) );
         }
     }
 
