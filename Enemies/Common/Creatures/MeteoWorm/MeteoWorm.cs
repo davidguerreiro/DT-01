@@ -7,9 +7,16 @@ public class MeteoWorm : Enemy {
     public Animator anim;                             // Animator component reference.
     private AudioComponent _audio;                    // Audio component reference.
 
+    [Header("Testing")]
+    public Transform destinationTest;
+
     // Start is called before the first frame update
     void Start() {
         Init();
+
+        if ( destinationTest != null ) {
+            Move( new Vector3( destinationTest.position.x, transform.position.y, destinationTest.position.z ) );
+        }
     }
 
     // Update is called once per frame
@@ -37,9 +44,6 @@ public class MeteoWorm : Enemy {
     public override void GetDamage( float externalImpactValue ) {
         base.GetDamage( externalImpactValue );
 
-        // play damage animation.
-        // anim.SetTrigger( "Hit" );
-
         // play damage sound.
         if ( _audio != null ) {
             _audio.PlaySound( 0 );
@@ -58,6 +62,16 @@ public class MeteoWorm : Enemy {
 
         // remove enemy from the scene.
         RemoveEnemy();
+    }
+
+    /// <summary>
+    /// Move enemy.
+    /// </summary>
+    /// <param name="destination">Vector3 - position where the enemy is going to move</param>
+    public new void Move( Vector3 destination ) {
+        if ( moveCoroutine == null ) {
+            moveCoroutine = base.StartCoroutine( Move( destination, anim, "IsMoving" ) );
+        }
     }
 
     /// <summary>

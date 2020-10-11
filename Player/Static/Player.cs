@@ -37,8 +37,6 @@ public class Player : MonoBehaviour {
     /// <param name="damage">float - how much damage the player has received</param>
     public void GetDamage( float damage ) {
 
-        Debug.Log( "called" );
-
         // update player damage.
         float damageReceived = ( damage / playerData.defense ) + UnityEngine.Random.Range( 0f, .3f );
         playerData.UpdateHitPoints( - damageReceived );

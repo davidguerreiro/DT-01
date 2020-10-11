@@ -13,10 +13,20 @@ public abstract class Enemy : MonoBehaviour {
     protected float currentHp;                                      // Current enemy HP.
     protected float maxHp;                                          // Max enemy hp.
 
+    [Header("ParentData")]
+    [SerializeField]
+    protected Transform parentTransform;                            // Parent transform component reference.
+    [SerializeField]
+    protected Rigidbody parentRigi;                           // Parent rigibody component reference.
+
 
     [Header("Status")]
     [SerializeField]
-    protected bool isAlive = true;                             // Whether the enemy is alive or has already died.
+    protected bool isAlive = true;                          // Whether the enemy is alive or has already died.
+    [SerializeField]
+    protected bool isMoving = false;                        // Whether the enemy is moving.
+    [SerializeField]
+    protected bool isRotating = false;                      // Whether the enemy is rotating.
 
     protected enum State {
         watching,                                           // Enemy does not move, just observe the enviroment.
@@ -47,6 +57,8 @@ public abstract class Enemy : MonoBehaviour {
     [SerializeField]
     protected float dissapearAnimSpeed = 5f;                   // Dissapear animation speed.
 
+    protected Rigidbody _rigi;                                 // Rigibody component reference.
+
     protected enum ColliderType {
         sphere,
         box,
@@ -59,6 +71,8 @@ public abstract class Enemy : MonoBehaviour {
     protected ColliderType[] colliderTypes;                    // Collider type. Used to check which collider we have to disable.
 
     protected EnemyHPBar enemyHPBar;                           // Enemy HP Bar UI component reference - used to display enemy data in the gameplay UI.
+    protected Coroutine moveCoroutine;                         // Moving coroutine.
+    protected Coroutine rotateCoroutine;                       // Rotating coroutine.
 
     /// <summary>
     /// Get damage method.
@@ -90,6 +104,49 @@ public abstract class Enemy : MonoBehaviour {
     /// <param name="Player">Player - player class reference.</param>
     public virtual void DamagePlayer( Player player ) {
         player.GetDamage( data.attack );
+    }
+
+    /// <summary>
+    /// Move enemy.
+    /// </summary>
+    /// <param name="destination">Vector3 - position where the enemy is going to move</param>
+    /// <param name="anim">Animator - animator reference to play movement animaton.</param>
+    /// <param name="animBoolVariable">string - animator bool variable name</param>
+    public virtual IEnumerator Move( Vector3 destination, Animator anim = null, string animBoolVariable = "" ) {
+
+        float remainingDistance = ( parentTransform.position - destination ).sqrMagnitude;
+
+        if ( anim != null && animBoolVariable != "" ) {
+            anim.SetBool( animBoolVariable, true );
+        }
+
+        while ( remainingDistance > float.Epsilon ) {
+            isMoving = true;
+            
+            Vector3 newPosition = Vector3.MoveTowards( parentRigi.position, destination, data.speed * Time.deltaTime );
+            parentRigi.MovePosition( newPosition );
+
+            remainingDistance = ( parentTransform.position - destination ).sqrMagnitude;
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        isMoving = false;
+
+        if ( anim != null && animBoolVariable != "" ) {
+            anim.SetBool( animBoolVariable, false );
+        }
+    }
+
+    /// <sumamry>
+    /// Stop moving action.
+    /// </summary>
+    protected virtual void StopMoving() {
+        if ( isMoving ) {
+            StopCoroutine( moveCoroutine );
+            moveCoroutine = null;
+            isMoving = false;
+        }
     }
 
     /// <summary>
@@ -158,18 +215,6 @@ public abstract class Enemy : MonoBehaviour {
         }
     }
 
-    
-    /// <summary>
-    /// Init class method.
-    /// </summary>
-    public virtual void Init() {
-        currentHp = data.hp;
-        maxHp = data.hp;
-
-        // set UI enemy bar component.
-        enemyHPBar = GameObject.Find( "EnemyHPBar" ).GetComponent<EnemyHPBar>();
-    }
-
     /// <summary>
     /// OnTriggerEnter is called when the Collider other enters the trigger.
     /// </summary>
@@ -201,6 +246,21 @@ public abstract class Enemy : MonoBehaviour {
                 DamagePlayer( player );
             }
         }
+    }
+
+    /// <summary>
+    /// Init class method.
+    /// </summary>
+    public virtual void Init() {
+        currentHp = data.hp;
+        maxHp = data.hp;
+
+        // set UI enemy bar component.
+        enemyHPBar = GameObject.Find( "EnemyHPBar" ).GetComponent<EnemyHPBar>();
+
+        // get rigibody component reference.
+        _rigi = GetComponentInParent<Rigidbody>();
+
     }
 
 }
