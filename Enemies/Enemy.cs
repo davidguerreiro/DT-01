@@ -114,6 +114,8 @@ public abstract class Enemy : MonoBehaviour {
     /// <param name="animBoolVariable">string - animator bool variable name</param>
     public virtual IEnumerator Move( Vector3 destination, Animator anim = null, string animBoolVariable = "" ) {
 
+        // TODO: Replace by rotate method.
+        parentTransform.LookAt( destination );
         float remainingDistance = ( parentTransform.position - destination ).sqrMagnitude;
 
         if ( anim != null && animBoolVariable != "" ) {
