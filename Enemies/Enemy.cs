@@ -27,16 +27,6 @@ public abstract class Enemy : MonoBehaviour {
     [SerializeField]
     protected State currentState = new State();                // Enemy state.
 
-    protected enum ColliderType {
-        sphere,
-        box,
-        capsule,
-        mesh,
-    };
-
-    [SerializeField]
-    protected ColliderType colliderType = new ColliderType();   // Collider type. Used to check which collider we have to disable.
-
     [Header("Loot")]
     [SerializeField]
     protected Loot loot;                                       // Loot gameObject reference.
@@ -56,6 +46,17 @@ public abstract class Enemy : MonoBehaviour {
     protected float timeToDissapear = 5f;                      // How long till the 3D model of this enemy is removed from the scene after it gets defeated.
     [SerializeField]
     protected float dissapearAnimSpeed = 5f;                   // Dissapear animation speed.
+
+    protected enum ColliderType {
+        sphere,
+        box,
+        capsule,
+        mesh,
+    };
+
+    [Header("Colliders")]
+    [SerializeField]
+    protected ColliderType[] colliderTypes;                    // Collider type. Used to check which collider we have to disable.
 
     protected EnemyHPBar enemyHPBar;                           // Enemy HP Bar UI component reference - used to display enemy data in the gameplay UI.
 
@@ -135,21 +136,25 @@ public abstract class Enemy : MonoBehaviour {
     /// </summary>
     private void RemoveCollider() {
 
-        switch( colliderType ) {
-            case ColliderType.sphere:
-                Destroy( GetComponent<SphereCollider>() );
-                break;
-            case ColliderType.box:
-                Destroy( GetComponent<BoxCollider>() );
-                break;
-            case ColliderType.capsule:
-                Destroy( GetComponent<CapsuleCollider>() );
-                break;
-            case ColliderType.mesh:
-                Destroy( GetComponent<MeshCollider>() );
-                break;
-            default:
-                break;
+        foreach ( ColliderType colliderType in colliderTypes ) {
+            
+            switch( colliderType ) {
+                case ColliderType.sphere:
+                    Destroy( GetComponent<SphereCollider>() );
+                    break;
+                case ColliderType.box:
+                    Destroy( GetComponent<BoxCollider>() );
+                    break;
+                case ColliderType.capsule:
+                    Destroy( GetComponent<CapsuleCollider>() );
+                    break;
+                case ColliderType.mesh:
+                    Destroy( GetComponent<MeshCollider>() );
+                    break;
+                default:
+                    break;
+            }
+            
         }
     }
 
@@ -170,7 +175,25 @@ public abstract class Enemy : MonoBehaviour {
     /// </summary>
     /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerEnter(Collider other) {
-            // check if player is colliding.
+            
+        // check if player is colliding.
+        if ( other.tag == "Player" ) {
+            Player player = other.GetComponent<Player>();
+            
+            if ( ! player.playerInput.invencible ) {
+                DamagePlayer( player );
+            }
+        }
+    }
+
+    /// <summary>
+    /// OnTriggerStay is called once per frame for every Collider other
+    /// that is touching the trigger.
+    /// </summary>
+    /// <param name="other">The other Collider involved in this collision.</param>
+    void OnTriggerStay( Collider other ) {
+        
+        // check if player is colliding.
         if ( other.tag == "Player" ) {
             Player player = other.GetComponent<Player>();
             
