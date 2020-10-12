@@ -13,13 +13,6 @@ public abstract class Enemy : MonoBehaviour {
     protected float currentHp;                                      // Current enemy HP.
     protected float maxHp;                                          // Max enemy hp.
 
-    [Header("ParentData")]
-    [SerializeField]
-    protected Transform parentTransform;                            // Parent transform component reference.
-    [SerializeField]
-    protected Rigidbody parentRigi;                           // Parent rigibody component reference.
-
-
     [Header("Status")]
     [SerializeField]
     protected bool isAlive = true;                          // Whether the enemy is alive or has already died.
@@ -48,8 +41,6 @@ public abstract class Enemy : MonoBehaviour {
     protected EnemyDeathParticles deathParticles;               // Enemy death particles reference.
 
     [Header("Settings")]
-    [SerializeField]
-    protected GameObject parentReference;                      // Parent reference - used to remove enemy gameObject if base script is attached to children.
     [SerializeField]
     protected Renderer renderer;                               // Enemy Renderer reference.
     [SerializeField]
@@ -115,20 +106,20 @@ public abstract class Enemy : MonoBehaviour {
     public virtual IEnumerator Move( Vector3 destination, Animator anim = null, string animBoolVariable = "" ) {
 
         // TODO: Replace by rotate method.
-        parentTransform.LookAt( destination );
-        float remainingDistance = ( parentTransform.position - destination ).sqrMagnitude;
+        transform.LookAt( destination );
+        float remainingDistance = ( transform.position - destination ).sqrMagnitude;
 
         if ( anim != null && animBoolVariable != "" ) {
             anim.SetBool( animBoolVariable, true );
         }
 
-        while ( remainingDistance > float.Epsilon ) {
+        while ( remainingDistance > 0.1f ) {
             isMoving = true;
             
-            Vector3 newPosition = Vector3.MoveTowards( parentRigi.position, destination, data.speed * Time.deltaTime );
-            parentRigi.MovePosition( newPosition );
+            Vector3 newPosition = Vector3.MoveTowards( _rigi.position, destination, data.speed * Time.deltaTime );
+            _rigi.MovePosition( newPosition );
 
-            remainingDistance = ( parentTransform.position - destination ).sqrMagnitude;
+            remainingDistance = ( transform.position - destination ).sqrMagnitude;
 
             yield return new WaitForFixedUpdate();
         }
@@ -179,6 +170,11 @@ public abstract class Enemy : MonoBehaviour {
             StopMoving();
         }
 
+        if ( _rigi != null ) {
+            _rigi.isKinematic = true;
+            _rigi.useGravity = false;
+        }
+
         RemoveCollider();
 
         // display death particles if required.
@@ -200,22 +196,62 @@ public abstract class Enemy : MonoBehaviour {
     private void RemoveCollider() {
 
         foreach ( ColliderType colliderType in colliderTypes ) {
-            
-            switch( colliderType ) {
-                case ColliderType.sphere:
-                    Destroy( GetComponent<SphereCollider>() );
-                    break;
-                case ColliderType.box:
-                    Destroy( GetComponent<BoxCollider>() );
-                    break;
-                case ColliderType.capsule:
-                    Destroy( GetComponent<CapsuleCollider>() );
-                    break;
-                case ColliderType.mesh:
-                    Destroy( GetComponent<MeshCollider>() );
-                    break;
-                default:
-                    break;
+
+            if ( colliderType == ColliderType.sphere ) {
+                SphereCollider collider = GetComponent<SphereCollider>();
+                var childrenColliders = GetComponentsInChildren<SphereCollider>();
+
+                if ( collider != null ) {
+                    Destroy( collider );
+                }
+
+                if ( childrenColliders != null ) {
+                    foreach ( SphereCollider childCollider in childrenColliders ) {
+                        Destroy( childCollider );
+                    }
+                }
+            } else if ( colliderType == ColliderType.box ) {
+
+                BoxCollider collider = GetComponent<BoxCollider>();
+                var childrenColliders = GetComponentsInChildren<BoxCollider>();
+
+                if ( collider != null ) {
+                    Destroy( collider );
+                }
+
+                if ( childrenColliders != null ) {
+                    foreach ( BoxCollider childCollider in childrenColliders ) {
+                        Destroy( childCollider );
+                    }
+                }
+            } else if ( colliderType == ColliderType.capsule ) {
+
+                CapsuleCollider collider = GetComponent<CapsuleCollider>();
+                var childrenColliders = GetComponentsInChildren<CapsuleCollider>();
+
+                if ( collider != null ) {
+                    Destroy( collider );
+                }
+
+                if ( childrenColliders != null ) {
+                    foreach ( CapsuleCollider childCollider in childrenColliders ) {
+                        Destroy( childCollider );
+                    }
+                }
+            } else if ( colliderType == ColliderType.mesh ) {
+
+                MeshCollider collider = GetComponent<MeshCollider>();
+                var childrenColliders = GetComponentsInChildren<MeshCollider>();
+
+                if ( collider != null ) {
+                    Destroy( collider );
+                }
+
+                if ( childrenColliders != null ) {
+                    foreach ( MeshCollider childCollider in childrenColliders ) {
+                        Destroy( childCollider );
+                    }
+                }
             }
             
         }
@@ -265,7 +301,7 @@ public abstract class Enemy : MonoBehaviour {
         enemyHPBar = GameObject.Find( "EnemyHPBar" ).GetComponent<EnemyHPBar>();
 
         // get rigibody component reference.
-        _rigi = GetComponentInParent<Rigidbody>();
+        _rigi = GetComponent<Rigidbody>();
 
     }
 

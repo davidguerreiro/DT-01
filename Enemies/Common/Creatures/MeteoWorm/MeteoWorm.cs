@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MeteoWorm : Enemy {
-
-    public Animator anim;                             // Animator component reference.
+    private Animator _anim;                           // Animator component reference.
     private AudioComponent _audio;                    // Audio component reference.
 
     [Header("Testing")]
@@ -15,13 +14,8 @@ public class MeteoWorm : Enemy {
         Init();
 
         if ( destinationTest != null ) {
-            Move( new Vector3( destinationTest.position.x, parentReference.transform.position.y, destinationTest.position.z ) );
+            Move( new Vector3( destinationTest.position.x, transform.position.y, destinationTest.position.z ) );
         }
-    }
-
-    // Update is called once per frame
-    void Update() {
-        
     }
 
     /// <summary>
@@ -57,7 +51,7 @@ public class MeteoWorm : Enemy {
         StartCoroutine( base.Die() );
         
         // play death animation.
-        anim.SetBool( "Die", true );
+        _anim.SetBool( "Die", true );
         yield return new WaitForSeconds( timeToDissapear );
 
         // remove enemy from the scene.
@@ -70,7 +64,7 @@ public class MeteoWorm : Enemy {
     /// <param name="destination">Vector3 - position where the enemy is going to move</param>
     public new void Move( Vector3 destination ) {
         if ( moveCoroutine == null ) {
-            moveCoroutine = base.StartCoroutine( Move( destination, anim, "IsMoving" ) );
+            moveCoroutine = base.StartCoroutine( Move( destination, _anim, "IsMoving" ) );
         }
     }
 
@@ -79,13 +73,7 @@ public class MeteoWorm : Enemy {
     /// dying.
     /// </summary>
     private void RemoveEnemy() {
-
-        // TODO: Remove enemy with soft transparent animation.
-        if ( parentReference != null ) {
-            Destroy( parentReference );
-        } else {
-            Destroy( this.gameObject );
-        }
+        Destroy( this.gameObject );
     }
 
     /// <summary>
@@ -93,6 +81,9 @@ public class MeteoWorm : Enemy {
     /// </summary>
     public override void Init() {
         base.Init();
+
+        // get animator component reference.
+        _anim = GetComponent<Animator>();
 
         // get audio component reference.
         _audio = GetComponent<AudioComponent>();
