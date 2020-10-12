@@ -101,17 +101,13 @@ public abstract class Enemy : MonoBehaviour {
     /// Move enemy.
     /// </summary>
     /// <param name="destination">Vector3 - position where the enemy is going to move</param>
-    /// <param name="anim">Animator - animator reference to play movement animaton.</param>
-    /// <param name="animBoolVariable">string - animator bool variable name</param>
-    public virtual IEnumerator Move( Vector3 destination, Animator anim = null, string animBoolVariable = "" ) {
+    public virtual IEnumerator Move( Vector3 destination ) {
 
         // TODO: Replace by rotate method.
         transform.LookAt( destination );
-        float remainingDistance = ( transform.position - destination ).sqrMagnitude;
+        yield return new WaitForSeconds( .1f );
 
-        if ( anim != null && animBoolVariable != "" ) {
-            anim.SetBool( animBoolVariable, true );
-        }
+        float remainingDistance = ( transform.position - destination ).sqrMagnitude;
 
         while ( remainingDistance > 0.1f ) {
             isMoving = true;
@@ -125,10 +121,54 @@ public abstract class Enemy : MonoBehaviour {
         }
 
         isMoving = false;
+    }
+
+    /// <summary>
+    /// Rotate enemy.
+    /// </summary>
+    /// <param name="destination">Vector3 - position where the enemy is going to look at</param>
+    /// <param name="anim">Animator - animator reference to play movement animaton.</param>
+    /// <param name="animBoolVariable">string - animator bool variable name</param>
+    public virtual IEnumerator Rotate( Transform destination, Animator anim = null, string animBoolVariable = "" ) {
+
+        float rotationSpeed = data.speed * 2f;
+        float rotateTime = 0f;
+
+        // get to - from values.
+        Quaternion current = transform.rotation;
+        transform.LookAt( destination );
+        Quaternion final = transform.rotation;
+        
+        yield return null;
+
+
+        // reset rotation to start lerping.
+        // transform.rotation = current;
+        // final = new Quaternion( current.x, final.y, current.z, final.w );
+
+        /*
+        if ( anim != null && animBoolVariable != "" ) {
+            anim.SetBool( animBoolVariable, true );
+        }
+        */
+
+        /*
+        while ( ! Mathf.Approximately( transform.rotation.y, final.y ) ) {
+
+            isRotating = true;
+
+            rotateTime += Time.deltaTime;
+            transform.rotation = Quaternion.Lerp( current, final, .5f / rotateTime );
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        isRotating = false;
 
         if ( anim != null && animBoolVariable != "" ) {
             anim.SetBool( animBoolVariable, false );
         }
+        */
     }
 
     /// <sumamry>

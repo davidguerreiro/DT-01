@@ -15,6 +15,26 @@ public class MeteoWorm : Enemy {
 
         if ( destinationTest != null ) {
             Move( new Vector3( destinationTest.position.x, transform.position.y, destinationTest.position.z ) );
+            // Rotate( destinationTest );
+        }
+    }
+
+    /// <summary>
+    /// This function is called every fixed framerate frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void FixedUpdate() {
+        ListenForMovement();
+    }
+
+    /// <summary>
+    /// Listen for moving state and enable
+    /// animation accordingly.
+    /// </summary>
+    private void ListenForMovement() {
+        if ( isMoving ) {
+            _anim.SetBool( "IsMoving", true );
+        } else {
+            _anim.SetBool( "IsMoving", false );
         }
     }
 
@@ -64,7 +84,17 @@ public class MeteoWorm : Enemy {
     /// <param name="destination">Vector3 - position where the enemy is going to move</param>
     public new void Move( Vector3 destination ) {
         if ( moveCoroutine == null ) {
-            moveCoroutine = base.StartCoroutine( Move( destination, _anim, "IsMoving" ) );
+            moveCoroutine = StartCoroutine( base.Move( destination ) );
+        }
+    }
+
+    /// <summary>
+    /// Rotate enemy.
+    /// </summary>
+    /// <param name="destination">Vector3 - position where the enemy is going to look at</param>
+    public new void Rotate( Transform destination ) {
+        if ( rotateCoroutine == null ) {
+            rotateCoroutine = base.StartCoroutine( Rotate( destination, _anim, "IsMoving" ) );
         }
     }
 
