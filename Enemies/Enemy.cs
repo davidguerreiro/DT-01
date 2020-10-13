@@ -61,6 +61,8 @@ public abstract class Enemy : MonoBehaviour {
     [SerializeField]
     protected ColliderType[] colliderTypes;                    // Collider type. Used to check which collider we have to disable.
 
+    protected EnemyGroup enemyGroup;                           // Current enemy's enemy group.
+
     protected EnemyHPBar enemyHPBar;                           // Enemy HP Bar UI component reference - used to display enemy data in the gameplay UI.
     protected Coroutine moveCoroutine;                         // Moving coroutine.
     protected Coroutine rotateCoroutine;                       // Rotating coroutine.
@@ -205,17 +207,24 @@ public abstract class Enemy : MonoBehaviour {
     public virtual IEnumerator Die() {
         isAlive = false;
         currentHp = 0f;
-
+    
         if ( isMoving ) {
             StopMoving();
         }
 
+        // disable physics for this enemy - they are not longer neecesary.
         if ( _rigi != null ) {
             _rigi.isKinematic = true;
             _rigi.useGravity = false;
         }
 
+        // remove colliders
         RemoveCollider();
+
+        // disable enemy in the enemy group.
+        if ( enemyGroup != null ) {
+            enemyGroup.DisableEnemy( publicID );
+        }
 
         // display death particles if required.
         if ( deathParticles ) {
@@ -328,6 +337,29 @@ public abstract class Enemy : MonoBehaviour {
                 DamagePlayer( player );
             }
         }
+    }
+
+    /// <summary>
+    /// Set up enemy group.
+    /// </summary>
+    public virtual void SetEnemyGroup( EnemyGroup enemyGroup ) {
+        this.enemyGroup = enemyGroup;
+    }
+
+    /// <summary>
+    /// Set public id.
+    /// </summary>
+    /// <param name="publicId">int - public ID</param>
+    public virtual void SetPublicId( int publicID ) {
+        this.publicID = publicID;
+    }
+
+    /// <summary>
+    /// Get public id.
+    /// </summary>
+    /// <returns>int</returns>
+    public virtual int GetPublicId() {
+        return this.publicID;
     }
 
     /// <summary>
