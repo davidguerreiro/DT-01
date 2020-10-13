@@ -66,6 +66,7 @@ public abstract class Enemy : MonoBehaviour {
     protected EnemyHPBar enemyHPBar;                           // Enemy HP Bar UI component reference - used to display enemy data in the gameplay UI.
     protected Coroutine moveCoroutine;                         // Moving coroutine.
     protected Coroutine rotateCoroutine;                       // Rotating coroutine.
+    protected Vector3 initialPosition;                          // Enemy initial position - used if enemy position has to be reset or if the enemy returns back from outside the enemy group area.
 
     /// <summary>
     /// Get damage method.
@@ -92,6 +93,13 @@ public abstract class Enemy : MonoBehaviour {
     }
 
     /// <summary>
+    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void Update() {
+        CheckPivotDistance();
+    }
+
+    /// <summary>
     /// Damage player method.
     /// </summary>
     /// <param name="Player">Player - player class reference.</param>
@@ -103,7 +111,8 @@ public abstract class Enemy : MonoBehaviour {
     /// Move enemy.
     /// </summary>
     /// <param name="destination">Vector3 - position where the enemy is going to move</param>
-    public virtual IEnumerator Move( Vector3 destination ) {
+    /// <param name="extraSpeed">float - any extra speed to apply to this movement call. Default to 1f</param>
+    public virtual IEnumerator Move( Vector3 destination, float extraSpeed = 1f ) {
 
         // TODO: Replace by rotate method.
         transform.LookAt( destination );
@@ -114,7 +123,7 @@ public abstract class Enemy : MonoBehaviour {
         while ( remainingDistance > 0.1f ) {
             isMoving = true;
             
-            Vector3 newPosition = Vector3.MoveTowards( _rigi.position, destination, data.speed * Time.deltaTime );
+            Vector3 newPosition = Vector3.MoveTowards( _rigi.position, destination, ( data.speed * extraSpeed ) * Time.deltaTime );
             _rigi.MovePosition( newPosition );
 
             remainingDistance = ( transform.position - destination ).sqrMagnitude;
@@ -129,9 +138,7 @@ public abstract class Enemy : MonoBehaviour {
     /// Rotate enemy.
     /// </summary>
     /// <param name="destination">Vector3 - position where the enemy is going to look at</param>
-    /// <param name="anim">Animator - animator reference to play movement animaton.</param>
-    /// <param name="animBoolVariable">string - animator bool variable name</param>
-    public virtual IEnumerator Rotate( Transform destination, Animator anim = null, string animBoolVariable = "" ) {
+    public virtual IEnumerator Rotate( Transform destination ) {
 
         float rotationSpeed = data.speed * 2f;
         float rotateTime = 0f;
@@ -340,6 +347,26 @@ public abstract class Enemy : MonoBehaviour {
     }
 
     /// <summary>
+    /// Check distance within the 
+    /// enemy group's pivot
+    /// </summary>
+    public virtual void CheckPivotDistance() {
+        if ( enemyGroup != null ) {
+            float distance = Vector3.Distance( this.transform.position, enemyGroup.groupPivot.transform.position );
+            
+            if ( distance > enemyGroup.maxDistance ) {
+
+                if ( isMoving ) {
+                    StopMoving();
+                }
+                
+                // enemy go back to its initial position a little bit faster than base speed.
+                moveCoroutine = StartCoroutine( Move( initialPosition, .3f ) );
+            }
+        }
+    }
+
+    /// <summary>
     /// Set up enemy group.
     /// </summary>
     public virtual void SetEnemyGroup( EnemyGroup enemyGroup ) {
@@ -368,6 +395,7 @@ public abstract class Enemy : MonoBehaviour {
     public virtual void Init() {
         currentHp = data.hp;
         maxHp = data.hp;
+        initialPosition = transform.position;
 
         // set UI enemy bar component.
         enemyHPBar = GameObject.Find( "EnemyHPBar" ).GetComponent<EnemyHPBar>();

@@ -14,7 +14,7 @@ public class MeteoWorm : Enemy {
         Init();
 
         if ( destinationTest != null ) {
-            // Move( new Vector3( destinationTest.position.x, transform.position.y, destinationTest.position.z ) );
+            Move( new Vector3( destinationTest.position.x, transform.position.y, destinationTest.position.z ) );
             // Rotate( destinationTest );
         }
     }
@@ -94,7 +94,7 @@ public class MeteoWorm : Enemy {
     /// <param name="destination">Vector3 - position where the enemy is going to look at</param>
     public new void Rotate( Transform destination ) {
         if ( rotateCoroutine == null ) {
-            rotateCoroutine = base.StartCoroutine( Rotate( destination, _anim, "IsMoving" ) );
+            rotateCoroutine = StartCoroutine( base.Rotate( destination ) );
         }
     }
 
