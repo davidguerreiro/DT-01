@@ -17,7 +17,14 @@ public class EnemyData : ScriptableObject {
     public float attack;                    // Used to calculate damage caused to the player.
     public float defense;                   // Used to calculate damage done by the player to this enemy.
     public float speed;                     // Used to calculate movement speed.
+
+    [Header("Action Rations")]
     public float attackRatio;               // Used to calculate enemy attack ratio.
+    public float randomMovementRatio;       // Used to calculate how often the enemy moves around randomly in watch mode.
+
+    [Header("Movement")]
+    public float randXMovementAmplitude;               // Amplitude for random movement in the X axis.
+    public float randZMovementAmplitude;               // Amplitude for random movement in the Y axis.
 
     [Serializable]
     public struct Actions {

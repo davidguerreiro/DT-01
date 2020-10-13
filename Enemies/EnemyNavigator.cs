@@ -24,7 +24,7 @@ public class EnemyNavigator : MonoBehaviour {
 
         if ( Physics.Raycast( transform.position, transform.TransformDirection( Vector3.forward ), out hit, maxDistance ) ) {
             if ( hit.collider.gameObject.tag == "Player" ) {
-                Debug.Log( "player detected" );
+                // Debug.Log( "player detected" );
             }
         }
     }

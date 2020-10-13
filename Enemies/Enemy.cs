@@ -96,7 +96,15 @@ public abstract class Enemy : MonoBehaviour {
     /// Update is called every frame, if the MonoBehaviour is enabled.
     /// </summary>
     void Update() {
-        CheckPivotDistance();
+
+        if ( isAlive ) {
+            CheckPivotDistance();
+
+            // check for random movement if the enemy is watching.
+            if ( currentState == State.watching ) {
+                CheckIfRandomMove();
+            }
+        }
     }
 
     /// <summary>
@@ -132,6 +140,7 @@ public abstract class Enemy : MonoBehaviour {
         }
 
         isMoving = false;
+        moveCoroutine = null;
     }
 
     /// <summary>
@@ -188,6 +197,33 @@ public abstract class Enemy : MonoBehaviour {
             StopCoroutine( moveCoroutine );
             moveCoroutine = null;
             isMoving = false;
+        }
+    }
+
+    /// <summary>
+    /// Random movement. Usually performed
+    /// by enemies in watch state.
+    /// </summary>
+    private void RandomMovement() {
+        float x = UnityEngine.Random.Range( - data.randXMovementAmplitude, data.randXMovementAmplitude );
+        float z = UnityEngine.Random.Range( - data.randZMovementAmplitude, data.randZMovementAmplitude );
+
+        Vector3 toMove = new Vector3( transform.position.x + x, transform.position.y, transform.position.z + z );
+        
+        moveCoroutine = StartCoroutine( Move( toMove ) );
+    }
+
+    /// <summary>
+    /// Check if a random movement has
+    /// to be performed.
+    /// </summary>
+    private void CheckIfRandomMove() {
+        float rand = UnityEngine.Random.Range( 0f, 100f );
+        // Debug.Log( rand );
+        Debug.Log( moveCoroutine );
+        if ( rand < data.randomMovementRatio && ! isMoving && moveCoroutine == null ) {
+            Debug.Log( "here" );
+            RandomMovement();
         }
     }
 
