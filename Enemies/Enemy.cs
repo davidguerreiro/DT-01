@@ -145,7 +145,7 @@ public abstract class Enemy : MonoBehaviour {
         }
 
         if ( newState != State.none ) {
-
+            currentState = newState;
         }
 
         isMoving = false;
@@ -230,12 +230,10 @@ public abstract class Enemy : MonoBehaviour {
 
         if ( randomMovementCounter < randomMovementFrameChecker ) {
             randomMovementCounter++;
-            Debug.Log( randomMovementCounter );
         } else {
             float rand = UnityEngine.Random.Range( 0f, 100f );
-            Debug.Log( moveCoroutine );
+
             if ( rand < 65f && ! isMoving && moveCoroutine == null ) {
-                Debug.Log( "here" );
                 RandomMovement();
             }
 
@@ -255,7 +253,7 @@ public abstract class Enemy : MonoBehaviour {
     private float CalculateRandomMovementRatio() {
         // random movement normalized 0 - 100f;
         float ratio = 100f - data.randomMovementRatio;
-        ratio = ( UnityEngine.Random.Range( 0f, 50f ) + ratio ) * 2.5f;      // 60 frames = 1sec.
+        ratio = ( UnityEngine.Random.Range( 0f, 50f ) + ratio ) * 2.5f;     // Multiply to add more time between random movement.
         return ratio;
     }
 
@@ -429,7 +427,7 @@ public abstract class Enemy : MonoBehaviour {
                 }
                 
                 // enemy go back to its initial position a little bit faster than base speed.
-                moveCoroutine = StartCoroutine( Move( initialPosition, .3f ) );
+                moveCoroutine = StartCoroutine( Move( initialPosition, .3f, initialState ) );
             }
         }
     }

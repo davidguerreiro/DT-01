@@ -63,7 +63,7 @@ public class EnemyGroup : MonoBehaviour {
     /// <param name="enemyID">int - enemy unique ID</param>
     public void DisableEnemy( int enemyID ) {
         for ( int i = 0; i < enemiesRef.Length; i++ ) {
-            if ( enemiesRef[i].enemy.GetPublicId() == enemyID ) {
+            if ( enemiesRef[i].enemy != null && enemiesRef[i].enemy.GetPublicId() == enemyID ) {
                 enemiesRef[i].isActive = false;
                 enemiesRef[i].enemy = null;
             }
