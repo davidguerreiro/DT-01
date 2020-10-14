@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08b418a7896df4a759925b7918e80685, type: 3}
   m_Name: MeteoWorm
   m_EditorClassIdentifier: 
-  id: 0
+  id: 1
   enemyName: MeteoWorm
   enemySprite: {fileID: 21300000, guid: 0e5816c10a51b4297bf239054b5ccf0c, type: 3}
   dataNumber: 1
@@ -21,6 +21,9 @@ MonoBehaviour:
   defense: 1.8
   speed: 1
   attackRatio: 6
+  randomMovementRatio: 1
+  randXMovementAmplitude: 3
+  randZMovementAmplitude: 3
   attacks:
   - action: {fileID: 11400000, guid: 1d59b3bce701e4513bcc28e57f8e2c46, type: 2}
     rate: 40

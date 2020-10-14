@@ -20,15 +20,17 @@ public abstract class Enemy : MonoBehaviour {
     protected bool isMoving = false;                        // Whether the enemy is moving.
     [SerializeField]
     protected bool isRotating = false;                      // Whether the enemy is rotating.
-
-    protected enum State {
+    public enum State {
+        none,                                               // This state is the default value and has no impact over enemy behavioir or logic.
         watching,                                           // Enemy does not move, just observe the enviroment.
         patrolling,                                         // Enemy is patrolling an area.
         combat,                                             // Enemy is enaged in combat withing the player or another target.
+        returning,                                          // Enemy has leave their enemy group area and it is returning to their initial position.
     };
 
     [SerializeField]
     protected State currentState = new State();                // Enemy state.
+    protected State initialState = new State();                // Initial enemy state, used for logic reference.
 
     [Header("Loot")]
     [SerializeField]
@@ -66,7 +68,9 @@ public abstract class Enemy : MonoBehaviour {
     protected EnemyHPBar enemyHPBar;                           // Enemy HP Bar UI component reference - used to display enemy data in the gameplay UI.
     protected Coroutine moveCoroutine;                         // Moving coroutine.
     protected Coroutine rotateCoroutine;                       // Rotating coroutine.
-    protected Vector3 initialPosition;                          // Enemy initial position - used if enemy position has to be reset or if the enemy returns back from outside the enemy group area.
+    protected Vector3 initialPosition;                         // Enemy initial position - used if enemy position has to be reset or if the enemy returns back from outside the enemy group area.
+    protected float randomMovementCounter = 0f;                // Random movement counter
+    protected float randomMovementFrameChecker;                // Random movement frame checker - used to calculate when a random movement needs to happen.
 
     /// <summary>
     /// Get damage method.
@@ -120,7 +124,8 @@ public abstract class Enemy : MonoBehaviour {
     /// </summary>
     /// <param name="destination">Vector3 - position where the enemy is going to move</param>
     /// <param name="extraSpeed">float - any extra speed to apply to this movement call. Default to 1f</param>
-    public virtual IEnumerator Move( Vector3 destination, float extraSpeed = 1f ) {
+    /// <param name="newState">State - New state to apply to enemy when the movement coroutine finishes. Default to null.</param>
+    public virtual IEnumerator Move( Vector3 destination, float extraSpeed = 1f, State newState = State.none ) {
 
         // TODO: Replace by rotate method.
         transform.LookAt( destination );
@@ -137,6 +142,10 @@ public abstract class Enemy : MonoBehaviour {
             remainingDistance = ( transform.position - destination ).sqrMagnitude;
 
             yield return new WaitForFixedUpdate();
+        }
+
+        if ( newState != State.none ) {
+
         }
 
         isMoving = false;
@@ -218,13 +227,36 @@ public abstract class Enemy : MonoBehaviour {
     /// to be performed.
     /// </summary>
     private void CheckIfRandomMove() {
-        float rand = UnityEngine.Random.Range( 0f, 100f );
-        // Debug.Log( rand );
-        Debug.Log( moveCoroutine );
-        if ( rand < data.randomMovementRatio && ! isMoving && moveCoroutine == null ) {
-            Debug.Log( "here" );
-            RandomMovement();
+
+        if ( randomMovementCounter < randomMovementFrameChecker ) {
+            randomMovementCounter++;
+            Debug.Log( randomMovementCounter );
+        } else {
+            float rand = UnityEngine.Random.Range( 0f, 100f );
+            Debug.Log( moveCoroutine );
+            if ( rand < 65f && ! isMoving && moveCoroutine == null ) {
+                Debug.Log( "here" );
+                RandomMovement();
+            }
+
+            randomMovementCounter = 0;
+            randomMovementFrameChecker = CalculateRandomMovementRatio();
         }
+    }
+
+    /// <sumamry>
+    /// Calculate random movement ratio.
+    /// Data movement ration base is not real
+    /// movememnt ratio. To increase randomness and
+    /// make the enemy more realistic, random movement
+    /// ratio will slightly vary after every time
+    /// the enemy performs a random movement.
+    /// </summary>
+    private float CalculateRandomMovementRatio() {
+        // random movement normalized 0 - 100f;
+        float ratio = 100f - data.randomMovementRatio;
+        ratio = ( UnityEngine.Random.Range( 0f, 50f ) + ratio ) * 2.5f;      // 60 frames = 1sec.
+        return ratio;
     }
 
     /// <summary>
@@ -432,6 +464,10 @@ public abstract class Enemy : MonoBehaviour {
         currentHp = data.hp;
         maxHp = data.hp;
         initialPosition = transform.position;
+        initialState = currentState;
+
+        // set up random movement ratio.
+        randomMovementFrameChecker = CalculateRandomMovementRatio();
 
         // set UI enemy bar component.
         enemyHPBar = GameObject.Find( "EnemyHPBar" ).GetComponent<EnemyHPBar>();
