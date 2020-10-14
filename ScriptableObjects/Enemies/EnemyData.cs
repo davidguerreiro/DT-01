@@ -28,7 +28,7 @@ public class EnemyData : ScriptableObject {
 
     [Serializable]
     public struct Actions {
-        public EnemyAttack action;          // Attack which can be performed by the enemy.
+        public EnemyAttack attack;          // Attack which can be performed by the enemy.
         public int rate;                    // Action rate - used to calculate the chances that this enemy will perform this attack.
     };
 

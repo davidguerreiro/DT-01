@@ -20,6 +20,8 @@ public abstract class Enemy : MonoBehaviour {
     protected bool isMoving = false;                        // Whether the enemy is moving.
     [SerializeField]
     protected bool isRotating = false;                      // Whether the enemy is rotating.
+    [SerializeField]
+    protected bool isAttacking = false;                     // Whether the enemy is performing an attack.
     public enum State {
         none,                                               // This state is the default value and has no impact over enemy behavioir or logic.
         watching,                                           // Enemy does not move, just observe the enviroment.
@@ -68,6 +70,7 @@ public abstract class Enemy : MonoBehaviour {
     protected EnemyHPBar enemyHPBar;                           // Enemy HP Bar UI component reference - used to display enemy data in the gameplay UI.
     protected Coroutine moveCoroutine;                         // Moving coroutine.
     protected Coroutine rotateCoroutine;                       // Rotating coroutine.
+    protected Coroutine attackCoroutine;                       // Attack coroutine.
     protected Vector3 initialPosition;                         // Enemy initial position - used if enemy position has to be reset or if the enemy returns back from outside the enemy group area.
     protected float randomMovementCounter = 0f;                // Random movement counter
     protected float randomMovementFrameChecker;                // Random movement frame checker - used to calculate when a random movement needs to happen.
@@ -198,6 +201,15 @@ public abstract class Enemy : MonoBehaviour {
         */
     }
 
+    /// <summary>
+    /// Attack method.
+    /// Enemy performs an attack from the
+    /// attack list.
+    /// </summary>
+    /// <return>IEnumerator</return>
+    protected abstract IEnumerator Attack();
+
+
     /// <sumamry>
     /// Stop moving action.
     /// </summary>
@@ -303,6 +315,9 @@ public abstract class Enemy : MonoBehaviour {
         if ( deathParticles ) {
             StartCoroutine( deathParticles.DisplayDeathParticles() );
         }
+
+        // update data defeated value.
+        data.defeated++;
 
         // let animation happen before the loot drops.
         yield return new WaitForSeconds( .5f );

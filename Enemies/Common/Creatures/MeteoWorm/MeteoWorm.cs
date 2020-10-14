@@ -99,6 +99,55 @@ public class MeteoWorm : Enemy {
     }
 
     /// <summary>
+    /// Attack method.
+    /// Enemy performs an attack from the
+    /// attack list.
+    /// </summary>
+    /// <return>IEnumerator</return>
+    protected override IEnumerator Attack() {
+        isAttacking = true;
+        EnemyAttack attack = null;
+        var attacks = data.attacks;
+
+        // randomize array if required to improve arbritrariety when attacking.
+        if ( attacks.Length > 1 && UnityEngine.Random.Range( 0, 2 ) == 0 ) {
+            Utils.instance.Randomize( attacks );
+        }
+
+        // choose an attack to perform.
+        do {
+            // set an attack to be performed.
+            int attackKey = UnityEngine.Random.Range( 0, attacks.Length );
+            EnemyData.Actions action = attacks[ attackKey ];
+
+            // check attack ratio and assign attack if performed.
+            float chance = 100f - action.rate;
+            if ( chance < UnityEngine.Random.Range( 0f, 101f ) ) {
+                attack = action.attack;
+            }
+               
+        } while ( attack == null );
+
+        yield return null;
+
+        // perform attack - TODO: Review from here to end of script.
+        switch ( attack.attackName ) {
+            case "Intimidate":
+                _anim.SetTrigger( "Attack" );
+                break;
+            case "Bite":
+                float damageV = ( attack.damage + UnityEngine.Random.Range( 0f, 2f ) );
+                data.attack += damageV;
+                _anim.SetTrigger( "Attack" );
+                yield return new WaitForSeconds( .5f );
+                data.attack -= damageV;
+                break;
+        }
+
+        yield return new WaitForSeconds( data.attackRatio * 1.5f );
+    }
+
+    /// <summary>
     /// Revove enemy from the scene after
     /// dying.
     /// </summary>
