@@ -8,6 +8,7 @@ public class EnemyAttack : ScriptableObject {
     [Header("Attributes")]
     public string attackName;                       // Attack name.
     public float damage;                            // Damage done by this attack.
+    public Vector3 impulse;                         // Impulse applied to enemy rigi when this attack is performed.
     
     [TextArea]
     public string description;                      // Attack description.

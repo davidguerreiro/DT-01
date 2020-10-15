@@ -107,6 +107,7 @@ public class MeteoWorm : Enemy {
     protected override IEnumerator Attack() {
         isAttacking = true;
         EnemyAttack attack = null;
+        float damage = data.attack;
         var attacks = data.attacks;
 
         // randomize array if required to improve arbritrariety when attacking.
@@ -130,17 +131,17 @@ public class MeteoWorm : Enemy {
 
         yield return null;
 
-        // perform attack - TODO: Review from here to end of script.
         switch ( attack.attackName ) {
             case "Intimidate":
                 _anim.SetTrigger( "Attack" );
                 break;
             case "Bite":
                 float damageV = ( attack.damage + UnityEngine.Random.Range( 0f, 2f ) );
-                data.attack += damageV;
+                base.attack += damageV;
                 _anim.SetTrigger( "Attack" );
+                _rigi.AddForce( attack.impulse );
                 yield return new WaitForSeconds( .5f );
-                data.attack -= damageV;
+                base.attack -= damageV;
                 break;
         }
 

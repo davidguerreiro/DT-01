@@ -12,6 +12,7 @@ public abstract class Enemy : MonoBehaviour {
     protected EnemyData data;                                       // Enemy data scriptable object. Contains all this enemy default values.
     protected float currentHp;                                      // Current enemy HP.
     protected float maxHp;                                          // Max enemy hp.
+    protected float attack;                                         // Base enemy attack value. Used to calculate damage caused to player. Enemy attacks might increase or decrease this value.
 
     [Header("Status")]
     [SerializeField]
@@ -119,7 +120,7 @@ public abstract class Enemy : MonoBehaviour {
     /// </summary>
     /// <param name="Player">Player - player class reference.</param>
     public virtual void DamagePlayer( Player player ) {
-        player.GetDamage( data.attack );
+        player.GetDamage( attack );
     }
 
     /// <summary>
@@ -476,6 +477,7 @@ public abstract class Enemy : MonoBehaviour {
     public virtual void Init() {
         currentHp = data.hp;
         maxHp = data.hp;
+        attack = data.attack;
         initialPosition = transform.position;
         initialState = currentState;
 
