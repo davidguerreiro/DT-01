@@ -213,6 +213,7 @@ public class MeteoWorm : Enemy {
     /// </summary>
     /// <returns>IEnumerator</returns>
     protected override IEnumerator BattleLoop() {
+        // Debug.Log( "in battle loop" );
         inBattle = true;
         int decision = 0;
 
@@ -238,7 +239,7 @@ public class MeteoWorm : Enemy {
             // - 1, 2: Use Glare.
             // - 3, 4, 5: Use Bite.
             decision = Random.Range( 0, 6 );
-            decision = 0;
+            decision = 2;
 
             // random movement.
             if ( decision == 0 ) {
@@ -260,6 +261,10 @@ public class MeteoWorm : Enemy {
     /// Stop battle loop.
     /// </summary>
     public void StopBattle() {
+
+        if ( isLookingAtPlayer ) {
+            isLookingAtPlayer = false;
+        }
 
         // stop any attack.
         if ( isAttacking || attackCoroutine != null ) {

@@ -56,10 +56,20 @@ public abstract class Enemy : MonoBehaviour {
     [Header("Settings")]
     [SerializeField]
     protected Renderer renderer;                               // Enemy Renderer reference.
+
     [SerializeField]
     protected float timeToDissapear = 5f;                      // How long till the 3D model of this enemy is removed from the scene after it gets defeated.
     [SerializeField]
     protected float dissapearAnimSpeed = 5f;                   // Dissapear animation speed.
+
+    [Header("Battle Settings")]
+    [SerializeField]
+    protected bool ignoreXRotation;                             // Ignore X rotation when facing player.
+    [SerializeField]
+    protected bool ignoreYRotaion;                              // Ignore Y rotation when facing player.
+    [SerializeField]
+    protected bool ignoreZRotaion;                              // Ignore Y rotation when facing player.
+
 
     protected Rigidbody _rigi;                                 // Rigibody component reference.
 
@@ -93,12 +103,14 @@ public abstract class Enemy : MonoBehaviour {
 
         if ( isAlive ) {
 
+            Debug.Log( currentState );
+
             // check enemy group movement and interaction area.
             CheckPivotDistance();
 
             // look at the player if is in range or in battle.
             if ( isLookingAtPlayer ) {
-                LookAtPlayer();
+                LookAtPlayer( ignoreXRotation, ignoreYRotaion, ignoreZRotaion );
             }
 
             // check for random movement if the enemy is watching.
@@ -238,9 +250,16 @@ public abstract class Enemy : MonoBehaviour {
     /// <summary>
     /// Look at the player.
     /// </summary>
-    private void LookAtPlayer() {
+    /// <param name="ignoreX">bool - whether to ignore X axis False by default</param>
+    /// <param name="ignoreY">bool - whether to ignore Y axis False by default</param>
+    /// <param name="ignoreZ">bool - whether to ignore Z axis False by default</param>
+    private void LookAtPlayer( bool ignoreX = false, bool ignoreY = false, bool ignoreZ  = false ) {
         if ( Player.instance != null ) {
-            transform.LookAt( Player.instance.gameObject.transform );
+            float x = ( ignoreX ) ? transform.position.x : Player.instance.gameObject.transform.position.x;
+            float y = ( ignoreY ) ? transform.position.y : Player.instance.gameObject.transform.position.y;
+            float z = ( ignoreZ ) ? transform.position.z : Player.instance.gameObject.transform.position.z;
+
+            transform.LookAt( new Vector3( x, y, z ) );
         }
     }
 
@@ -484,6 +503,7 @@ public abstract class Enemy : MonoBehaviour {
                 }
                 
                 // enemy go back to its initial position a little bit faster than base speed.
+                currentState =  State.returning;
                 moveCoroutine = StartCoroutine( Move( initialPosition, .3f, initialState ) );
             }
         }
