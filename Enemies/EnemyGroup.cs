@@ -57,6 +57,15 @@ public class EnemyGroup : MonoBehaviour {
     }
 
     /// <summary>
+    /// Alert enemies in this group.
+    /// This will make enemies engage in
+    /// combat with the player.
+    /// </summary>
+    public void AlertEnemies() {
+        // TODO: Complete this method.
+    }
+
+    /// <summary>
     /// Disable enemy from the group.
     /// This usually happens when an enemy is defeated.
     /// </summary>

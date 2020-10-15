@@ -44,6 +44,10 @@ public abstract class Enemy : MonoBehaviour {
     protected EnemyHitParticles hitParticles;                   // Enemy hit particles reference.
     [SerializeField]
     protected EnemyDeathParticles deathParticles;               // Enemy death particles reference.
+    
+    [Header("Enemy Navigators")]
+    [SerializeField]
+    protected EnemyNavigator[] navigators;                      // Enemy navigators - used to detect other entities in the game scene ( player, walls, other enemies, etc ).
 
     [Header("Settings")]
     [SerializeField]
@@ -66,7 +70,8 @@ public abstract class Enemy : MonoBehaviour {
     [SerializeField]
     protected ColliderType[] colliderTypes;                    // Collider type. Used to check which collider we have to disable.
 
-    protected EnemyGroup enemyGroup;                           // Current enemy's enemy group.
+    [HideInInspector]
+    public EnemyGroup enemyGroup;                           // Current enemy's enemy group.
 
     protected EnemyHPBar enemyHPBar;                           // Enemy HP Bar UI component reference - used to display enemy data in the gameplay UI.
     protected Coroutine moveCoroutine;                         // Moving coroutine.
@@ -472,6 +477,16 @@ public abstract class Enemy : MonoBehaviour {
     }
 
     /// <summary>
+    /// Set up navigators reference
+    /// to this enemy instance.
+    /// </summary>
+    private void SetUpNavigators() {
+        foreach ( EnemyNavigator navigator in navigators ) {
+            navigator.SetUpNavigator( this );
+        }
+    }
+
+    /// <summary>
     /// Init class method.
     /// </summary>
     public virtual void Init() {
@@ -480,6 +495,11 @@ public abstract class Enemy : MonoBehaviour {
         attack = data.attack;
         initialPosition = transform.position;
         initialState = currentState;
+
+        // set up enemy navigatos.
+        if ( navigators != null ) {
+            SetUpNavigators();
+        }
 
         // set up random movement ratio.
         randomMovementFrameChecker = CalculateRandomMovementRatio();
