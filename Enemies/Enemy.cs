@@ -24,6 +24,8 @@ public abstract class Enemy : MonoBehaviour {
     [SerializeField]
     protected bool isAttacking = false;                     // Whether the enemy is performing an attack.
     [SerializeField]
+    protected bool isChasingPlayer = false;                 // When chasing player, every Move coroutine destination will be overwritten by player position each frame.
+    [SerializeField]
     protected bool inBattle = false;                        // Whether the enemy is engaged in battle.
     [SerializeField]
     protected bool isLookingAtPlayer = false;               // Whether the enemy is looking at the player continuosly.
@@ -105,9 +107,6 @@ public abstract class Enemy : MonoBehaviour {
 
             Debug.Log( currentState );
 
-            // check enemy group movement and interaction area.
-            CheckPivotDistance();
-
             // look at the player if is in range or in battle.
             if ( isLookingAtPlayer ) {
                 LookAtPlayer( ignoreXRotation, ignoreYRotaion, ignoreZRotaion );
@@ -116,6 +115,11 @@ public abstract class Enemy : MonoBehaviour {
             // check for random movement if the enemy is watching.
             if ( currentState == State.watching ) {
                 CheckIfRandomMove();
+            }
+
+            // check enemy group movement and interaction area.
+            if ( currentState != State.none && currentState != State.returning ) {
+                CheckPivotDistance();
             }
         }
     }
@@ -154,11 +158,15 @@ public abstract class Enemy : MonoBehaviour {
 
     /// <summary>
     /// Move enemy.
+    /// If flag "isChasingPlayer" is true, the enemy will constantly move towards the player because destination
+    /// will be replaced by player position, even if the move coroutine has already started.
     /// </summary>
-    /// <param name="destination">Vector3 - position where the enemy is going to move</param>
+    /// <param name="setDestination">Vector3 - position where the enemy is going to move</param>
     /// <param name="extraSpeed">float - any extra speed to apply to this movement call. Default to 1f</param>
     /// <param name="newState">State - New state to apply to enemy when the movement coroutine finishes. Default to null.</param>
-    public virtual IEnumerator Move( Vector3 destination, float extraSpeed = 1f, State newState = State.none ) {
+    public virtual IEnumerator Move( Vector3 setDestination, float extraSpeed = 1f, State newState = State.none ) {
+
+        Vector3 destination = ( isChasingPlayer ) ? Player.instance.transform.position : setDestination;
 
         // TODO: Replace by rotate method.
         transform.LookAt( destination );
@@ -172,9 +180,10 @@ public abstract class Enemy : MonoBehaviour {
             Vector3 newPosition = Vector3.MoveTowards( _rigi.position, destination, ( data.speed * extraSpeed ) * Time.deltaTime );
             _rigi.MovePosition( newPosition );
 
-            remainingDistance = ( transform.position - destination ).sqrMagnitude;
-
             yield return new WaitForFixedUpdate();
+            // update destination if required and remaining distance.
+            destination = ( isChasingPlayer ) ? Player.instance.transform.position : setDestination;
+            remainingDistance = ( transform.position - destination ).sqrMagnitude;
         }
 
         if ( newState != State.none ) {
@@ -276,9 +285,13 @@ public abstract class Enemy : MonoBehaviour {
     /// </summary>
     protected virtual void StopMoving() {
         if ( isMoving ) {
-            StopCoroutine( moveCoroutine );
-            moveCoroutine = null;
             isMoving = false;
+            isChasingPlayer = false;
+
+            if ( moveCoroutine != null ) {
+                StopCoroutine( moveCoroutine );
+                moveCoroutine = null;
+            }
         }
     }
 
@@ -504,7 +517,8 @@ public abstract class Enemy : MonoBehaviour {
                 
                 // enemy go back to its initial position a little bit faster than base speed.
                 currentState =  State.returning;
-                moveCoroutine = StartCoroutine( Move( initialPosition, .3f, initialState ) );
+
+                moveCoroutine = StartCoroutine( Move( initialPosition, 1.3f, initialState ) );
             }
         }
     }

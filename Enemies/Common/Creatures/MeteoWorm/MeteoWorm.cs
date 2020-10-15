@@ -28,7 +28,7 @@ public class MeteoWorm : Enemy {
         if ( isAlive ) {
 
             // listen for rotation actions and perform animations.
-            ListenForRotation();
+            // ListenForRotation();
 
             // listen for moving actions and perform animations.
             ListenForMovement();
@@ -45,7 +45,7 @@ public class MeteoWorm : Enemy {
     private void ListenForMovement() {
         if ( isMoving ) {
             // increase speed at returning.
-            float useAnimSpeed = ( currentState == State.returning ) ? _animSpeed * 1.4f : _animSpeed;
+            float useAnimSpeed = ( currentState == State.returning ) ? _animSpeed * 1.5f : _animSpeed;
 
             _anim.SetFloat( "AnimSpeed", useAnimSpeed );
             _anim.SetBool( "IsMoving", true );
@@ -80,6 +80,7 @@ public class MeteoWorm : Enemy {
             case State.battling:        // Engage enemy in combat
 
                 if ( ! inBattle && battleCoroutine == null ) {
+                    // Debug.Log( "enter battle" );
                     battleCoroutine = StartCoroutine( "BattleLoop" );
                 }
                 break;
@@ -136,9 +137,10 @@ public class MeteoWorm : Enemy {
     /// Move enemy.
     /// </summary>
     /// <param name="destination">Vector3 - position where the enemy is going to move</param>
-    public new void Move( Vector3 destination ) {
+    /// <param name="extraSpeed">float - extra speed multiplier.</param>
+    public new void Move( Vector3 destination, float extraSpeed = 1f ) {
         if ( moveCoroutine == null ) {
-            moveCoroutine = StartCoroutine( base.Move( destination ) );
+            moveCoroutine = StartCoroutine( base.Move( destination, extraSpeed ) );
         }
     }
 
@@ -189,21 +191,52 @@ public class MeteoWorm : Enemy {
 
         switch ( attack.attackName ) {
             case "Intimidate":
+                _anim.SetFloat( "AnimSpeed", .35f );
                 _anim.SetTrigger( "Attack" );
+                _rigi.AddForce( Vector3.up * attack.impulse.y );
+                yield return new WaitForSeconds( 1.1f );
                 // TODO: Add creature sound here.
                 break;
             case "Bite":
+
+                if ( isMoving ) {
+                    StopMoving();
+                    yield return new WaitForSeconds( .1f );
+                }
+
+                // chase player until the enemy is close enough to attack.
+                isChasingPlayer = true;
+                this.Move( Player.instance.transform.position );
+                do {
+                    yield return new WaitForFixedUpdate();
+                } while ( Vector3.Distance( transform.position, Player.instance.gameObject.transform.position ) > 2.5f );
+
+                StopMoving();
+                
+                isLookingAtPlayer = false;
+                isChasingPlayer = false;
+                yield return new WaitForSeconds( .1f );
+
                 float damageV = ( attack.damage + UnityEngine.Random.Range( 0f, 2f ) );
                 base.attack += damageV;
+
                 _anim.SetTrigger( "Attack" );
+                _rigi.AddRelativeForce( attack.impulse );
+                
                 // TODO: Add creature sound here.
-                _rigi.AddForce( attack.impulse );
+
                 yield return new WaitForSeconds( .5f );
                 base.attack -= damageV;
+                
                 break;
         }
 
-        yield return new WaitForSeconds( data.attackRatio * 1.5f );
+        // yield return new WaitForSeconds( data.attackRatio * 1.5f );
+        // Implement attack ratio algorithim here.
+        yield return new WaitForSeconds( 1f );
+        _anim.SetFloat( "AnimSpeed", 1f );
+        isAttacking = false;
+        attackCoroutine = null;
     }
 
     /// <summary>
@@ -213,7 +246,6 @@ public class MeteoWorm : Enemy {
     /// </summary>
     /// <returns>IEnumerator</returns>
     protected override IEnumerator BattleLoop() {
-        // Debug.Log( "in battle loop" );
         inBattle = true;
         int decision = 0;
 
@@ -230,27 +262,49 @@ public class MeteoWorm : Enemy {
 
         while ( currentState == State.battling ) {
 
+            if ( isMoving ) {
+                StopMoving();
+            }
+
             // look at player.
             isLookingAtPlayer = true;
+            Debug.Log( "reloop" );
             yield return new WaitForSeconds( Random.Range( .5f, 2.5f ) );
 
             // decide action to perform.
-            // - 0: Random movement.
-            // - 1, 2: Use Glare.
-            // - 3, 4, 5: Use Bite.
-            decision = Random.Range( 0, 6 );
-            decision = 2;
+            // - 0, 1: Random movement.
+            // - 2,3,4 : Perform attack.
+            // - 5: Do nothing.
+            decision = Random.Range( 2, 6 );
 
-            // random movement.
-            if ( decision == 0 ) {
+            // random movement - disabled at the moment.
+            if ( decision < 2 ) {
                 isLookingAtPlayer = false;
                 RandomMovement();
+                yield return new WaitForSeconds( .1f );
                 
                 // wait till movement is complete.
                 do {
                     yield return new WaitForFixedUpdate();
                 } while ( isMoving && moveCoroutine != null );
+
+            } else if ( decision < 5 ) {
+                // perform attack.
+                attackCoroutine = StartCoroutine( Attack() );
+                yield return new WaitForSeconds( .1f );
+
+                // wait till attack is performed.
+                do {
+                    yield return new WaitForFixedUpdate();
+                    
+                } while ( isAttacking && attackCoroutine != null );
+
+            } else {
+                // do nothing.
+                yield return new WaitForSeconds( .5f );
             }
+
+            
         }
 
         inBattle = false;
@@ -266,16 +320,28 @@ public class MeteoWorm : Enemy {
             isLookingAtPlayer = false;
         }
 
+        if ( isChasingPlayer ) {
+            isChasingPlayer = false;
+        }
+
         // stop any attack.
-        if ( isAttacking || attackCoroutine != null ) {
-            StopCoroutine( attackCoroutine );
+        if ( isAttacking ) {
             isAttacking = false;
+            
+            if ( attackCoroutine != null ) {
+                StopCoroutine( attackCoroutine );
+                attackCoroutine = null;
+            }
         }
 
         // stop battle loop.
-        if ( inBattle || battleCoroutine != null ) {
-            StopCoroutine( battleCoroutine );
+        if ( inBattle  ) {
             inBattle = false;
+            
+            if ( battleCoroutine != null ) {
+                StopCoroutine( battleCoroutine );
+                battleCoroutine = null;
+            }
         }        
     }
 

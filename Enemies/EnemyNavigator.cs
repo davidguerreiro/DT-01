@@ -29,8 +29,9 @@ public class EnemyNavigator : MonoBehaviour {
         Debug.DrawRay( transform.position, transform.TransformDirection( Vector3.forward ) * maxDistance, Color.red );
 
         if ( Physics.Raycast( transform.position, transform.TransformDirection( Vector3.forward ), out hit, maxDistance ) ) {
-            // engage in combat with the player if detected.
-            if ( hit.collider.gameObject.tag == "Player" && enemyParent.GetState() != Enemy.State.battling ) {
+
+            // engage in combat with the player if detected and enemy is in an state which allow enemies to engage in combat with the player.
+            if ( hit.collider.gameObject.tag == "Player" && enemyParent.GetState() != Enemy.State.battling && enemyParent.GetState() != Enemy.State.returning ) {
                 enemyParent.EngageInBattle();
             }
         }
