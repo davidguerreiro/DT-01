@@ -81,7 +81,7 @@ public abstract class Enemy : MonoBehaviour {
     protected Coroutine moveCoroutine;                         // Moving coroutine.
     protected Coroutine rotateCoroutine;                       // Rotating coroutine.
     protected Coroutine attackCoroutine;                       // Attack coroutine.
-    protected Coroutine combatCoroutine;                       // Battle loop coroutine reference.
+    protected Coroutine battleCoroutine;                       // Battle loop coroutine reference.
     protected Vector3 initialPosition;                         // Enemy initial position - used if enemy position has to be reset or if the enemy returns back from outside the enemy group area.
     protected float randomMovementCounter = 0f;                // Random movement counter
     protected float randomMovementFrameChecker;                // Random movement frame checker - used to calculate when a random movement needs to happen.

@@ -5,7 +5,7 @@ using UnityEngine;
 public class MeteoWorm : Enemy {
     private Animator _anim;                           // Animator component reference.
     private AudioComponent _audio;                    // Audio component reference.
-    private float animSpeed = 1f;                     // Animation speed multiplier. Used to increase / decrease animation speed.
+    private float _animSpeed = 1f;                     // Animation speed multiplier. Used to increase / decrease animation speed.
 
     [Header("Testing")]
     public Transform destinationTest;               
@@ -24,18 +24,71 @@ public class MeteoWorm : Enemy {
     /// This function is called every fixed framerate frame, if the MonoBehaviour is enabled.
     /// </summary>
     void FixedUpdate() {
-        ListenForMovement();
+
+        if ( isAlive ) {
+
+            // listen for rotation actions and perform animations.
+            ListenForRotation();
+
+            // listen for moving actions and perform animations.
+            ListenForMovement();
+
+            // listen for enemy status and perform actions accordingly.
+            ListerForCurrentState();
+        }
     }
 
     /// <summary>
     /// Listen for moving state and enable
-    /// animation accordingly.
+    /// animations accordingly.
     /// </summary>
     private void ListenForMovement() {
         if ( isMoving ) {
+            // increase speed at returning.
+            float useAnimSpeed = ( currentState == State.returning ) ? _animSpeed * 1.4f : _animSpeed;
+
+            _anim.SetFloat( "AnimSpeed", useAnimSpeed );
             _anim.SetBool( "IsMoving", true );
         } else {
             _anim.SetBool( "IsMoving", false );
+        }
+    }
+
+    /// <summary>
+    /// Listen for rotation state and enable
+    /// animations accordingly.
+    /// </summary>
+    private void ListenForRotation() {
+        if ( ! isMoving ) {
+            if ( isRotating || isLookingAtPlayer ) {
+                _anim.SetFloat( "AnimSpeed", _animSpeed * .5f );
+                _anim.SetBool( "IsMoving", true );
+            } else {
+                _anim.SetBool( "IsMoving", false );
+            }
+        }
+    }
+
+    /// <summary>
+    /// Check enemy state
+    /// and perform actions based
+    /// on that.
+    /// </summary>
+    private void ListerForCurrentState() {
+
+        switch ( currentState ) {
+            case State.battling:        // Engage enemy in combat
+
+                if ( ! inBattle && battleCoroutine == null ) {
+                    battleCoroutine = StartCoroutine( "BattleLoop" );
+                }
+                break;
+            case State.returning:       // Return to initial position after leaving group area. Any battle the enemy is engaged must end.
+
+                if ( inBattle || battleCoroutine != null ) {
+                    StopBattle();
+                }
+                break;
         }
     }
 
@@ -198,6 +251,27 @@ public class MeteoWorm : Enemy {
                 } while ( isMoving && moveCoroutine != null );
             }
         }
+
+        inBattle = false;
+        battleCoroutine = null;
+    }
+
+    /// <summary>
+    /// Stop battle loop.
+    /// </summary>
+    public void StopBattle() {
+
+        // stop any attack.
+        if ( isAttacking || attackCoroutine != null ) {
+            StopCoroutine( attackCoroutine );
+            isAttacking = false;
+        }
+
+        // stop battle loop.
+        if ( inBattle || battleCoroutine != null ) {
+            StopCoroutine( battleCoroutine );
+            inBattle = false;
+        }        
     }
 
     /// <summary>
