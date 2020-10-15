@@ -23,11 +23,15 @@ public abstract class Enemy : MonoBehaviour {
     protected bool isRotating = false;                      // Whether the enemy is rotating.
     [SerializeField]
     protected bool isAttacking = false;                     // Whether the enemy is performing an attack.
+    [SerializeField]
+    protected bool inBattle = false;                        // Whether the enemy is engaged in battle.
+    [SerializeField]
+    protected bool isLookingAtPlayer = false;               // Whether the enemy is looking at the player continuosly.
     public enum State {
         none,                                               // This state is the default value and has no impact over enemy behavioir or logic.
         watching,                                           // Enemy does not move, just observe the enviroment.
         patrolling,                                         // Enemy is patrolling an area.
-        combat,                                             // Enemy is enaged in combat withing the player or another target.
+        battling,                                             // Enemy is enaged in combat withing the player or another target.
         returning,                                          // Enemy has leave their enemy group area and it is returning to their initial position.
     };
 
@@ -77,9 +81,32 @@ public abstract class Enemy : MonoBehaviour {
     protected Coroutine moveCoroutine;                         // Moving coroutine.
     protected Coroutine rotateCoroutine;                       // Rotating coroutine.
     protected Coroutine attackCoroutine;                       // Attack coroutine.
+    protected Coroutine combatCoroutine;                       // Battle loop coroutine reference.
     protected Vector3 initialPosition;                         // Enemy initial position - used if enemy position has to be reset or if the enemy returns back from outside the enemy group area.
     protected float randomMovementCounter = 0f;                // Random movement counter
     protected float randomMovementFrameChecker;                // Random movement frame checker - used to calculate when a random movement needs to happen.
+
+    /// <summary>
+    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void Update() {
+
+        if ( isAlive ) {
+
+            // check enemy group movement and interaction area.
+            CheckPivotDistance();
+
+            // look at the player if is in range or in battle.
+            if ( isLookingAtPlayer ) {
+                LookAtPlayer();
+            }
+
+            // check for random movement if the enemy is watching.
+            if ( currentState == State.watching ) {
+                CheckIfRandomMove();
+            }
+        }
+    }
 
     /// <summary>
     /// Get damage method.
@@ -101,21 +128,6 @@ public abstract class Enemy : MonoBehaviour {
                 if ( hitParticles != null ) {
                     hitParticles.DisplayHitParticles();
                 }
-            }
-        }
-    }
-
-    /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
-    /// </summary>
-    void Update() {
-
-        if ( isAlive ) {
-            CheckPivotDistance();
-
-            // check for random movement if the enemy is watching.
-            if ( currentState == State.watching ) {
-                CheckIfRandomMove();
             }
         }
     }
@@ -215,6 +227,30 @@ public abstract class Enemy : MonoBehaviour {
     /// <return>IEnumerator</return>
     protected abstract IEnumerator Attack();
 
+    /// <summary>
+    /// Battle loop.
+    /// This loop will be initialised every time 
+    /// the enemy enters into combat mode.
+    /// </summary>
+    /// <returns>IEnumerator</returns>
+    protected abstract IEnumerator BattleLoop();
+
+    /// <summary>
+    /// Look at the player.
+    /// </summary>
+    private void LookAtPlayer() {
+        if ( Player.instance != null ) {
+            transform.LookAt( Player.instance.gameObject.transform );
+        }
+    }
+
+
+    /// <summary>
+    /// Engage enemy in battle.
+    /// </summary>
+    public void EngageInBattle() {
+        currentState = State.battling;
+    }
 
     /// <sumamry>
     /// Stop moving action.
@@ -231,7 +267,7 @@ public abstract class Enemy : MonoBehaviour {
     /// Random movement. Usually performed
     /// by enemies in watch state.
     /// </summary>
-    private void RandomMovement() {
+    public void RandomMovement() {
         float x = UnityEngine.Random.Range( - data.randXMovementAmplitude, data.randXMovementAmplitude );
         float z = UnityEngine.Random.Range( - data.randZMovementAmplitude, data.randZMovementAmplitude );
 
@@ -484,6 +520,22 @@ public abstract class Enemy : MonoBehaviour {
         foreach ( EnemyNavigator navigator in navigators ) {
             navigator.SetUpNavigator( this );
         }
+    }
+
+    /// <summary>
+    /// Get enemy state.
+    /// </sumamry>
+    /// <returns>State</returns>
+    public State GetState() {
+        return this.currentState;
+    }
+
+    /// <summary>
+    /// Set enemy state.
+    /// </summary>
+    /// <param name="newState">State - new enemy state.</param>
+    public void SetState( State newState ) {
+        this.currentState = newState;
     }
 
     /// <summary>

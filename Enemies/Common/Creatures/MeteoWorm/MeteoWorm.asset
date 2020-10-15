@@ -21,13 +21,13 @@ MonoBehaviour:
   defense: 1.8
   speed: 1
   attackRatio: 6
-  randomMovementRatio: 1
+  randomMovementRatio: 75
   randXMovementAmplitude: 3
   randZMovementAmplitude: 3
   attacks:
-  - action: {fileID: 11400000, guid: 1d59b3bce701e4513bcc28e57f8e2c46, type: 2}
+  - attack: {fileID: 11400000, guid: 1d59b3bce701e4513bcc28e57f8e2c46, type: 2}
     rate: 40
-  - action: {fileID: 11400000, guid: af6ddd77fd8084ec29342995887943e7, type: 2}
+  - attack: {fileID: 11400000, guid: af6ddd77fd8084ec29342995887943e7, type: 2}
     rate: 60
   enemyType: {fileID: 11400000, guid: f47bce043d44c4f509abe2ba1c438fe9, type: 2}
   isBoss: 0
@@ -45,5 +45,5 @@ MonoBehaviour:
   strategyEng: They can detect other beings presence by surface vibration, so there
     is no way they can be ambushed from behind. They are quite slow, so, as soon
     as you have them in range, shoot them..
-  defeated: 0
+  defeated: 10
   reset: 0

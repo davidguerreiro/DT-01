@@ -62,7 +62,11 @@ public class EnemyGroup : MonoBehaviour {
     /// combat with the player.
     /// </summary>
     public void AlertEnemies() {
-        // TODO: Complete this method.
+        for ( int i = 0; i < enemiesRef.Length; i++ ) {
+            if ( enemiesRef[i].enemy.GetState() != Enemy.State.returning ) {
+                enemiesRef[i].enemy.SetState( Enemy.State.battling );
+            }
+        }
     }
 
     /// <summary>

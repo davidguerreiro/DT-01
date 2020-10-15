@@ -5,9 +5,10 @@ using UnityEngine;
 public class MeteoWorm : Enemy {
     private Animator _anim;                           // Animator component reference.
     private AudioComponent _audio;                    // Audio component reference.
+    private float animSpeed = 1f;                     // Animation speed multiplier. Used to increase / decrease animation speed.
 
     [Header("Testing")]
-    public Transform destinationTest;
+    public Transform destinationTest;               
 
     // Start is called before the first frame update
     void Start() {
@@ -106,11 +107,13 @@ public class MeteoWorm : Enemy {
     /// <return>IEnumerator</return>
     protected override IEnumerator Attack() {
         isAttacking = true;
+
         EnemyAttack attack = null;
+
         float damage = data.attack;
         var attacks = data.attacks;
 
-        // randomize array if required to improve arbritrariety when attacking.
+        // randomize array if required to improve randomness when attacking.
         if ( attacks.Length > 1 && UnityEngine.Random.Range( 0, 2 ) == 0 ) {
             Utils.instance.Randomize( attacks );
         }
@@ -134,11 +137,13 @@ public class MeteoWorm : Enemy {
         switch ( attack.attackName ) {
             case "Intimidate":
                 _anim.SetTrigger( "Attack" );
+                // TODO: Add creature sound here.
                 break;
             case "Bite":
                 float damageV = ( attack.damage + UnityEngine.Random.Range( 0f, 2f ) );
                 base.attack += damageV;
                 _anim.SetTrigger( "Attack" );
+                // TODO: Add creature sound here.
                 _rigi.AddForce( attack.impulse );
                 yield return new WaitForSeconds( .5f );
                 base.attack -= damageV;
@@ -149,7 +154,54 @@ public class MeteoWorm : Enemy {
     }
 
     /// <summary>
-    /// Revove enemy from the scene after
+    /// Battle loop.
+    /// This loop will be initialised every time 
+    /// the enemy enters into combat mode.
+    /// </summary>
+    /// <returns>IEnumerator</returns>
+    protected override IEnumerator BattleLoop() {
+        inBattle = true;
+        int decision = 0;
+
+        if ( isMoving ) {
+            StopMoving();
+        }
+
+        // alert other members of the group about the player presence.
+        if ( enemyGroup != null ) {
+            enemyGroup.AlertEnemies();
+        }
+
+        // TODO: Add creature sound here.
+
+        while ( currentState == State.battling ) {
+
+            // look at player.
+            isLookingAtPlayer = true;
+            yield return new WaitForSeconds( Random.Range( .5f, 2.5f ) );
+
+            // decide action to perform.
+            // - 0: Random movement.
+            // - 1, 2: Use Glare.
+            // - 3, 4, 5: Use Bite.
+            decision = Random.Range( 0, 6 );
+            decision = 0;
+
+            // random movement.
+            if ( decision == 0 ) {
+                isLookingAtPlayer = false;
+                RandomMovement();
+                
+                // wait till movement is complete.
+                do {
+                    yield return new WaitForFixedUpdate();
+                } while ( isMoving && moveCoroutine != null );
+            }
+        }
+    }
+
+    /// <summary>
+    /// Remove enemy from the scene after
     /// dying.
     /// </summary>
     private void RemoveEnemy() {
