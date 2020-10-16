@@ -58,7 +58,7 @@ public class FPSInput : MonoBehaviour {
     /// <summary>
     /// This function is called every fixed framerate frame, if the MonoBehaviour is enabled.
     /// </summary>
-    void FixedUpdate() {
+    void Update() {
 
         // update speed if running.
         float movementSpeed = ( this.isRunning ) ? runningSpeed : speed;
