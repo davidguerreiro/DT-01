@@ -180,10 +180,14 @@ public abstract class Enemy : MonoBehaviour {
             Vector3 newPosition = Vector3.MoveTowards( _rigi.position, destination, ( data.speed * extraSpeed ) * Time.deltaTime );
             _rigi.MovePosition( newPosition );
 
+            // ensure enemy is looking at the new destination.
+            transform.LookAt( destination );
+
             yield return new WaitForFixedUpdate();
             // update destination if required and remaining distance.
             destination = ( isChasingPlayer ) ? Player.instance.transform.position : setDestination;
             remainingDistance = ( transform.position - destination ).sqrMagnitude;
+            
         }
 
         if ( newState != State.none ) {

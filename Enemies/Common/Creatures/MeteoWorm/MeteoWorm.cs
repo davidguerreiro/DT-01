@@ -256,7 +256,7 @@ public class MeteoWorm : Enemy {
 
         PlayStandardSound();
 
-        while ( currentState == State.battling ) {
+        while ( currentState == State.battling && isAlive ) {
 
             if ( isMoving ) {
                 StopMoving();
@@ -264,7 +264,7 @@ public class MeteoWorm : Enemy {
 
             // look at player.
             isLookingAtPlayer = true;
-            Debug.Log( "reloop" );
+            // Debug.Log( "reloop" );
             yield return new WaitForSeconds( Random.Range( .5f, 2.5f ) );
 
             // decide action to perform.
@@ -304,6 +304,7 @@ public class MeteoWorm : Enemy {
         }
 
         inBattle = false;
+        isLookingAtPlayer = false;
         battleCoroutine = null;
     }
 

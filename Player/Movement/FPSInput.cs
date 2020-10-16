@@ -100,6 +100,13 @@ public class FPSInput : MonoBehaviour {
             this.isRunning = false;
         }
 
+    }
+
+    /// <summary>
+    /// This function is called every fixed framerate frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void FixedUpdate() {
+
         // check invencible counter if the player is invencible.
         if ( invencible ) {
              UpdateInvencible();
@@ -155,11 +162,7 @@ public class FPSInput : MonoBehaviour {
 
 
         // update player movement flag.
-        if ( movement.magnitude > 0f ) {
-            this.isMoving = true;
-        } else {
-            this.isMoving = false;
-        }
+        this.isMoving = ( movement.magnitude > 0f ) ? true : false;
 
         // limit diagonal movement to the same speed as movement along an axis.
         movement = Vector3.ClampMagnitude( movement, movementSpeed );

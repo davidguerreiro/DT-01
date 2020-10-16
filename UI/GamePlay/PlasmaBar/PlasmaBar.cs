@@ -33,6 +33,17 @@ public class PlasmaBar : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+
+        // check for heated status.
+        if ( displayed ) {
+            CheckIfHeated();
+        }
+    }
+
+    /// <summary>
+    /// This function is called every fixed framerate frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void FixedUpdate() {
         
         // Update slider value.
         UpdateSliderValue();
@@ -45,11 +56,6 @@ public class PlasmaBar : MonoBehaviour {
         // check if the hide elements counter needs to run.
         if ( displayed && _slider.value == _slider.maxValue ) {
             CheckIfFadeOut();
-        }
-
-        // check for heated status.
-        if ( displayed ) {
-            CheckIfHeated();
         }
     }
 
