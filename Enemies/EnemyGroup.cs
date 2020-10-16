@@ -63,7 +63,7 @@ public class EnemyGroup : MonoBehaviour {
     /// </summary>
     public void AlertEnemies() {
         for ( int i = 0; i < enemiesRef.Length; i++ ) {
-            if ( enemiesRef[i].enemy.GetState() != Enemy.State.returning ) {
+            if ( enemiesRef[i].enemy != null && enemiesRef[i].enemy.GetState() != Enemy.State.returning ) {
                 enemiesRef[i].enemy.SetState( Enemy.State.battling );
             }
         }

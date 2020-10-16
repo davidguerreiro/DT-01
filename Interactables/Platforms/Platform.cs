@@ -223,8 +223,8 @@ public class Platform : MonoBehaviour {
     void OnTriggerExit( Collider other ) {
 
         if ( other.gameObject.tag == "Player" ) {
-            _playerController.ResetExternalForces();
-            _playerController = null;
+            // _playerController.ResetExternalForces();
+            // _playerController = null;
         }
     }
 }

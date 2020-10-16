@@ -573,6 +573,21 @@ public abstract class Enemy : MonoBehaviour {
     }
 
     /// <summary>
+    /// Play enemy standard sound.
+    /// </summary>
+    protected abstract void PlayStandardSound();
+
+    /// <summary>
+    /// Play enemy base attack sound.
+    /// </summary>
+    protected abstract void PlayAttackSound();
+
+    /// <summary>
+    /// Play enemy death sound.
+    /// </summary>
+    protected abstract void PlayDeathSound();
+
+    /// <summary>
     /// Init class method.
     /// </summary>
     public virtual void Init() {

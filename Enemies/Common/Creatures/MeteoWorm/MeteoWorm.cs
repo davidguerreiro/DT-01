@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MeteoWorm : Enemy {
-    private Animator _anim;                           // Animator component reference.
-    private AudioComponent _audio;                    // Audio component reference.
+    private Animator _anim;                             // Animator component reference.
+    private AudioComponent _audio;                      // Audio component reference.
     private float _animSpeed = 1f;                     // Animation speed multiplier. Used to increase / decrease animation speed.
 
     [Header("Testing")]
@@ -112,11 +112,6 @@ public class MeteoWorm : Enemy {
     /// <param name="externalImpactValue">float - damage value caused external attacker, usually the player.</param>
     public override void GetDamage( float externalImpactValue ) {
         base.GetDamage( externalImpactValue );
-
-        // play damage sound.
-        if ( _audio != null ) {
-            _audio.PlaySound( 0 );
-        }
     }
 
     /// <summary>
@@ -126,6 +121,7 @@ public class MeteoWorm : Enemy {
         StartCoroutine( base.Die() );
         
         // play death animation.
+        PlayDeathSound();
         _anim.SetBool( "Die", true );
         yield return new WaitForSeconds( timeToDissapear );
 
@@ -191,11 +187,11 @@ public class MeteoWorm : Enemy {
 
         switch ( attack.attackName ) {
             case "Intimidate":
+                PlayAttackSound();
                 _anim.SetFloat( "AnimSpeed", .35f );
                 _anim.SetTrigger( "Attack" );
                 _rigi.AddForce( Vector3.up * attack.impulse.y );
                 yield return new WaitForSeconds( 1.1f );
-                // TODO: Add creature sound here.
                 break;
             case "Bite":
 
@@ -220,10 +216,10 @@ public class MeteoWorm : Enemy {
                 float damageV = ( attack.damage + UnityEngine.Random.Range( 0f, 2f ) );
                 base.attack += damageV;
 
+                PlayAttackSound();
                 _anim.SetTrigger( "Attack" );
                 _rigi.AddRelativeForce( attack.impulse );
                 
-                // TODO: Add creature sound here.
 
                 yield return new WaitForSeconds( .5f );
                 base.attack -= damageV;
@@ -258,7 +254,7 @@ public class MeteoWorm : Enemy {
             enemyGroup.AlertEnemies();
         }
 
-        // TODO: Add creature sound here.
+        PlayStandardSound();
 
         while ( currentState == State.battling ) {
 
@@ -351,6 +347,33 @@ public class MeteoWorm : Enemy {
     /// </summary>
     private void RemoveEnemy() {
         Destroy( this.gameObject );
+    }
+
+    /// <summary>
+    /// Play enemy standard sound.
+    /// </summary>
+    protected override void PlayStandardSound() {
+        if ( _audio != null ) {
+            _audio.PlaySound( 0 );
+        }
+    }
+
+    /// <summary>
+    /// Play enemy base attack sound.
+    /// </summary>
+    protected override void PlayAttackSound() {
+        if ( _audio != null ) {
+            _audio.PlaySound( 1 );
+        }
+    }
+
+    /// <summary>
+    /// Play enemy death sound.
+    /// </summary>
+    protected override void PlayDeathSound() {
+        if ( _audio != null ) {
+            _audio.PlaySound( 2 );
+        }
     }
 
     /// <summary>

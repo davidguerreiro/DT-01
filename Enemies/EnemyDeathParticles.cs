@@ -26,7 +26,7 @@ public class EnemyDeathParticles : MonoBehaviour {
     public IEnumerator DisplayDeathParticles() {
         
         if ( _audio ) {
-            _audio.PlaySound();
+            //_audio.PlaySound();
         }
 
         foreach ( ParticleSystem particleSystem in particles ) {
