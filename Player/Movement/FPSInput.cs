@@ -110,7 +110,6 @@ public class FPSInput : MonoBehaviour {
         // check invencible counter if the player is invencible.
         if ( invencible ) {
              UpdateInvencible();
-             var x = 1;
         }
     }
 
