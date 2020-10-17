@@ -86,7 +86,7 @@ public abstract class Enemy : MonoBehaviour {
         box,
         capsule,
         mesh,
-    };
+    }; 
 
     [Header("Colliders")]
     [SerializeField]

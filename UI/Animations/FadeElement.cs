@@ -83,6 +83,7 @@ public class FadeElement : MonoBehaviour {
 
         if ( _animator != null ) {
             _animator.SetInteger( "FadeState", 0 );
+            displayed = false;
         }
     }
 
