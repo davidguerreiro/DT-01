@@ -15,7 +15,7 @@ public class MeteoWorm : Enemy {
         Init();
 
         if ( destinationTest != null ) {
-            // Move( new Vector3( destinationTest.position.x, transform.position.y, destinationTest.position.z ) );
+            Move( new Vector3( destinationTest.position.x, transform.position.y, destinationTest.position.z ) );
             // Rotate( destinationTest );
         }
     }
@@ -183,8 +183,6 @@ public class MeteoWorm : Enemy {
                
         } while ( attack == null );
 
-        yield return null;
-
         switch ( attack.attackName ) {
             case "Intimidate":
                 PlayAttackSound();
@@ -306,40 +304,6 @@ public class MeteoWorm : Enemy {
         inBattle = false;
         isLookingAtPlayer = false;
         battleCoroutine = null;
-    }
-
-    /// <summary>
-    /// Stop battle loop.
-    /// </summary>
-    public void StopBattle() {
-
-        if ( isLookingAtPlayer ) {
-            isLookingAtPlayer = false;
-        }
-
-        if ( isChasingPlayer ) {
-            isChasingPlayer = false;
-        }
-
-        // stop any attack.
-        if ( isAttacking ) {
-            isAttacking = false;
-            
-            if ( attackCoroutine != null ) {
-                StopCoroutine( attackCoroutine );
-                attackCoroutine = null;
-            }
-        }
-
-        // stop battle loop.
-        if ( inBattle  ) {
-            inBattle = false;
-            
-            if ( battleCoroutine != null ) {
-                StopCoroutine( battleCoroutine );
-                battleCoroutine = null;
-            }
-        }        
     }
 
     /// <summary>

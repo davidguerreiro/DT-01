@@ -298,6 +298,41 @@ public abstract class Enemy : MonoBehaviour {
             }
         }
     }
+    
+
+    /// <summary>
+    /// Stop battle loop.
+    /// </summary>
+    public virtual void StopBattle() {
+
+        if ( isLookingAtPlayer ) {
+            isLookingAtPlayer = false;
+        }
+
+        if ( isChasingPlayer ) {
+            isChasingPlayer = false;
+        }
+
+        // stop any attack.
+        if ( isAttacking ) {
+            isAttacking = false;
+            
+            if ( attackCoroutine != null ) {
+                StopCoroutine( attackCoroutine );
+                attackCoroutine = null;
+            }
+        }
+
+        // stop battle loop.
+        if ( inBattle  ) {
+            inBattle = false;
+            
+            if ( battleCoroutine != null ) {
+                StopCoroutine( battleCoroutine );
+                battleCoroutine = null;
+            }
+        }        
+    }
 
     /// <summary>
     /// Random movement. Usually performed
@@ -373,6 +408,10 @@ public abstract class Enemy : MonoBehaviour {
     
         if ( isMoving ) {
             StopMoving();
+        }
+
+        if ( inBattle ) {
+            StopBattle();
         }
 
         // disable physics for this enemy - they are not longer neecesary.
@@ -502,6 +541,19 @@ public abstract class Enemy : MonoBehaviour {
             if ( ! player.playerInput.invencible ) {
                 DamagePlayer( player );
             }
+        }
+    }
+
+    /// <summary>
+    /// OnCollisionStay is called once per frame for every collider/rigidbody
+    /// that is touching rigidbody/collider.
+    /// </summary>
+    /// <param name="other">The Collision data associated with this collision.</param>
+    void OnCollisionStay(Collision other) {
+        
+        // stop moving when colliding withing a wall ( layer 9 )
+        if ( other.gameObject.layer == 9 && isMoving ) {
+            StopMoving();
         }
     }
 
