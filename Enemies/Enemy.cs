@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public abstract class Enemy : MonoBehaviour {
 
@@ -29,6 +30,9 @@ public abstract class Enemy : MonoBehaviour {
     protected bool inBattle = false;                        // Whether the enemy is engaged in battle.
     [SerializeField]
     protected bool isLookingAtPlayer = false;               // Whether the enemy is looking at the player continuosly.
+    [SerializeField]
+    protected bool onNavMeshPath = false;                   // Whether the enemy is in a navMeshPath loop.
+
     public enum State {
         none,                                               // This state is the default value and has no impact over enemy behavioir or logic.
         watching,                                           // Enemy does not move, just observe the enviroment.
@@ -73,7 +77,9 @@ public abstract class Enemy : MonoBehaviour {
     protected bool ignoreZRotaion;                              // Ignore Y rotation when facing player.
 
 
-    protected Rigidbody _rigi;                                 // Rigibody component reference.
+    // GameObject components.
+    protected Rigidbody _rigi;                                  // Rigibody component reference.
+    protected NavMeshAgent _agent;                              // NavMeshAgent component reference.
 
     protected enum ColliderType {
         sphere,
@@ -162,32 +168,58 @@ public abstract class Enemy : MonoBehaviour {
     /// will be replaced by player position, even if the move coroutine has already started.
     /// </summary>
     /// <param name="setDestination">Vector3 - position where the enemy is going to move</param>
+    /// <param name="useNavMesh">bool - wheter to move using nav mesh. False by defaul</param>
     /// <param name="extraSpeed">float - any extra speed to apply to this movement call. Default to 1f</param>
     /// <param name="newState">State - New state to apply to enemy when the movement coroutine finishes. Default to null.</param>
-    public virtual IEnumerator Move( Vector3 setDestination, float extraSpeed = 1f, State newState = State.none ) {
-
+    public virtual IEnumerator Move( Vector3 setDestination, bool useNavMesh = false, float extraSpeed = 1f, State newState = State.none ) {
+        isMoving = true;
         Vector3 destination = ( isChasingPlayer ) ? Player.instance.transform.position : setDestination;
 
         // TODO: Replace by rotate method.
         transform.LookAt( destination );
         yield return new WaitForSeconds( .1f );
 
-        float remainingDistance = ( transform.position - destination ).sqrMagnitude;
+        if ( useNavMesh && _agent != null ) {
+            onNavMeshPath = true;
 
-        while ( remainingDistance > 0.1f ) {
-            isMoving = true;
-            
-            Vector3 newPosition = Vector3.MoveTowards( _rigi.position, destination, ( data.speed * extraSpeed ) * Time.deltaTime );
-            _rigi.MovePosition( newPosition );
+            // move using navMesh.
+            _agent.Warp( transform.position );
+            _agent.speed = data.speed * extraSpeed;
+            _agent.SetDestination( destination );
 
-            // ensure enemy is looking at the new destination.
-            transform.LookAt( destination );
+            do {
 
-            yield return new WaitForFixedUpdate();
-            // update destination if required and remaining distance.
-            destination = ( isChasingPlayer ) ? Player.instance.transform.position : setDestination;
-            remainingDistance = ( transform.position - destination ).sqrMagnitude;
-            
+                if ( isChasingPlayer ) {
+                    destination = Player.instance.transform.position;
+                    _agent.SetDestination( destination );
+                }
+
+                // check if agent has reached destination.
+                if ( ! _agent.pathPending && _agent.remainingDistance <= _agent.stoppingDistance && ( _agent.hasPath || _agent.velocity.sqrMagnitude == 0f ) ) {
+                    onNavMeshPath = false;
+                }
+
+                // Debug.Log( "onPath" );
+                yield return new WaitForFixedUpdate();
+            } while ( onNavMeshPath );
+        } else {
+            float remainingDistance = ( transform.position - destination ).sqrMagnitude;
+
+            // move using rigibody and physics engine.
+            while ( remainingDistance > 0.1f ) {
+
+                Vector3 newPosition = Vector3.MoveTowards( _rigi.position, destination, ( data.speed * extraSpeed ) * Time.deltaTime );
+                _rigi.MovePosition( newPosition );
+
+                // ensure enemy is looking at the new destination.
+                transform.LookAt( destination );
+
+                yield return new WaitForFixedUpdate();
+                // update destination if required and remaining distance.
+                destination = ( isChasingPlayer ) ? Player.instance.transform.position : setDestination;
+                remainingDistance = ( transform.position - destination ).sqrMagnitude;
+                
+            }
         }
 
         if ( newState != State.none ) {
@@ -291,6 +323,10 @@ public abstract class Enemy : MonoBehaviour {
         if ( isMoving ) {
             isMoving = false;
             isChasingPlayer = false;
+            
+            if ( onNavMeshPath && _agent != null ) {
+                _agent.isStopped = true;
+            }
 
             if ( moveCoroutine != null ) {
                 StopCoroutine( moveCoroutine );
@@ -344,7 +380,7 @@ public abstract class Enemy : MonoBehaviour {
 
         Vector3 toMove = new Vector3( transform.position.x + x, transform.position.y, transform.position.z + z );
         
-        moveCoroutine = StartCoroutine( Move( toMove ) );
+        moveCoroutine = StartCoroutine( Move( toMove, true ) );
     }
 
     /// <summary>
@@ -553,7 +589,7 @@ public abstract class Enemy : MonoBehaviour {
         
         // stop moving when colliding withing a wall ( layer 9 )
         if ( other.gameObject.layer == 9 && isMoving ) {
-            StopMoving();
+            // StopMoving();
         }
     }
 
@@ -574,7 +610,7 @@ public abstract class Enemy : MonoBehaviour {
                 // enemy go back to its initial position a little bit faster than base speed.
                 currentState =  State.returning;
 
-                moveCoroutine = StartCoroutine( Move( initialPosition, 1.3f, initialState ) );
+                moveCoroutine = StartCoroutine( Move( initialPosition, true, 1.3f, initialState ) );
             }
         }
     }
@@ -666,6 +702,9 @@ public abstract class Enemy : MonoBehaviour {
 
         // get rigibody component reference.
         _rigi = GetComponent<Rigidbody>();
+
+        // get navmeshagent component reference.
+        _agent = GetComponent<NavMeshAgent>();
 
     }
 

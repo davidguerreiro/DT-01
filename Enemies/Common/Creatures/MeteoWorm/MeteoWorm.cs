@@ -15,7 +15,7 @@ public class MeteoWorm : Enemy {
         Init();
 
         if ( destinationTest != null ) {
-            Move( new Vector3( destinationTest.position.x, transform.position.y, destinationTest.position.z ) );
+            // Move( new Vector3( destinationTest.position.x, transform.position.y, destinationTest.position.z ), true );
             // Rotate( destinationTest );
         }
     }
@@ -133,10 +133,11 @@ public class MeteoWorm : Enemy {
     /// Move enemy.
     /// </summary>
     /// <param name="destination">Vector3 - position where the enemy is going to move</param>
+    /// <parma name="useNavMesh">bool -wheter to move using nav mesh. False by defaul</param>
     /// <param name="extraSpeed">float - extra speed multiplier.</param>
-    public new void Move( Vector3 destination, float extraSpeed = 1f ) {
+    public new void Move( Vector3 destination, bool useNavMesh = false, float extraSpeed = 1f ) {
         if ( moveCoroutine == null ) {
-            moveCoroutine = StartCoroutine( base.Move( destination, extraSpeed ) );
+            moveCoroutine = StartCoroutine( base.Move( destination, useNavMesh, extraSpeed ) );
         }
     }
 
@@ -200,7 +201,7 @@ public class MeteoWorm : Enemy {
 
                 // chase player until the enemy is close enough to attack.
                 isChasingPlayer = true;
-                this.Move( Player.instance.transform.position );
+                this.Move( Player.instance.transform.position, true );
                 do {
                     yield return new WaitForFixedUpdate();
                 } while ( Vector3.Distance( transform.position, Player.instance.gameObject.transform.position ) > 2.5f );
