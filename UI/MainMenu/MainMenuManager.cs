@@ -10,11 +10,21 @@ public class MainMenuManager : MonoBehaviour {
     public FadeElement logo;                                // Logo fade element component.
     public FadeElement[] menuItems;                         // Menu items element component.
     public FadeElement versionText;                         // Version text fade element component.
+    public FadeElement dsTopText;                           // Developer section Top Text element component.
+    public FadeElement dsText;                              // Developer section text element component.
     public FadeElement screenCover;                         // Screen cover fade element component.
     public Animator cameraAnim;                             // Camera animator component reference.
 
-    [Header("Settings")]
+    [Header("Cinematic Settings")]
     public float secondsBeforeRemoveCover = 1f;             // Seconds to wait before removing scene cover.
+    public float secondsBeforeDisplayDSText = 1f;           // Seconds before display developer text in the game scene.
+    public float secondsDSTextDisplayed = 1f;               // Seconds the Developer text is displayed in the game scene.
+
+    [Header("Animations Settings")]
+    public float screenCoverFadeInSpeed = 1f;               // Screen cover fade in animation speed.
+    public float screenCoverFadeOutSpeed = 1f;              // Screen cover fade out animation speed.
+    public float developerTextAnimSpeed = 1f;               // Developer text fade animation speed.
+
     
     private AudioComponent _audio;                          // Audio component reference.
     private bool _inCinematic = false;                      // In cinematic control flag.
@@ -56,7 +66,23 @@ public class MainMenuManager : MonoBehaviour {
         }
 
         yield return new WaitForSecondsRealtime( secondsBeforeRemoveCover );
-        screenCover.FadeOut( 0.3f );
+
+        // play camera cinematic animation.
+        cameraAnim.SetBool( "PlayCinematic", true );
+        yield return new WaitForSecondsRealtime( .5f );
+        screenCover.FadeOut( screenCoverFadeOutSpeed );
+
+        // display developer text.
+        yield return new WaitForSecondsRealtime( secondsBeforeDisplayDSText );
+        dsTopText.FadeIn( developerTextAnimSpeed );
+        dsText.FadeIn( developerTextAnimSpeed );
+
+        // hide developer text.
+        yield return new WaitForSecondsRealtime( secondsDSTextDisplayed );
+        dsTopText.FadeOut( developerTextAnimSpeed );
+        dsText.FadeOut( developerTextAnimSpeed );
+
+        _inCinematic = false;
     }
 
     /// <summary>

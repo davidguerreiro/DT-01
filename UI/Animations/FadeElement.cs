@@ -66,6 +66,7 @@ public class FadeElement : MonoBehaviour {
     /// <summary>
     /// Fade in element.
     /// </summary>
+    /// <param name="speed">float - fade in speed for animation</param>
     public void FadeIn( float speed ) {
 
         if ( _animator != null ) {
@@ -82,6 +83,20 @@ public class FadeElement : MonoBehaviour {
     public void HalfFadeOut() {
 
         if ( _animator != null ) {
+            _animator.SetInteger( "FadeState", 0 );
+            displayed = false;
+        }
+    }
+
+    /// <summary>
+    /// Apply only a half fade out
+    /// from displayed element.
+    /// </summary>
+    /// <param name="speed">float- half fade Out speed for animation</param>
+    public void HalfFadeOut( float speed ) {
+
+        if ( _animator != null ) {
+            _animator.SetFloat( "FadeInSpeed", speed );
             _animator.SetInteger( "FadeState", 0 );
             displayed = false;
         }
