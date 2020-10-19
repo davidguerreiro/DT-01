@@ -13,13 +13,19 @@ public class UIManager : MonoBehaviour {
         if ( instance == null ) {
             instance = this;
         }
+
+        if ( cursorEnabled ) {
+            DisplayCursor();
+        } else {
+            HideCursor();
+        }
     }
 
     /// <summary>
     /// Update is called every frame, if the MonoBehaviour is enabled.
     /// </summary>
     void Update() {
-        CheckCursor();
+        // CheckCursor();
     }
 
     /// <summary>

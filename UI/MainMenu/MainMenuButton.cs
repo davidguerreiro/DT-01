@@ -8,13 +8,15 @@ public class MainMenuButton : MonoBehaviour {
     public string optionLogic;                                  // Scene to load when clicking this button.
     public FadeElement textAnim;                                // Fade text component reference.
     private bool loaded = false;                                // Flag to avoid multiclick errors.
+    private AudioComponent _audio;                              // Audio component reference.
 
     /// <summary>
     /// Hover by mouse logic.
     /// </summary>
     public void Hover() {
         if ( ! textAnim.displayed ) {
-            textAnim.FadeIn();
+            _audio.PlaySound();
+            textAnim.FadeIn( 1f );
         }
     }
 
@@ -66,5 +68,14 @@ public class MainMenuButton : MonoBehaviour {
             default:
                 yield break;
         }
+    }
+
+    /// <summary>
+    /// Init class method.
+    /// </summary>
+    private void Init() {
+
+        // get audio component reference.
+        _audio = GetComponent<AudioComponent>();
     }
 }

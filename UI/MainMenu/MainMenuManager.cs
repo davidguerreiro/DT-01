@@ -19,11 +19,14 @@ public class MainMenuManager : MonoBehaviour {
     public float secondsBeforeRemoveCover = 1f;             // Seconds to wait before removing scene cover.
     public float secondsBeforeDisplayDSText = 1f;           // Seconds before display developer text in the game scene.
     public float secondsDSTextDisplayed = 1f;               // Seconds the Developer text is displayed in the game scene.
+    public float secondsBeforeDisplayingTitle = 1f;         // Seconds before displaying game title in the game scene.
+    public float secondsBeforeDisplayingComponents = 1f;    // Seconds before displaying the rest of the components in the game scene.
 
     [Header("Animations Settings")]
     public float screenCoverFadeInSpeed = 1f;               // Screen cover fade in animation speed.
     public float screenCoverFadeOutSpeed = 1f;              // Screen cover fade out animation speed.
     public float developerTextAnimSpeed = 1f;               // Developer text fade animation speed.
+    public float titleAnimationSpeed = 1f;                  // Title animation speed.
 
     
     private AudioComponent _audio;                          // Audio component reference.
@@ -81,6 +84,36 @@ public class MainMenuManager : MonoBehaviour {
         yield return new WaitForSecondsRealtime( secondsDSTextDisplayed );
         dsTopText.FadeOut( developerTextAnimSpeed );
         dsText.FadeOut( developerTextAnimSpeed );
+
+        // display game title.
+        yield return new WaitForSecondsRealtime( secondsBeforeDisplayingTitle );
+        title.FadeIn( titleAnimationSpeed );
+
+        // display rest of game components.
+        yield return new WaitForSecondsRealtime( secondsBeforeDisplayingComponents );
+        logo.FadeIn();
+        yield return new WaitForSecondsRealtime( .8f );
+        versionText.FadeIn();
+        yield return new WaitForSecondsRealtime( .8f );
+
+        // display menu.
+        foreach ( FadeElement menuItem in menuItems ) {
+            menuItem.FadeIn( .2f );
+        }
+
+        yield return new WaitForSecondsRealtime( 1f );
+
+        for ( int i = 0; i < menuItems.Length; i++ ) {
+            if ( i > 0 ) {
+                menuItems[i].HalfFadeOut( .7f );
+            }
+        }
+
+        yield return new WaitForSeconds( 1f );
+
+        if ( UIManager.instance != null ) {
+            UIManager.instance.DisplayCursor();
+        }
 
         _inCinematic = false;
     }
