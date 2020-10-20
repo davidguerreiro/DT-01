@@ -11,6 +11,14 @@ public class MainMenuButton : MonoBehaviour {
     private AudioComponent _audio;                              // Audio component reference.
 
     /// <summary>
+    /// Start is called on the frame when a script is enabled just before
+    /// any of the Update methods is called the first time.
+    /// </summary>
+    void Start() {
+        Init();
+    }
+
+    /// <summary>
     /// Hover by mouse logic.
     /// </summary>
     public void Hover() {
@@ -50,7 +58,12 @@ public class MainMenuButton : MonoBehaviour {
 
         switch ( optionLogic ) {
             case "Play":
-                // TODO: Play any animation or sound required.
+                // play second sound in the sounds array ( position 1 ).
+                _audio.PlaySound( 1 );
+                StartCoroutine( MainMenuManager.instance.StartGameAnim() );
+
+                // wait two extra seconds after the animation finishes before loading next scene.
+                yield return new WaitForSecondsRealtime( MainMenuManager.instance.startGameAnimationWait + 4f );
                 SceneManager.LoadScene( "01-1-Landing-Area" );
                 break;
             case "Options":

@@ -105,7 +105,7 @@ public class AudioComponent : MonoBehaviour {
     /// <param name="toPause">bool - song will be paused if true. Otherwise stopped. False by default</param>
     /// <param name="restartVolume">bool - whether to restart volume to original value after the songs fades out</param>
     /// <returns>IEnumerator</retruns>
-    private IEnumerator FadeOutSongRoutine( float speed = 1f, bool toPause = false, bool restartVolume = true ) {
+    public IEnumerator FadeOutSongRoutine( float speed = 1f, bool toPause = false, bool restartVolume = true ) {
         onFade = true;
          
         while ( audio.volume > 0f ) {
@@ -136,7 +136,7 @@ public class AudioComponent : MonoBehaviour {
     /// <param name="selectClip">bool - whether to select another clip in the array to play. Default to false</param>
     /// <param name="clip">int - Clip to play. Only works if selectClip is set to true. Default to 0</param>
     /// <returns>IEnumerator</retruns>
-    private IEnumerator FadeInSongRoutine( float speed = 1f, float startVolume = 0f, float maxVolume = 1f, bool selectClip = false, int clip = 0 ) {
+    public IEnumerator FadeInSongRoutine( float speed = 1f, float startVolume = 0f, float maxVolume = 1f, bool selectClip = false, int clip = 0 ) {
         onFade = true;
         audio.volume = startVolume;
 

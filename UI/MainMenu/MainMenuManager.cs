@@ -27,6 +27,7 @@ public class MainMenuManager : MonoBehaviour {
     public float screenCoverFadeOutSpeed = 1f;              // Screen cover fade out animation speed.
     public float developerTextAnimSpeed = 1f;               // Developer text fade animation speed.
     public float titleAnimationSpeed = 1f;                  // Title animation speed.
+    public float startGameAnimationWait = 1f;               // Start game animation wait time between screen cover and game
 
     
     private AudioComponent _audio;                          // Audio component reference.
@@ -109,13 +110,25 @@ public class MainMenuManager : MonoBehaviour {
             }
         }
 
-        yield return new WaitForSeconds( 1f );
+        yield return new WaitForSecondsRealtime( 1f );
 
         if ( UIManager.instance != null ) {
-            UIManager.instance.DisplayCursor();
+//            UIManager.instance.DisplayCursor();
         }
 
         _inCinematic = false;
+    }
+
+    /// <summary>
+    /// Start game UI animation.
+    /// </summary>
+    /// <returns>IEnumerator</returns>
+    public IEnumerator StartGameAnim() {
+        StartCoroutine( _audio.FadeOutSongRoutine() );
+        screenCover.FadeIn( .6f );
+
+        yield return new WaitForSecondsRealtime( startGameAnimationWait );
+        title.FadeOut( .1f );
     }
 
     /// <summary>
