@@ -75,7 +75,6 @@ public class MainMenuButton : MonoBehaviour {
                 // TODO: Load credits scene.
                 break;
             case "Quit":
-                // TODO: Play any animatio or sound required.
                 Application.Quit();
                 break;
             default:

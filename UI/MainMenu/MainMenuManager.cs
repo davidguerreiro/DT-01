@@ -113,7 +113,7 @@ public class MainMenuManager : MonoBehaviour {
         yield return new WaitForSecondsRealtime( 1f );
 
         if ( UIManager.instance != null ) {
-//            UIManager.instance.DisplayCursor();
+            UIManager.instance.cursorEnabled = true;
         }
 
         _inCinematic = false;
