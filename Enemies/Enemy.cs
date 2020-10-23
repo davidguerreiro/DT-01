@@ -188,7 +188,6 @@ public abstract class Enemy : MonoBehaviour {
             _agent.SetDestination( destination );
 
             do {
-
                 if ( isChasingPlayer ) {
                     destination = Player.instance.transform.position;
                     _agent.SetDestination( destination );
@@ -198,8 +197,6 @@ public abstract class Enemy : MonoBehaviour {
                 if ( ! _agent.pathPending && _agent.remainingDistance <= _agent.stoppingDistance && ( _agent.hasPath || _agent.velocity.sqrMagnitude == 0f ) ) {
                     onNavMeshPath = false;
                 }
-
-                // Debug.Log( "onPath" );
                 yield return new WaitForFixedUpdate();
             } while ( onNavMeshPath );
         } else {
@@ -705,7 +702,6 @@ public abstract class Enemy : MonoBehaviour {
 
         // get navmeshagent component reference.
         _agent = GetComponent<NavMeshAgent>();
-
     }
 
 }

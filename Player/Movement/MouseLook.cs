@@ -17,7 +17,11 @@ public class MouseLook : MonoBehaviour {
     public float minimunVert = -45f;                        // Minimum angles to look down.
     public float maximunVert = 45f;                         // Maximium angles to look up.
 
+    public float acceleration = 10f;                        // How fast the maximun speed will be reached.
+    public float decceleration = 10f;
+
     private float _rotationX = 0f;                          // This is used to calculate the rotation X real value for player after appliying rotation constraints.
+    private float speed = 0f;                               // Real movement speed calculated after applied acceleration.
 
     void Start() {
         Rigidbody rigidbody = GetComponent<Rigidbody>();
@@ -41,6 +45,8 @@ public class MouseLook : MonoBehaviour {
 
         if ( axes == RotationAxes.MouseX ) {
             // horizontal rotation here.
+            // Debug.Log( Input.GetAxis( "Mouse X" ) );
+
             transform.Rotate( 0f, Input.GetAxis( "Mouse X" ) * sensitivityHor, 0f );
         }
         else if ( axes == RotationAxes.MouseY ) {
@@ -67,4 +73,13 @@ public class MouseLook : MonoBehaviour {
 
         }
     }
+
+    /// <summary>
+    /// Get current acceleration.
+    /// </summary>
+    /// <returns>float</returns>
+    private float CalculateAcceleration() {
+        return 0f;
+    }
+
 }

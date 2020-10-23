@@ -5,19 +5,11 @@ using UnityEngine;
 public class MeteoWorm : Enemy {
     private Animator _anim;                             // Animator component reference.
     private AudioComponent _audio;                      // Audio component reference.
-    private float _animSpeed = 1f;                     // Animation speed multiplier. Used to increase / decrease animation speed.
-
-    [Header("Testing")]
-    public Transform destinationTest;               
+    private float _animSpeed = 1f;                     // Animation speed multiplier. Used to increase / decrease animation speed.      
 
     // Start is called before the first frame update
     void Start() {
         Init();
-
-        if ( destinationTest != null ) {
-            // Move( new Vector3( destinationTest.position.x, transform.position.y, destinationTest.position.z ), true );
-            // Rotate( destinationTest );
-        }
     }
 
     /// <summary>
