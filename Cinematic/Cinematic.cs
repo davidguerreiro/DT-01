@@ -7,7 +7,7 @@ public abstract class Cinematic : MonoBehaviour {
     public string cinematicName;                            // Cinematic name.
 
     [Header("Camera")]
-    public Camera cineCamera;                               // TODO: Replace by cinematic camera controller.
+    public Animator cameraAnim;                             // Camera animator.
 
     [Header("Actors")]
     public PlayerActor player;                              // This actor represents the player in the animation.
@@ -16,7 +16,7 @@ public abstract class Cinematic : MonoBehaviour {
 
     [Header("Status")]
     public bool inProgress = false;                         // Flag to control whether the cinematic is currently in progress.
-    public bool completed =  false;                         // Flag to controle wheter the cinematic has already happened.
+    public bool completed = false;                         // Flag to controle wheter the cinematic has already happened.
 
     [HideInInspector]
     public Coroutine cinematicRoutine;                      // Cinematic coroutine reference.
@@ -25,7 +25,7 @@ public abstract class Cinematic : MonoBehaviour {
     /// Play cinematic.
     /// </summary>
     /// <returns>IEnumerator</returns>
-    public abstract IEnumerator PlayCinematic();
+    protected abstract IEnumerator PlayCinematic();
 
     /// <summary>
     /// Stop cinematic.

@@ -7,6 +7,7 @@ public abstract class Actor : MonoBehaviour {
     [Header("Settings")]
     public bool animated = true;                                // Flag to control if this actor uses animations.
     public float moveSpeed = 1f;                                // Movement speed value.
+    public float animMoveSpeed = 1f;                            // Animation movement speed value.
     public GameObject[] interactables;                          // Scene Interactables.
 
     [Header("Status")]
@@ -68,12 +69,12 @@ public abstract class Actor : MonoBehaviour {
         transform.LookAt( destination );
         yield return new WaitForSeconds( .1f );
 
-        
+        _anim.SetFloat( "AnimSpeed", animMoveSpeed );
+
         float remainingDistance = ( transform.position - destination ).sqrMagnitude;
 
         // move using rigibody and physics engine.
         while ( remainingDistance > 0.1f ) {
-            Debug.Log( "here we are");
             Vector3 newPosition = Vector3.MoveTowards( _rigi.position, destination, ( moveSpeed * extraSpeed ) * Time.deltaTime );
             _rigi.MovePosition( newPosition );
 
@@ -91,6 +92,8 @@ public abstract class Actor : MonoBehaviour {
         } else {
             state = "idle";
         }
+
+        _anim.SetFloat( "AnimSpeed", 1f );
 
         isMoving = false;
         moveCoroutine = null;

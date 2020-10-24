@@ -14,6 +14,7 @@ public class MainMenuManager : MonoBehaviour {
     public FadeElement dsText;                              // Developer section text element component.
     public FadeElement screenCover;                         // Screen cover fade element component.
     public Animator cameraAnim;                             // Camera animator component reference.
+    public MainTitleCinematic mainTitleCinematic;           // Main title cinematic component reference.
 
     [Header("Cinematic Settings")]
     public float secondsBeforeRemoveCover = 1f;             // Seconds to wait before removing scene cover.
@@ -71,9 +72,10 @@ public class MainMenuManager : MonoBehaviour {
 
         yield return new WaitForSecondsRealtime( secondsBeforeRemoveCover );
 
-        // play camera cinematic animation.
+        // play camera cinematic animation and play player actor movement animation.
         cameraAnim.SetBool( "PlayCinematic", true );
         yield return new WaitForSecondsRealtime( .5f );
+        mainTitleCinematic.Play();
         screenCover.FadeOut( screenCoverFadeOutSpeed );
 
         // display developer text.
