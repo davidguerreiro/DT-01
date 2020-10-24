@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Actor : MonoBehaviour {
+public abstract class Actor : MonoBehaviour {
 
     [Header("Settings")]
-    public bool animated = true;
-    public float moveSpeed = 1f;                            // Movement speed value.
-    public GameObject[] interactables;                      // Scene Interactables.
+    public bool animated = true;                                // Flag to control if this actor uses animations.
+    public float moveSpeed = 1f;                                // Movement speed value.
+    public GameObject[] interactables;                          // Scene Interactables.
 
     [Header("Status")]
-    public string state = "idle";                           // Current machine state for animations.
-    public bool isMoving = false;                           // Flag to control movement.
+    public string state = "idle";                               // Current machine state for animations.
+    public bool isMoving = false;                               // Flag to control movement.
 
     [HideInInspector]
-    public Coroutine moveCoroutine;                         // Move coroutine reference.
+    public Coroutine moveCoroutine;                             // Move coroutine reference.
 
-    protected Animator _anim;                                 // Animator component reference.
-    protected Rigidbody _rigi;                                // Rigibody component reference.
-    protected AudioComponent _audio;                          // Audio component reference.
+    protected Animator _anim;                                   // Animator component reference.
+    protected Rigidbody _rigi;                                  // Rigibody component reference.
+    protected AudioComponent _audio;                            // Audio component reference.
 
     public enum ActionType {
         bolean,
@@ -35,6 +35,23 @@ public class Actor : MonoBehaviour {
     // Update is called once per frame.
     void Update() {
         
+        if ( animated ) {
+            CheckAnimationStatus();
+        }
+    }
+
+    /// <summary>
+    /// Check base animation status.
+    /// </summary>
+    private void CheckAnimationStatus() {
+
+        // check for walking animation.
+        if ( state == "walking" ) {
+            _anim.SetBool( "walking", true );
+        } else {
+            _anim.SetBool( "walking", false );
+        }
+
     }
 
     /// <summary>
@@ -45,6 +62,7 @@ public class Actor : MonoBehaviour {
     /// <param name="newState">State - New state to apply to actor when the movement coroutine finishes. Default to null.</param>
     public virtual IEnumerator Move( Vector3 destination, float extraSpeed = 1f, string newState = null ) {
         isMoving = true;
+        state = "walking";
 
         // TODO: Replace by rotate method.
         transform.LookAt( destination );
@@ -70,6 +88,8 @@ public class Actor : MonoBehaviour {
 
         if ( newState != null ) {
             state = newState;
+        } else {
+            state = "idle";
         }
 
         isMoving = false;
