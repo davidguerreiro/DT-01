@@ -73,11 +73,11 @@ public abstract class Actor : MonoBehaviour {
 
         // move using rigibody and physics engine.
         while ( remainingDistance > 0.1f ) {
-
+            Debug.Log( "here we are");
             Vector3 newPosition = Vector3.MoveTowards( _rigi.position, destination, ( moveSpeed * extraSpeed ) * Time.deltaTime );
             _rigi.MovePosition( newPosition );
 
-            // ensure enemy is looking at the new destination.
+            // ensure actor is looking at the new destination.
             transform.LookAt( destination );
 
             yield return new WaitForFixedUpdate();

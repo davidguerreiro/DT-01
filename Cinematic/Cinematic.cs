@@ -12,6 +12,7 @@ public abstract class Cinematic : MonoBehaviour {
     [Header("Actors")]
     public PlayerActor player;                              // This actor represents the player in the animation.
     // TODO: Incluye other actors like enemies, NPC or inanimated.
+    // TODO: Incluye UI elements like screen cover and dialogue system reference.
 
     [Header("Status")]
     public bool inProgress = false;                         // Flag to control whether the cinematic is currently in progress.
@@ -25,4 +26,18 @@ public abstract class Cinematic : MonoBehaviour {
     /// </summary>
     /// <returns>IEnumerator</returns>
     public abstract IEnumerator PlayCinematic();
+
+    /// <summary>
+    /// Stop cinematic.
+    /// </summary>
+    public void StopCinematic() {
+        if ( inProgress ) {
+            inProgress = false;
+        }
+
+        if ( cinematicRoutine != null ) {
+            StopCoroutine( cinematicRoutine );
+            cinematicRoutine = null;
+        } 
+    }
 }

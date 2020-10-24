@@ -6,7 +6,7 @@ public class TestCinematic : Cinematic {
 
     // Start is called before the first frame update
     void Start() {
-        
+        cinematicRoutine = StartCoroutine( PlayCinematic() );
     }
 
     // Update is called once per frame
@@ -20,9 +20,10 @@ public class TestCinematic : Cinematic {
     /// <returns>IEnumerator</returns>
     public override IEnumerator PlayCinematic() {
         inProgress = true;
+        yield return new WaitForSecondsRealtime( 2.5f );
         
         // move player actor.
-        player.moveCoroutine = StartCoroutine( player.Move( player.interactables[1].transform.position ) );
+        player.moveCoroutine = StartCoroutine( player.Move( player.interactables[0].transform.position ) );
 
         do {
             yield return new WaitForFixedUpdate();
