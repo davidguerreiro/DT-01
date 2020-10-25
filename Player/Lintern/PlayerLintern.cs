@@ -18,13 +18,16 @@ public class PlayerLintern : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        ListenForUserEvent();
 
-        // update battery level based on usage.
-        UpdateBatteryLevel();
+        if ( ! GameManager.instance.isPaused ) {
+            ListenForUserEvent();
 
-        // check if the battery level has been drained.
-        CheckBatteryLevel();
+            // update battery level based on usage.
+            UpdateBatteryLevel();
+
+            // check if the battery level has been drained.
+            CheckBatteryLevel();
+        }
     }
 
     /// <summary>

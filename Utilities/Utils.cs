@@ -32,7 +32,7 @@ public class Utils : MonoBehaviour {
         
         // Quit game when pressing escape key.
         if ( Input.GetKeyDown( "escape" ) ) {
-            QuitGame();
+            // QuitGame();
         }
 
         // Open debug menu.

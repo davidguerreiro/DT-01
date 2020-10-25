@@ -13,11 +13,6 @@ public abstract class Cristal : MonoBehaviour {
         Init();
     }
 
-    // Update is called once per frame
-    void Update() {
-        
-    }
-
     /// <summary>
     /// Init class method.
     /// </summary>

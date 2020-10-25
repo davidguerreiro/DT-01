@@ -36,7 +36,7 @@ public abstract class Actor : MonoBehaviour {
     // Update is called once per frame.
     void Update() {
         
-        if ( animated ) {
+        if ( animated && ! GameManager.instance.isPaused) {
             CheckAnimationStatus();
         }
     }

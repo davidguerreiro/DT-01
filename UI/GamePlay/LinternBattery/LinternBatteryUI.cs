@@ -35,22 +35,25 @@ public class LinternBatteryUI : MonoBehaviour {
     // Update is called once per frame.
     void Update() {
 
-        // check whether the bar needs to be hiden.
-        if ( _slider.value == _slider.maxValue ) {
-            Hide();
-        }
-        
-        // update slider value based on lintern data object value.
-        _slider.value = linternData.currentBattery;
+        if ( ! GameManager.instance.isPaused ) {
 
-        // check if the bar has to be displayed.
-        if ( ! displayed && linternData.enabled ) {
-            Display();
-        }
+            // check whether the bar needs to be hiden.
+            if ( _slider.value == _slider.maxValue ) {
+                Hide();
+            }
+            
+            // update slider value based on lintern data object value.
+            _slider.value = linternData.currentBattery;
 
-        // check whether the bar needs to become transparent.
-        if ( displayed && ! _isTransparent && ! linternData.enabled && _slider.value < _slider.maxValue ) {
-            UpdateToTransparent();
+            // check if the bar has to be displayed.
+            if ( ! displayed && linternData.enabled ) {
+                Display();
+            }
+
+            // check whether the bar needs to become transparent.
+            if ( displayed && ! _isTransparent && ! linternData.enabled && _slider.value < _slider.maxValue ) {
+                UpdateToTransparent();
+            }
         }
     }
     

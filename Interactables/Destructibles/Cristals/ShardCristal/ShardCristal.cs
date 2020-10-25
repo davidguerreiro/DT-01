@@ -25,11 +25,6 @@ public class ShardCristal : Cristal {
         Init();
     }
 
-    // Update is called once per frame
-    void Update() {
-        
-    }
-
     /// <summary>
     /// OnCollisionEnter is called when this collider/rigidbody has begun
     /// touching another rigidbody/collider.

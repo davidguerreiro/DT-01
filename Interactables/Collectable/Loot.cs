@@ -22,15 +22,6 @@ public class Loot : MonoBehaviour {
     public float xVariableDistance = 1f;               // X Variable distance used to randomize X position.
     public float zVariableDistance = 1f;               // Z Variable distance used to randomize Z position.                
 
-
-    /// <summary>
-    /// Start is called on the frame when a script is enabled just before
-    /// any of the Update methods is called the first time.
-    /// </summary>
-    void Start() {
-        Init();
-    }
-
     /// <summary>
     /// Generate loot array of gameObjects.
     /// </summary>
@@ -115,13 +106,5 @@ public class Loot : MonoBehaviour {
             instance.transform.localPosition = instanceLocalPosition;
             instance.transform.parent = null;
         }
-    }
-
-    /// <summary>
-    /// Init class method.
-    /// </summary>
-    private void Init() {
-
-        
     }
 }

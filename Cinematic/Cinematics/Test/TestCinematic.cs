@@ -9,11 +9,6 @@ public class TestCinematic : Cinematic {
         cinematicRoutine = StartCoroutine( PlayCinematic() );
     }
 
-    // Update is called once per frame
-    void Update() {
-        
-    }
-
     /// <summary>
     /// Play cinematic.
     /// </summary>

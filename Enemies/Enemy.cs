@@ -109,7 +109,7 @@ public abstract class Enemy : MonoBehaviour {
     /// </summary>
     void Update() {
 
-        if ( isAlive ) {
+        if ( isAlive && ! GameManager.instance.isPaused ) {
 
             Debug.Log( currentState );
 

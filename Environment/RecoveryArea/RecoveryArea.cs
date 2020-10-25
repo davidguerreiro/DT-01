@@ -22,7 +22,7 @@ public class RecoveryArea : MonoBehaviour {
             while ( player.playerData.hitPoints < player.playerData.maxHitPoints ) {
                 player.RecoverHP( toRecover );
 
-                yield return new WaitForSecondsRealtime( interval );
+                yield return new WaitForSeconds( interval );
             }
 
             _recoverHp = null;

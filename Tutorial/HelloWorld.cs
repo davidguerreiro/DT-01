@@ -7,10 +7,4 @@ public class HelloWorld : MonoBehaviour {
     void Start() {
         Debug.Log( "Hello world this is my 'first' videogame ?? It is not but is ok" );
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

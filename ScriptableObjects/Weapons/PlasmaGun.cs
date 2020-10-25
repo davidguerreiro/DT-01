@@ -22,15 +22,6 @@ public class PlasmaGun : ScriptableObject {
     public float heatedRechargeSpeed;               // Weapon recharge speed when heated. When cooling after heated, the weapon takes more time to recharge.
     public int heatedRechargeThreeshold;            // Threshold used to calculate when the recharge used heated speed or normal speed.
 
-
-    /// <summary>
-    /// Start is called on the frame when a script is enabled just before
-    /// any of the Update methods is called the first time.
-    /// </summary>
-    void Start() {
-        
-    }
-
     /// <summary>
     /// Consume weapon's plasma
     /// when the weapon is shooter.

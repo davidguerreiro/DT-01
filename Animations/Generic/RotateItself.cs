@@ -13,7 +13,7 @@ public class RotateItself : MonoBehaviour {
     // Update is called once per frame
     void Update() {
 
-        if ( _canMove ) {
+        if ( _canMove && ! GameManager.instance.isPaused ) {
             RotateObject();
         }
     }

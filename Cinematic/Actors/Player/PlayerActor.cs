@@ -35,13 +35,13 @@ public class PlayerActor : Actor {
                 case ActionType.bolean:
                     _anim.SetBool( actionName, true );
                     _anim.SetFloat( "AnimSpeed", animSpeed );
-                    yield return new WaitForSecondsRealtime( duration );
+                    yield return new WaitForSeconds( duration );
                     _anim.SetBool( actionName, true ); 
                     break;
                 case ActionType.trigger:
                     _anim.SetTrigger( actionName );
                     _anim.SetFloat( "AnimSpeed", animSpeed );
-                    yield return new WaitForSecondsRealtime( duration );
+                    yield return new WaitForSeconds( duration );
                     break;
                 default:
                     break;

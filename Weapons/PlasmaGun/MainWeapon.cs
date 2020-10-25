@@ -63,27 +63,29 @@ public class MainWeapon : MonoBehaviour {
     /// </summary>
     void Update() {
 
-        // set the weapon animation.
-        SetAnimation();
-        
-        // calculate point in the screen where the bullet is going to be shot at.
-        UpdateShootingOriginPosition();
+        if ( ! GameManager.instance.isPaused ) {
 
-        // check if weapon has cooled.
-        CheckHeatedStatus();
+            // set the weapon animation.
+            SetAnimation();
+            
+            // calculate point in the screen where the bullet is going to be shot at.
+            UpdateShootingOriginPosition();
 
-        // check if the user is clicking the left button mouse to shoot.
-        if ( Input.GetMouseButtonDown( 0 ) && ! plasmaGunData.heated ) {
-            Shoot();
+            // check if weapon has cooled.
+            CheckHeatedStatus();
+
+            // check if the user is clicking the left button mouse to shoot.
+            if ( Input.GetMouseButtonDown( 0 ) && ! plasmaGunData.heated ) {
+                Shoot();
+            }
+
+            // display no ammo sound if the users tries to shoot and the plasma gun is heated.
+            if ( Input.GetMouseButtonDown( 0 ) && plasmaGunData.heated ) {
+
+                // display no ammo sound.
+                _audio.PlaySound( 1 );
+            }
         }
-
-        // display no ammo sound if the users tries to shoot and the plasma gun is heated.
-        if ( Input.GetMouseButtonDown( 0 ) && plasmaGunData.heated ) {
-
-            // display no ammo sound.
-            _audio.PlaySound( 1 );
-        }
-
     }
 
     /// <summary>

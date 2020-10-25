@@ -26,13 +26,16 @@ public class BaseHealthBar : MonoBehaviour {
     // Update is called once per frame
     void Update() {
 
-        // check if text hp value has to be hidden.
-        if ( toHideHP && _hpTextFade.displayed ) {
-            HideHPValueChecker();
-        }
+        if ( ! GameManager.instance.isPaused ) {
 
-        // update health bar with real player hp data.
-        UpdateSliderFromPlayerData();
+            // check if text hp value has to be hidden.
+            if ( toHideHP && _hpTextFade.displayed ) {
+                HideHPValueChecker();
+            }
+
+            // update health bar with real player hp data.
+            UpdateSliderFromPlayerData();
+        }
     }
 
     /// <summary>

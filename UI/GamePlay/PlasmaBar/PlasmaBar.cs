@@ -34,9 +34,12 @@ public class PlasmaBar : MonoBehaviour {
     // Update is called once per frame
     void Update() {
 
-        // check for heated status.
-        if ( displayed ) {
-            CheckIfHeated();
+        if ( ! GameManager.instance.isPaused ) {
+
+            // check for heated status.
+            if ( displayed ) {
+                CheckIfHeated();
+            }
         }
     }
 

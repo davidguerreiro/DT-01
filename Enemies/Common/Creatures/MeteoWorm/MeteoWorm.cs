@@ -181,7 +181,9 @@ public class MeteoWorm : Enemy {
                 PlayAttackSound();
                 _anim.SetFloat( "AnimSpeed", .35f );
                 _anim.SetTrigger( "Attack" );
+                _rigi.isKinematic = false;
                 _rigi.AddForce( Vector3.up * attack.impulse.y );
+                _rigi.isKinematic = true;
                 yield return new WaitForSeconds( 1.1f );
                 break;
             case "Bite":
@@ -209,9 +211,10 @@ public class MeteoWorm : Enemy {
 
                 PlayAttackSound();
                 _anim.SetTrigger( "Attack" );
+                _rigi.isKinematic = false;
                 _rigi.AddRelativeForce( attack.impulse );
+                _rigi.isKinematic = true;
                 
-
                 yield return new WaitForSeconds( .5f );
                 base.attack -= damageV;
                 

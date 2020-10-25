@@ -64,53 +64,60 @@ public class FPSInput : MonoBehaviour {
     /// </summary>
     void Update() {
 
-        // update speed if running.
-        float movementSpeed = ( this.isRunning ) ? runningSpeed : speed;
+        if ( ! GameManager.instance.isPaused ) {
 
-        // get movement input from the player.
-        deltaX = Input.GetAxis( "Horizontal" ) * movementSpeed;
-        deltaZ = Input.GetAxis( "Vertical" ) * movementSpeed;
+            // update speed if running.
+            float movementSpeed = ( this.isRunning ) ? runningSpeed : speed;
 
-        isMovingByInput = false;
+            // get movement input from the player.
+            deltaX = Input.GetAxis( "Horizontal" ) * movementSpeed;
+            deltaZ = Input.GetAxis( "Vertical" ) * movementSpeed;
 
-        // check for player horizontal movement input.
-        if ( canMove ) {
-            if ( Input.GetKey( "a" ) || Input.GetKey( "d" ) || Input.GetKey( KeyCode.LeftArrow ) || Input.GetKey( KeyCode.RightArrow ) ) {
-                isMovingByInput = true;
+            isMovingByInput = false;
+
+            // check for player horizontal movement input.
+            if ( canMove ) {
+                if ( Input.GetKey( "a" ) || Input.GetKey( "d" ) || Input.GetKey( KeyCode.LeftArrow ) || Input.GetKey( KeyCode.RightArrow ) ) {
+                    isMovingByInput = true;
+                }
+
+                if ( Input.GetKey( "w" ) || Input.GetKey( "s" ) || Input.GetKey( KeyCode.LeftArrow ) || Input.GetKey( KeyCode.DownArrow ) ) {
+                    isMovingByInput = true;
+                }
+
+                if ( isMovingByInput ) {
+                    // set mouse X axis rotation looker to parent ( player ).
+                    SwiftMouseLookers( "toParent" );
+                }
             }
 
-            if ( Input.GetKey( "w" ) || Input.GetKey( "s" ) || Input.GetKey( KeyCode.LeftArrow ) || Input.GetKey( KeyCode.DownArrow ) ) {
-                isMovingByInput = true;
+            // movement read input.
+            MovePlayer();
+
+            // jump action.
+            if ( grounded && Input.GetKeyDown( "space" ) ) {
+                
+                if ( isAiming ) {
+                    StopAiming();
+                }
+
+                _jump = StartCoroutine( "Jump" );
             }
 
-            if ( isMovingByInput ) {
-                // set mouse X axis rotation looker to parent ( player ).
-                SwiftMouseLookers( "toParent" );
+            // aim action.
+            if ( grounded && ! isRunning && Input.GetMouseButton( 1 ) ) {
+                Aim();
+            } else {
+                StopAiming();
+            }
+
+            // run action.
+            if ( grounded && isMoving && ! isAiming && Input.GetKey( "left shift" ) ) {
+                this.isRunning = true;
+            } else {
+                this.isRunning = false;
             }
         }
-
-        // movement read input.
-        MovePlayer();
-
-        // jump action.
-        if ( grounded && Input.GetKeyDown( "space" ) ) {
-            _jump = StartCoroutine( "Jump" );
-        }
-
-        // aim action.
-        if ( grounded && ! isRunning && Input.GetMouseButton( 1 ) ) {
-            Aim();
-        } else {
-            StopAiming();
-        }
-
-        // run action.
-        if ( grounded && isMoving && ! isAiming && Input.GetKey( "left shift" ) ) {
-            this.isRunning = true;
-        } else {
-            this.isRunning = false;
-        }
-
     }
 
     /// <summary>

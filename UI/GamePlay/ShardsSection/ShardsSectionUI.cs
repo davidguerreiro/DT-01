@@ -23,16 +23,18 @@ public class ShardsSectionUI : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+
+        if ( ! GameManager.instance.isPaused ) {
         
-        if ( displayed ) {
+            if ( displayed ) {
 
-            // update shards amount in the screen.
-            UpdateShardsAmount();
+                // update shards amount in the screen.
+                UpdateShardsAmount();
 
-            // update hide UI elements counter.
-            UpdateHideCounter();
+                // update hide UI elements counter.
+                UpdateHideCounter();
+            }
         }
-
     }
 
     /// <summary>

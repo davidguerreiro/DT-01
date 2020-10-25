@@ -40,7 +40,10 @@ public class MouseLook : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        UpdatePlayerView();
+
+        if ( ! GameManager.instance.isPaused ) {
+            UpdatePlayerView();
+        }
     }
 
     /// <summary>

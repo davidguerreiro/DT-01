@@ -34,9 +34,11 @@ public class EnemyHPBar : MonoBehaviour {
     /// </summary>
     void Update() {
         
-        /// check if the bar has to be hiden only when it is displayed.
-        if ( displayed ) {
-            CheckIfHideBar();
+        if ( ! GameManager.instance.isPaused ) {
+            /// check if the bar has to be hiden only when it is displayed.
+            if ( displayed ) {
+                CheckIfHideBar();
+            }
         }
     }
 

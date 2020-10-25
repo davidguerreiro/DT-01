@@ -25,10 +25,6 @@ public class EnemyGroup : MonoBehaviour {
         SetUpEnemies();
     }
 
-    // Update is called once per frame
-    void Update() {
-    }
-
     /// <sumamry>
     /// Set up enemy group and id.
     /// </summary>

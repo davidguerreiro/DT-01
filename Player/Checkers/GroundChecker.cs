@@ -22,7 +22,9 @@ public class GroundChecker : MonoBehaviour {
     void Update() {
         
         // play walking sound if player is moving.
-        PlayWalkingSound();
+        if ( ! GameManager.instance.isPaused ) {
+            PlayWalkingSound();
+        }
     }
 
     private void OnTriggerExit(Collider other) {

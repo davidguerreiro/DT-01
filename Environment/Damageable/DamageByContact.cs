@@ -30,7 +30,7 @@ public class DamageByContact : MonoBehaviour {
                 // update player hitPoints.
                 player.GetDamage( - damage );
 
-                yield return new WaitForSecondsRealtime( interval );
+                yield return new WaitForSeconds( interval );
             }
             
         }
