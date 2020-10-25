@@ -7,13 +7,15 @@ public class FPSInput : MonoBehaviour {
     public bool grounded = false;                                       // Flag to check when the player is gounded, that means, it is in contact with a ground suface.
     public bool isMoving = false;                                       // Flag to control whether the player is moving.
     public bool isMovingByInput = false;                                // Checks whether the player is being moved by user input.
-    public bool isRunning = false;                                      // Flat to control whether the player is running.
+    public bool isRunning = false;                                      // Flag to control whether the player is running.
+    public bool isAiming = false;                                       // Flag to control aiming action status.
     public bool canMove = true;                                         // Whether the player can be moved by user input.
     public bool invencible = false;                                     // Whether the player can take damage from enemies or any other damage input.
 
     [Header("Variables")]
     public float speed = 6f;                                            // Movement speed.
     public float runningSpeed = 10f;                                    // Boost to assign to speed when running.
+    public float aimingSpeed = 3f;                                      // Aiming movement speed.
     public float jumpSpeed = 8f;                                        // Jump speed force.
     public float runningJumpBoost = 2.5f;                               // Boost for jumping while running.                   
     public float gravity = - 9.8f;                                       // Grravity value - character controller cannot be used with rigiBody so gravity needs to be defined.
@@ -24,6 +26,7 @@ public class FPSInput : MonoBehaviour {
     [Header("References")]
     public GameObject groundChecker;                                    // Player's ground checker.
     public MainWeapon weapon;                                           // Player's weapon class.
+    public Animator cameraAnim;                                         // Player's main camera animator component reference.
 
     [Header("Movement / Direction")]
     public string xDirection;                                           // Player's x direction.
@@ -46,7 +49,7 @@ public class FPSInput : MonoBehaviour {
     private Coroutine _groundCheckerRoutine;                            // Ground checker coroutine.
     private AudioComponent _audio;                                      // Audio source component.
     private MouseLook[] _cameraMouseLooks;                              // Main camera mouselook scripts.
-    private MouseLook _playerMouseLook;                                  // Player X mouse look component reference.
+    private MouseLook _playerMouseLook;                                 // Player X mouse look component reference.
     private bool _mouseLookSwapt = false;                               // Flag used to control wheter the mouse look component in player has been swapt to children main camera.
     private float invencibleCounter = 0f;                               // Invencible internal counter.
 
@@ -93,8 +96,15 @@ public class FPSInput : MonoBehaviour {
             _jump = StartCoroutine( "Jump" );
         }
 
+        // aim action.
+        if ( grounded && ! isRunning && Input.GetMouseButton( 1 ) ) {
+            Aim();
+        } else {
+            StopAiming();
+        }
+
         // run action.
-        if ( grounded && isMoving && Input.GetKey( "left shift" ) ) {
+        if ( grounded && isMoving && ! isAiming && Input.GetKey( "left shift" ) ) {
             this.isRunning = true;
         } else {
             this.isRunning = false;
@@ -135,8 +145,14 @@ public class FPSInput : MonoBehaviour {
         Vector3 movement = new Vector3();
         float movementSpeed = speed;
             
-        // update speed if running.
-        movementSpeed = ( this.isRunning ) ? runningSpeed : speed;
+        // update speed base on player status.
+        if ( this.isRunning ) {
+            movementSpeed = runningSpeed;
+        } else if ( this.isAiming ) {
+            movementSpeed = aimingSpeed;
+        } else {
+            movementSpeed = speed;
+        }
 
         // get movement input from the player.
         deltaX = Input.GetAxis( "Horizontal" ) * movementSpeed;
@@ -245,6 +261,34 @@ public class FPSInput : MonoBehaviour {
         }
 
         _jump = null;
+    }
+
+    /// <summary>
+    /// Aim player logic.
+    /// </summary>
+    private void Aim() {
+        isAiming = true;
+
+        // camera zoom in animation.
+        cameraAnim.SetBool( "ZoomIn", true );
+
+        // TODO: Call main weapon animation.
+
+    }
+
+    /// <summary>
+    /// Stop aiming.
+    /// </summary>
+    private void StopAiming() {
+        if ( isAiming ) {
+
+            // camera zoom back animation.
+            cameraAnim.SetBool( "ZoomIn", false );
+
+            // TODO: Call main weapon animation.
+
+            isAiming = false; 
+        }
     }
 
     /// <summary>

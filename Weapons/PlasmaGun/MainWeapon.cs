@@ -6,8 +6,8 @@ using UnityEngine;
 public class MainWeapon : MonoBehaviour {
     // TODO: Fix shooting when moving has deviation for bullets.
     // TODO: Add heated shoot not possible to perform sound or animation.
-    
     public FPSInput player;                                     // Player controller class.
+
     [Header("Shooting") ]
     public float shootForce;                                    // Shoot force which determines the speed of the projectile.
     public PlasmaGun plasmaGunData;                             // Plasma gun scriptable object.
