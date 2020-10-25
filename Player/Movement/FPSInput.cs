@@ -27,6 +27,7 @@ public class FPSInput : MonoBehaviour {
     public GameObject groundChecker;                                    // Player's ground checker.
     public MainWeapon weapon;                                           // Player's weapon class.
     public Animator cameraAnim;                                         // Player's main camera animator component reference.
+    public Animator mainWeaponAnim;                                     // Main weapon animator component refernece.
 
     [Header("Movement / Direction")]
     public string xDirection;                                           // Player's x direction.
@@ -264,34 +265,6 @@ public class FPSInput : MonoBehaviour {
     }
 
     /// <summary>
-    /// Aim player logic.
-    /// </summary>
-    private void Aim() {
-        isAiming = true;
-
-        // camera zoom in animation.
-        cameraAnim.SetBool( "ZoomIn", true );
-
-        // TODO: Call main weapon animation.
-
-    }
-
-    /// <summary>
-    /// Stop aiming.
-    /// </summary>
-    private void StopAiming() {
-        if ( isAiming ) {
-
-            // camera zoom back animation.
-            cameraAnim.SetBool( "ZoomIn", false );
-
-            // TODO: Call main weapon animation.
-
-            isAiming = false; 
-        }
-    }
-
-    /// <summary>
     /// Disable gound checker just
     /// right after jumping, then
     /// re-enable again to check 
@@ -304,6 +277,36 @@ public class FPSInput : MonoBehaviour {
         groundChecker.SetActive( true ); 
 
         _groundCheckerRoutine = null;
+    }
+
+    /// <summary>
+    /// Aim player logic.
+    /// </summary>
+    private void Aim() {
+        isAiming = true;
+
+        // camera zoom in animation.
+        cameraAnim.SetBool( "ZoomIn", true );
+
+        // weapon zoom animation.
+        mainWeaponAnim.SetBool( "aim", true );
+
+    }
+
+    /// <summary>
+    /// Stop aiming.
+    /// </summary>
+    private void StopAiming() {
+        if ( isAiming ) {
+
+            // camera zoom back animation.
+            cameraAnim.SetBool( "ZoomIn", false );
+
+            // weapon zoom animation.
+            mainWeaponAnim.SetBool( "aim", false );
+
+            isAiming = false; 
+        }
     }
 
     /// <summary>
