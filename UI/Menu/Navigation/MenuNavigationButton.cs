@@ -24,7 +24,7 @@ public class MenuNavigationButton : MonoBehaviour {
     /// </summary>
     public void Hover() {
         if ( ! active && _button.interactable && ! textAnim.displayed ) {
-            _audio.PlaySound();
+            _audio.PlaySound( 0 );          // Play first sound in the sound pool.
             textAnim.FadeIn( 1f );          // Standard fade speed;
         }
     }
