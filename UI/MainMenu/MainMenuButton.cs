@@ -24,7 +24,7 @@ public class MainMenuButton : MonoBehaviour {
     public void Hover() {
         if ( ! textAnim.displayed ) {
             _audio.PlaySound();
-            textAnim.FadeIn( 1f );
+            textAnim.FadeIn( 1f );      // Standard fade speed.
         }
     }
 
