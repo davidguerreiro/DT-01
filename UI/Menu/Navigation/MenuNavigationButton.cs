@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class MenuNavigationButton : MonoBehaviour {
     // TODO: Add section class reference.
-    public string sectionName;                              // Section name - this is to identify which section will be loaded by this button
+    public string sectionName;                              // Section name - this is to identify which section will be loaded by this button.
     public bool active = false;                             // Flag to control if this is the active section.
     public FadeElement textAnim;                            // Fade text component reference.
 
     [HideInInspector]
-    public Coroutine loadingSection;                       // Loading section coroutine reference.
+    public Coroutine loadingSection;                        // Loading section coroutine reference.
     private AudioComponent _audio;                          // Audio component reference.
     private Button _button;                                 // Button component reference.
 
