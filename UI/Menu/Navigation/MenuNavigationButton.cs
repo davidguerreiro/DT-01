@@ -49,6 +49,18 @@ public class MenuNavigationButton : MonoBehaviour {
     }
 
     /// <summary>
+    /// Unselected logic.
+    /// Usually called when another section
+    /// has been selected.
+    /// </summary>
+    public void UnSelected() {
+        if ( active ) {
+            active = false;
+            Unhover();
+        }
+    }
+
+    /// <summary>
     /// Load section attached to
     /// this button in the game menu.
     /// </summary>
