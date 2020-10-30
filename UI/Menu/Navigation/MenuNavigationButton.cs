@@ -13,6 +13,7 @@ public class MenuNavigationButton : MonoBehaviour {
     public Coroutine loadingSection;                        // Loading section coroutine reference.
     private AudioComponent _audio;                          // Audio component reference.
     private Button _button;                                 // Button component reference.
+    private MenuNavigation _menuNavigation;                 // Menu navigation class component reference.
 
     // Start is called before the first frame update
     void Start() {
@@ -44,6 +45,11 @@ public class MenuNavigationButton : MonoBehaviour {
     public void Selected() {
         if ( ! active ) {
             active = true;
+            
+            if ( _menuNavigation != null ) {
+                _menuNavigation.DisableAll( sectionName );
+            }
+            
             loadingSection = StartCoroutine( LoadSection() );
         }
     }
@@ -81,5 +87,8 @@ public class MenuNavigationButton : MonoBehaviour {
 
         // get button component reference.
         _button = GetComponent<Button>();
+
+        // get menu navigation component reference.
+        _menuNavigation = GetComponentInParent<MenuNavigation>();
     }
 }
