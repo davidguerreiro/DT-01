@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SystemButton : MonoBehaviour {
     public int id;                                          // Button id.
@@ -8,6 +9,7 @@ public class SystemButton : MonoBehaviour {
     public string description;                              // Button action description.
 
     private AudioComponent _audio;                          // Audio component.
+    private Button _button;                                 // Button component.
     
     /// <summary>
     /// Start is called on the frame when a script is enabled just before
@@ -15,6 +17,15 @@ public class SystemButton : MonoBehaviour {
     /// </summary>
     void Start() {
         Init();
+    }
+
+    /// <summary>
+    /// Hover.
+    /// </summary>
+    public void Hover() {
+        if ( _button.interactable ) {
+            _audio.PlaySound(0);
+        }
     }
     
     /// <summary>
@@ -44,5 +55,8 @@ public class SystemButton : MonoBehaviour {
 
         // get audio component reference.
         _audio = GetComponent<AudioComponent>();
+
+        // get button component reference.
+        _button = GetComponent<Button>();
     }
 }
