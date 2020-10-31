@@ -142,4 +142,38 @@ public static class ScriptablesMenu  {
 
         ProjectWindowUtil.CreateAsset( asset, path );
     }
+
+    [MenuItem( "Assets/Create/Items/Generic")]
+    /// <summary>
+    /// Add Item generic object scriptable item
+    /// in the scriptables menu.
+    /// </summary>
+    public static void AddItemGenericTypeObjectScriptableObject() {
+
+        var asset = ScriptableObject.CreateInstance<ItemData>();
+
+        // if needs preconfiguration. add here.
+
+        var path = AssetDatabase.GetAssetPath( Selection.activeObject );
+        path += "/newGenericItem.asset";
+
+        ProjectWindowUtil.CreateAsset( asset, path );
+    }
+
+    [MenuItem( "Assets/Create/Items/HealthKit")]
+    /// <summary>
+    /// Add Health kit generic object scriptable item
+    /// in the scriptables menu.
+    /// </summary>
+    public static void AddHealthKitTypeObjectScriptableObject() {
+
+        var asset = ScriptableObject.CreateInstance<HealthKitData>();
+
+        // if needs preconfiguration. add here.
+
+        var path = AssetDatabase.GetAssetPath( Selection.activeObject );
+        path += "/newHealthKit.asset";
+
+        ProjectWindowUtil.CreateAsset( asset, path );
+    }
 }
