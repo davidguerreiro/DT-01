@@ -10,7 +10,7 @@ public abstract class Collectable : MonoBehaviour {
     };
 
     public Type type;                                   // Collectible type. Stackable for inventary-type collectables and non-stackable for collecting only items like shards.
-    protected bool _collided = false;                    // Whether the obejct has been collided, thus collected by the player. This is neccesary to be used because the item is not destroyed automatically after the collision.
+    protected bool _collided = false;                   // Whether the obejct has been collided, thus collected by the player. This is neccesary to be used because the item is not destroyed automatically after the collision.
 
     /// <summary>
     /// Collect method.
