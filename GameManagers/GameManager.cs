@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     private void CheckForUserInput() {
         
-        if ( Input.GetKeyDown( "escape" ) ) {
+        if ( Input.GetKeyDown( "escape" ) || Input.GetKeyDown( "return" ) ) {
             if ( ! isPaused && inGamePlay && ! MenuManager.instance.displayed ) {
                 PauseGame();
             } else if ( isPaused && inGamePlay && MenuManager.instance.displayed ) {

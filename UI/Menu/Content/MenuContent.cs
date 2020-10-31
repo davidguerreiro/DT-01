@@ -42,7 +42,7 @@ public class MenuContent : MonoBehaviour {
 
         // hide current section.
         sections[currentID].Hide();
-        yield return new WaitForSeconds( waitInBetween );
+        yield return new WaitForSecondsRealtime( waitInBetween );
         sections[currentID].gameObject.SetActive( false );
 
         // display new section.

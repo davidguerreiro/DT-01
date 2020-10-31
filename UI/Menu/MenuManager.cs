@@ -58,7 +58,7 @@ public class MenuManager : MonoBehaviour {
 
         // display menu background and sections.
         background.FadeIn();
-        yield return new WaitForSeconds( 1f );
+        yield return new WaitForSecondsRealtime( .3f );
         menuNavigation.gameObject.SetActive( true );
         menuContent.gameObject.SetActive( true );
 
@@ -77,7 +77,7 @@ public class MenuManager : MonoBehaviour {
         menuContent.gameObject.SetActive( false );
         menuNavigation.gameObject.SetActive( false );
         background.FadeOut();
-        yield return new WaitForSeconds( 1f );
+        yield return new WaitForSecondsRealtime( .5f );
 
         displayed = false;
         _animRoutine = null;        
