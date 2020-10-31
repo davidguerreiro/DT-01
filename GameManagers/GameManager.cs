@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
     public static GameManager instance;                         // Public static instance of this variable.
     [Header("Status")]
+    public bool inGamePlay = true;                              // Flag to control whether the player can have gameplay control.
     public bool isPaused = false;                               // Flag to control paused game.
 
     [Header("Private Settings")]
@@ -33,11 +34,12 @@ public class GameManager : MonoBehaviour {
     private void CheckForUserInput() {
         
         if ( Input.GetKeyDown( "escape" ) ) {
-            if ( isPaused ) {
-                ResumeGame();
-            } else {
+            if ( ! isPaused && inGamePlay && ! MenuManager.instance.displayed ) {
                 PauseGame();
+            } else if ( isPaused && inGamePlay && MenuManager.instance.displayed ) {
+                ResumeGame();
             }
+            
         }
 
     }
@@ -48,6 +50,10 @@ public class GameManager : MonoBehaviour {
     public void PauseGame() {
         isPaused = true;
         Time.timeScale = 0;
+
+        // display menu.
+        MenuManager.instance.Display();
+
         UIManager.instance.cursorEnabled = true;
     }
 
@@ -57,6 +63,9 @@ public class GameManager : MonoBehaviour {
     public void ResumeGame() {
         isPaused = false;
         Time.timeScale = 1;
+
+        // hide menu.
+        MenuManager.instance.Hide();
         UIManager.instance.cursorEnabled = false;
     }
 }

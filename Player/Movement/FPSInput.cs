@@ -64,7 +64,7 @@ public class FPSInput : MonoBehaviour {
     /// </summary>
     void Update() {
 
-        if ( ! GameManager.instance.isPaused ) {
+        if ( GameManager.instance.inGamePlay && ! GameManager.instance.isPaused ) {
 
             // update speed if running.
             float movementSpeed = ( this.isRunning ) ? runningSpeed : speed;

@@ -24,6 +24,14 @@ public class MenuManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Start is called on the frame when a script is enabled just before
+    /// any of the Update methods is called the first time.
+    /// </summary>
+    void Start() {
+        Init();
+    }
+
+    /// <summary>
     /// Display menu when the game is paused.
     /// </summary>
     public void Display() {
@@ -45,7 +53,7 @@ public class MenuManager : MonoBehaviour {
     /// Display coroutine.
     /// </summary>
     /// <returns>IEnumerator</returns>
-    public IEnumerator DisplayRoutine() {
+    private IEnumerator DisplayRoutine() {
         _audio.PlaySound( 0 );
 
         // display menu background and sections.
@@ -62,7 +70,7 @@ public class MenuManager : MonoBehaviour {
     /// Hide coroutine.
     /// </summary>
     /// <returns>IEnumerator</returns>
-    public IEnumerator HideRoutine() {
+    private IEnumerator HideRoutine() {
         _audio.PlaySound( 1 );
 
         // display menu background and sections.
