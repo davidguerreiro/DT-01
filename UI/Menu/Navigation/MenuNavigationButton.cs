@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MenuNavigationButton : MonoBehaviour {
-    // TODO: Add section class reference.
+    public int id;                                          // Section id.
     public string sectionName;                              // Section name - this is to identify which section will be loaded by this button.
     public bool active = false;                             // Flag to control if this is the active section.
     public FadeElement textAnim;                            // Fade text component reference.
+    public MenuContent contentSection;                      // Menu content section manager class reference.
 
     [HideInInspector]
     public Coroutine loadingSection;                        // Loading section coroutine reference.
@@ -50,7 +51,8 @@ public class MenuNavigationButton : MonoBehaviour {
                 _menuNavigation.DisableAll( sectionName );
             }
             
-            loadingSection = StartCoroutine( LoadSection() );
+            // load this section into the content section.
+            contentSection.SwitchSection( id );
         }
     }
 
@@ -64,17 +66,6 @@ public class MenuNavigationButton : MonoBehaviour {
             active = false;
             Unhover();
         }
-    }
-
-    /// <summary>
-    /// Load section attached to
-    /// this button in the game menu.
-    /// </summary>
-    /// <returns>IEnumerator</returns>
-    private IEnumerator LoadSection() {
-        // TODO: Trigger load section attached to this button here.
-        loadingSection = null;
-        yield break;
     }
 
     /// <summary>
