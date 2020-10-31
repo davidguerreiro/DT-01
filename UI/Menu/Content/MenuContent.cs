@@ -49,6 +49,7 @@ public class MenuContent : MonoBehaviour {
         sections[sectionID].gameObject.SetActive( true );
         sections[sectionID].Display();
 
+        currentID = sectionID;
         _animRoutine = null;
     }
 

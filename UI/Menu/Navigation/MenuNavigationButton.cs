@@ -11,7 +11,6 @@ public class MenuNavigationButton : MonoBehaviour {
     public MenuContent contentSection;                      // Menu content section manager class reference.
 
     [HideInInspector]
-    public Coroutine loadingSection;                        // Loading section coroutine reference.
     private AudioComponent _audio;                          // Audio component reference.
     private Button _button;                                 // Button component reference.
     private MenuNavigation _menuNavigation;                 // Menu navigation class component reference.
@@ -48,7 +47,7 @@ public class MenuNavigationButton : MonoBehaviour {
             active = true;
             
             if ( _menuNavigation != null ) {
-                _menuNavigation.DisableAll( sectionName );
+                _menuNavigation.DisableAll( id );
             }
             
             // load this section into the content section.

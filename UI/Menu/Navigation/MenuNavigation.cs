@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MenuNavigation : MonoBehaviour {
-    public string currentSelected;                                              // Current selected.
+    public int currentSelected;                                              // Current selected.
     public MenuNavigationButton[] navigationButtons;                            // Menu navigation buttons reference.
 
     // Start is called before the first frame update
@@ -16,12 +16,14 @@ public class MenuNavigation : MonoBehaviour {
     /// when a new section is selected.
     /// </summary>
     /// <param name="current">string - new current selected. Used to avoid disabling the new section.</param>
-    public void DisableAll( string current ) {
+    public void DisableAll( int sectionId ) {
         foreach ( MenuNavigationButton navigationButton in navigationButtons ) {
-            if ( navigationButton.sectionName != currentSelected ) {
+            if ( navigationButton.id != sectionId ) {
                 navigationButton.UnSelected();
             }
         }
+
+        currentSelected = sectionId;
     }
 
     /// <summary>
@@ -30,7 +32,7 @@ public class MenuNavigation : MonoBehaviour {
     private void Init() {
         // set current selected ( by default the first section in the menu buttons array ).
         if ( navigationButtons.Length > 0 ) {
-            currentSelected = navigationButtons[0].sectionName;
+            currentSelected = navigationButtons[0].id;
         }
     }
     
