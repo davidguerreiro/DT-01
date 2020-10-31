@@ -16,13 +16,6 @@ public class FadeElement : MonoBehaviour {
     private Image _image;                                   // Image component reference.
     private Text _text;                                     // Text component reference.
 
-
-    /**
-    * Fade idle / half fade from displayed = 0
-    * Fade Out  = -1
-    * Fade In   = 1
-    */
-
     // Start is called before the first frame update
     void Start() {
         Init();
@@ -83,7 +76,7 @@ public class FadeElement : MonoBehaviour {
     public void HalfFadeOut() {
 
         if ( _animator != null ) {
-            _animator.SetInteger( "FadeState", 0 );
+            _animator.SetInteger( "FadeState", 2 );
             displayed = false;
         }
     }
@@ -97,7 +90,7 @@ public class FadeElement : MonoBehaviour {
 
         if ( _animator != null ) {
             _animator.SetFloat( "FadeInSpeed", speed );
-            _animator.SetInteger( "FadeState", 0 );
+            _animator.SetInteger( "FadeState", 2 );
             displayed = false;
         }
     }

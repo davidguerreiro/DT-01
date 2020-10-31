@@ -33,6 +33,7 @@ public class MenuNavigation : MonoBehaviour {
         // set current selected ( by default the first section in the menu buttons array ).
         if ( navigationButtons.Length > 0 ) {
             currentSelected = navigationButtons[0].id;
+            navigationButtons[0].textAnim.FadeIn();
         }
     }
     

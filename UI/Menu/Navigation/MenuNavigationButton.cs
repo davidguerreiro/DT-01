@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class MenuNavigationButton : MonoBehaviour {
     public int id;                                          // Section id.
     public string sectionName;                              // Section name - this is to identify which section will be loaded by this button.
-    public bool active = false;                             // Flag to control if this is the active section.
+    public bool active;                                     // Flag to control if this is the active section.
     public FadeElement textAnim;                            // Fade text component reference.
     public MenuContent contentSection;                      // Menu content section manager class reference.
 
