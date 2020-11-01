@@ -15,6 +15,13 @@ public class FadeElement : MonoBehaviour {
     private Animator _animator;                             // Animator component reference.
     private Image _image;                                   // Image component reference.
     private Text _text;                                     // Text component reference.
+    
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
+    void Awake() {
+        Init();
+    }
 
     // Start is called before the first frame update
     void Start() {
@@ -157,7 +164,9 @@ public class FadeElement : MonoBehaviour {
     private void Init() {
 
         // get animator component reference.
-        _animator = GetComponent<Animator>();
+        if ( _animator == null ) {
+            _animator = GetComponent<Animator>();
+        }
 
         // get raw colour component reference.
         GetRawColourComponent();
