@@ -5,9 +5,6 @@ using UnityEngine;
 public class Shard : Collectable {
     public PlayerStats playerStats;                     // Data source, used to update player amount of shards.
     public int value;                                   // How many shards collected by this shard.
-    public GameObject model;                            // 3D shard model.
-    private AudioComponent _audio;                      // Audio component class component reference.
-
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
@@ -53,14 +50,6 @@ public class Shard : Collectable {
     }
 
     /// <summary>
-    /// Disable child gameobjects.
-    /// Use when collecting the shard.
-    /// </summary>
-    private void DisableModels() {
-        model.SetActive( false );
-    }
-
-    /// <summary>
     /// OnTriggerEnter is called when the Collider other enters the trigger.
     /// </summary>
     /// <param name="other">The other Collider involved in this collision.</param>
@@ -74,13 +63,8 @@ public class Shard : Collectable {
     /// <summary>
     /// Init class method.
     /// </summary>
-    private void Init() {
-
-        // set audio component reference.
-        if ( _audio == null ) {
-            _audio = GetComponent<AudioComponent>();
-        }   
-
+    protected override void Init() {
+        base.Init();
     }
 
 
