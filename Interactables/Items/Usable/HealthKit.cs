@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class HealthKit : Item {
-    // public new HealthKitData data;                                  // Health kit data object.
     
     /// <summary>
     /// Use item action.
