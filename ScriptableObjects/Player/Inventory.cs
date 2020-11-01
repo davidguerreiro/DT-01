@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Inventory : ScriptableObject {
-    public string type;                                                         // Inventory type.
+    public ItemData.Type type;                                                   // Inventory type.
 
     public class InventoryItem {                                                // Inventory item class.
         public Item item;
