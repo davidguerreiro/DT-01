@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class UsableItem : MonoBehaviour {
+    public ItemData data;                                           // Item data object.
     protected Coroutine useCoroutine;                               // Use action coroutine reference.
 
     /// <summary>
     /// Use item action.
     /// </summary>
-    /// <returns>void</returns>
     public abstract void Use();
 
     /// <summary>
