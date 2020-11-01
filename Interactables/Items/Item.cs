@@ -2,21 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class UsableItem : Item {
+public abstract class Item : MonoBehaviour {
+    public ItemData data;                           // Item data source.
+    protected Coroutine useCoroutine;                 // Use coroutine.
 
     /// <summary>
     /// Use item action.
     /// </summary>
-    public override void Use() {
-        return;
-    }
+    public abstract void Use();
 
     /// <summary>
     /// Use item action coroutine.
     /// Item use logic goes here.
     /// </summary>
     /// <returns>IEnumerator</returns>
-    protected override IEnumerator UseRoutine() {
-        yield break;
-    }
+    protected abstract IEnumerator UseRoutine();
 }
