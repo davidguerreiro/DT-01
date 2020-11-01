@@ -7,7 +7,7 @@ using UnityEditor;
 public static class ScriptablesMenu  {
 
 
-    [MenuItem( "Assets/Create/Scriptables/Build")]
+    [MenuItem( "Assets/Create/System/Build")]
     /// <summary>
     /// Add build scriptable item
     /// in the scriptables menu.
@@ -24,7 +24,7 @@ public static class ScriptablesMenu  {
         ProjectWindowUtil.CreateAsset( asset, path );
     }
 
-    [MenuItem( "Assets/Create/Scriptables/PlayerStats")]
+    [MenuItem( "Assets/Create/Player/PlayerStats")]
     /// <summary>
     /// Add Player State scriptable item
     /// in the scriptables menu.
@@ -41,7 +41,7 @@ public static class ScriptablesMenu  {
         ProjectWindowUtil.CreateAsset( asset, path );
     }
 
-    [MenuItem( "Assets/Create/Scriptables/PlayerSkill")]
+    [MenuItem( "Assets/Create/Player/PlayerSkill")]
     /// <summary>
     /// Add Player Skill scriptable item
     /// in the scriptables menu.
@@ -58,7 +58,7 @@ public static class ScriptablesMenu  {
         ProjectWindowUtil.CreateAsset( asset, path );
     }
 
-    [MenuItem( "Assets/Create/Scriptables/PlasmaGun")]
+    [MenuItem( "Assets/Create/Weapons/PlasmaGun")]
     /// <summary>
     /// Add PlasmaGun scriptable item
     /// in the scriptables menu.
@@ -75,7 +75,7 @@ public static class ScriptablesMenu  {
         ProjectWindowUtil.CreateAsset( asset, path );
     }
 
-    [MenuItem( "Assets/Create/Scriptables/Lintern")]
+    [MenuItem( "Assets/Create/Player/Lintern")]
     /// <summary>
     /// Add Lintern scriptable item
     /// in the scriptables menu.
@@ -173,6 +173,23 @@ public static class ScriptablesMenu  {
 
         var path = AssetDatabase.GetAssetPath( Selection.activeObject );
         path += "/newHealthKit.asset";
+
+        ProjectWindowUtil.CreateAsset( asset, path );
+    }
+
+    [MenuItem( "Assets/Create/Player/Inventory")]
+    /// <summary>
+    /// Add Inventory scriptable item
+    /// in the player scriptables menu.
+    /// </summary>
+    public static void AddInventoryScriptableObject() {
+
+        var asset = ScriptableObject.CreateInstance<Inventory>();
+
+        // if needs preconfiguration. add here.
+
+        var path = AssetDatabase.GetAssetPath( Selection.activeObject );
+        path += "/newInventory.asset";
 
         ProjectWindowUtil.CreateAsset( asset, path );
     }

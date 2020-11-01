@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour {
     public static Player instance;                          // Public static class instance.
     public PlayerStats playerData;                          // Player dynamic data coming from PlayerStats scriptable.
+    public Inventory inventory;                            // Player inventory data coming from Inventory scriptable.
     private AudioComponent _audio;                          // Audio component reference.
 
     [HideInInspector]
