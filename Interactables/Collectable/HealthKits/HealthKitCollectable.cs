@@ -25,20 +25,30 @@ public class HealthKitCollectable : Collectable {
     public override void Collect() {
         base.Collect();
 
-        // TODO: Check if player can collect this health kit and call Add to inventory here.
+        int currentQuantity = Player.instance.basicInventory.GetItemCurrentQuantity( item.data.id );
 
-        // play collection sound.
-        if ( _audio != null ) {
-            _audio.PlaySound();
+        if ( currentQuantity < item.data.maxStack ) {
+
+            // play collection sound.
+            if ( _audio != null ) {
+                _audio.PlaySound();
+            }
+
+            // add item to inventory.
+            if ( currentQuantity > 0 ) {
+                Player.instance.basicInventory.UpdateQuantity( item.data.id, currentQuantity + 1 );
+            } else {
+                Player.instance.basicInventory.AddItem( item );
+            }
+
+            // disable visible assets when the shard has been collected by the player.
+            DisableModels();
+
+            // disable any physical collider in the parent gameObject.
+            Destroy( transform.parent.gameObject.GetComponent<SphereCollider>() );
+
+            Destroy( this.transform.parent.gameObject, 1f );
         }
-
-        // disable visible assets when the shard has been collected by the player.
-        DisableModels();
-
-        // disable any physical collider in the parent gameObject.
-        Destroy( transform.parent.gameObject.GetComponent<SphereCollider>() );
-
-        Destroy( this.transform.parent.gameObject, 1f );
     }
 
 
