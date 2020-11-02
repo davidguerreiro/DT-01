@@ -125,16 +125,34 @@ public class Inventory : ScriptableObject {
     /// </sumamry>
     /// <param name="itemId">int - itemID.</param>
     /// <returns>Item</returns>
-    public Item GetCraftingItem( int itemId ) {
-        Item craftingItem = null;
+    public Item GetItem( int itemId ) {
+        Item item = null;
         
         for ( int i = 0; i < items.Count; i++ ) {
             if ( items[i].item.data.id == itemId ) {
-                craftingItem = items[i].item;
+                item = items[i].item;
                 break;
             }
         }
 
-        return craftingItem;
+        return item;
+    }
+
+    /// <summary>
+    /// Get item quantity
+    /// </sumamry>
+    /// <param name="itemId">int - itemID.</param>
+    /// <returns>int</returns>
+    public int GetItemCurrentQuantity( int itemId ) {
+        int quantity = 0;
+        
+        for ( int i = 0; i < items.Count; i++ ) {
+            if ( items[i].item.data.id == itemId ) {
+                quantity = items[i].quantity;
+                break;
+            }
+        }
+
+        return quantity;
     }
 }

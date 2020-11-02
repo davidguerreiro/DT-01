@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class HealthKitCollectable : Collectable {
-    public HealthKitData data;                              // HealthKit item data.
+    public HealthKit item;                              // HealthKit item reference.
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
