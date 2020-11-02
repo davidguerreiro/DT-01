@@ -39,10 +39,12 @@ public class MenuDescriptionSection : MonoBehaviour {
     /// <param name="sprite">Sprite - sprite image to display</param>
     /// <returns>IEnumerator</returns>
     public IEnumerator UpdateSectionRoutine( string content, Sprite sprite = null ) {
+        bool useImage = ( image != null && imageAnim != null );
+
         if ( displayed ) {
             displayed = false;
             
-            if ( imageAnim.displayed ) {
+            if ( useImage && imageAnim.displayed ) {
                 imageAnim.FadeOut();
             }
             textAnim.FadeOut();
@@ -53,7 +55,7 @@ public class MenuDescriptionSection : MonoBehaviour {
         text.UpdateContent( content );
         textAnim.FadeIn();
         
-        if ( sprite != null ) {
+        if ( useImage && sprite != null ) {
             image.sprite = sprite;
             imageAnim.FadeIn();
         }
