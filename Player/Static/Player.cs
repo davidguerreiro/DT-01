@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
-    public static Player instance;                          // Public static class instance.
-    public PlayerStats playerData;                          // Player dynamic data coming from PlayerStats scriptable.
-    public Inventory inventory;                            // Player inventory data coming from Inventory scriptable.
-    private AudioComponent _audio;                          // Audio component reference.
+    public static Player instance;                         // Public static class instance.
+    public PlayerStats playerData;                         // Player dynamic data coming from PlayerStats scriptable.
+
+    [Header("Inventory")]
+    public Inventory basicInventory;                       // Basic items inventory data coming from Inventory scriptable.
+    public Inventory craftingInventory;                    // Crafting items inventory data coming from Inventory scriptable.
+    public Inventory importantInventory;                   // Important items inventory data comming from Inventory scriptable.
+    private AudioComponent _audio;                         // Audio component reference.
 
     [HideInInspector]
     public FPSInput playerInput;                           // Player input class.
@@ -15,8 +19,6 @@ public class Player : MonoBehaviour {
         if ( instance == null ) {
             instance = this;
         }
-
-        
     }
 
     void Start() {
