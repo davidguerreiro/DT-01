@@ -6,6 +6,14 @@ public class ItemObtainedSection : MonoBehaviour {
     private ObjectPool _notPool;                            // Object pool.
 
     /// <summary>
+    /// Start is called on the frame when a script is enabled just before
+    /// any of the Update methods is called the first time.
+    /// </summary>
+    void Start() {
+        Init();
+    }
+
+    /// <summary>
     /// Spawn object obtained 
     /// notification.
     /// </summary>
@@ -16,7 +24,7 @@ public class ItemObtainedSection : MonoBehaviour {
         MoveNotsUp();
 
         // spawn notification.
-        GameObject objectNot = _notPool.SpawnPrefab( transform.position );
+        GameObject objectNot = _notPool.SpawnPrefab( transform.localPosition );
         if ( objectNot != null ) {
             objectNot.GetComponent<ItemNotification>().DisplayNotification( item, quantity );
         }
@@ -37,6 +45,15 @@ public class ItemObtainedSection : MonoBehaviour {
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// Init class method.
+    /// </summary>
+    private void Init() {
+
+        // get object pool component reference.
+        _notPool = GetComponent<ObjectPool>();
     }
 
 }

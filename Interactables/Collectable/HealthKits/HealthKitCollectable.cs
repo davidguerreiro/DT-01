@@ -51,7 +51,9 @@ public class HealthKitCollectable : Collectable {
             Destroy( this.transform.parent.gameObject, 1f );
         }
 
-        // TODO: Update UI.
+        // Display UI notification.
+        GamePlayUI.instance.itemObtainedSection.SpawnNotification( item, 1 );
+        
         // TODO: Display message inventory full.
     }
 
