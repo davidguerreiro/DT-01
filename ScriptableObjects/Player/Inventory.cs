@@ -18,7 +18,7 @@ public class Inventory : ScriptableObject {
         }
     }
 
-    public List<InventoryItem> items = new List<InventoryItem>();              // List of items for this inventory.
+    public List<InventoryItem> items;                                           // List of items for this inventory.
 
     /// <summary>
     /// Start is called on the frame when a script is enabled just before
@@ -26,6 +26,7 @@ public class Inventory : ScriptableObject {
     /// </summary>
     void Start() {
         if ( restartAtInit ) {
+            Debug.Log( "called" );
             Reset();
         }    
     }

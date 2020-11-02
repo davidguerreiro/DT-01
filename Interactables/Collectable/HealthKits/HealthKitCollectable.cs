@@ -26,6 +26,7 @@ public class HealthKitCollectable : Collectable {
         base.Collect();
 
         int currentQuantity = Player.instance.basicInventory.GetItemCurrentQuantity( item.data.id );
+        Debug.Log( currentQuantity );
 
         if ( currentQuantity < item.data.maxStack ) {
 
@@ -36,7 +37,7 @@ public class HealthKitCollectable : Collectable {
 
             // add item to inventory.
             if ( currentQuantity > 0 ) {
-                Player.instance.basicInventory.UpdateQuantity( item.data.id, currentQuantity + 1 );
+                Player.instance.basicInventory.UpdateQuantity( item.data.id );
             } else {
                 Player.instance.basicInventory.AddItem( item );
             }
@@ -48,6 +49,20 @@ public class HealthKitCollectable : Collectable {
             Destroy( transform.parent.gameObject.GetComponent<SphereCollider>() );
 
             Destroy( this.transform.parent.gameObject, 1f );
+        }
+
+        // TODO: Update UI.
+        // TODO: Display message inventory full.
+    }
+
+    /// <summary>
+    /// OnTriggerEnter is called when the Collider other enters the trigger.
+    /// </summary>
+    /// <param name="other">The other Collider involved in this collision.</param>
+    void OnTriggerEnter( Collider other ) {
+        
+        if ( other.tag == "Player" && ! base._collided ) {
+            Collect();
         }
     }
 

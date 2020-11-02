@@ -6,7 +6,7 @@ public class ObjectPool : MonoBehaviour {
 
     public GameObject prefab;                               // Prefab to be used in the object pool.
     public int poolSize;                                    // Size of the object pool.
-    private List<GameObject> pool;                   // Object pool list.
+    public List<GameObject> pool;                          // Object pool list.
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
