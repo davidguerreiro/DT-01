@@ -47,10 +47,28 @@ public class MenuContent : MonoBehaviour {
 
         // display new section.
         sections[sectionID].gameObject.SetActive( true );
+
+        // run any initialization required on section.
+        RunInitialisations( sectionID );
         sections[sectionID].Display();
 
         currentID = sectionID;
         _animRoutine = null;
+    }
+
+    /// <sumamry>
+    /// Init selected section if
+    /// neccesary.
+    /// </summary>
+    /// <param name="sectionID">int - section id</param>
+    private void RunInitialisations( int sectionID ) {
+        switch( sectionID ) {
+            case 3:
+                sections[sectionID].gameObject.GetComponent<ItemsSections>().InitSection();
+                break;
+            default:
+                break;
+        }
     }
 
     /// <summary>

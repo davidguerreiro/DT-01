@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ItemObtainedSection : MonoBehaviour {
     private ObjectPool _notPool;                            // Object pool.
+    private RectTransform _rect;                            // Rect transform.
 
     /// <summary>
     /// Start is called on the frame when a script is enabled just before
@@ -24,7 +25,7 @@ public class ItemObtainedSection : MonoBehaviour {
         MoveNotsUp();
 
         // spawn notification.
-        GameObject objectNot = _notPool.SpawnPrefab( transform.localPosition );
+        GameObject objectNot = _notPool.SpawnPrefab( _rect.transform.localPosition );
         if ( objectNot != null ) {
             objectNot.GetComponent<ItemNotification>().DisplayNotification( item, quantity );
         }
@@ -54,6 +55,9 @@ public class ItemObtainedSection : MonoBehaviour {
 
         // get object pool component reference.
         _notPool = GetComponent<ObjectPool>();
+
+        // get rect transform component reference.
+        _rect = GetComponent<RectTransform>();
     }
 
 }

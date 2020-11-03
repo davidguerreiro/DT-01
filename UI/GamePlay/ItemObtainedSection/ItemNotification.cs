@@ -62,8 +62,6 @@ public class ItemNotification : MonoBehaviour {
     public void DisplayNotification( Item item, int quantity ) {
 
         if ( _hideCoroutine == null ) {
-
-            Debug.Log( "this was called" );
             // set up item data.
             SetUpItemData( item, quantity );
 
@@ -146,9 +144,7 @@ public class ItemNotification : MonoBehaviour {
     /// Init class method.
     /// </summary>
     private void Init() {
-        Debug.Log( "called here" );
         // get original position.
         _originalPosition = transform.position;
-
     }
 }

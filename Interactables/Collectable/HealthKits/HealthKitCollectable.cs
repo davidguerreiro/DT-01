@@ -26,7 +26,6 @@ public class HealthKitCollectable : Collectable {
         base.Collect();
 
         int currentQuantity = Player.instance.basicInventory.GetItemCurrentQuantity( item.data.id );
-        Debug.Log( currentQuantity );
 
         if ( currentQuantity < item.data.maxStack ) {
 
