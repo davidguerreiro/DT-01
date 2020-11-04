@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   enemyName: MeteoWorm
-  enemySprite: {fileID: 21300000, guid: 0e5816c10a51b4297bf239054b5ccf0c, type: 3}
+  enemySprite: {fileID: 21300000, guid: 5e6ecffb4fa4e4420aae5611743a70a7, type: 3}
   dataNumber: 1
   hp: 10
   attack: 12
@@ -45,5 +45,5 @@ MonoBehaviour:
   strategyEng: They can detect other beings presence by surface vibration, so there
     is no way they can be ambushed from behind. They are quite slow, so, as soon
     as you have them in range, shoot them..
-  defeated: 14
+  defeated: 19
   reset: 0

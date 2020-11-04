@@ -42,6 +42,13 @@ public class TextComponent : MonoBehaviour {
     }
 
     /// <summary>
+    /// Get current text colour.
+    /// </summary>
+    public Color GetColour() {
+        return _content.color;
+    }
+
+    /// <summary>
     /// Init class method.
     /// </summary>
     public void Init() {
