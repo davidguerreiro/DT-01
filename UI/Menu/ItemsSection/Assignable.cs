@@ -34,6 +34,11 @@ public class Assignable : MonoBehaviour {
     /// </summary>
     public void HoverIn() {
 
+        // update background if this assginable has no item assigned.
+        if ( empty ) {
+            _anim.SetBool( "Hover", true );
+        }
+
         // update item image anim when this assignable has an item in.
         if ( ! empty ) {
             itemImageAnim.SetBool( "Hover", true );
@@ -46,6 +51,11 @@ public class Assignable : MonoBehaviour {
     /// from event system component.
     /// </summary>
     public void HoverOut() {
+
+        // update background if this assginable has no item assigned.
+        if ( empty ) {
+            _anim.SetBool( "Hover", false );
+        }
 
         // update item image anim when this assignable has an item in.
         if ( ! empty ) {
