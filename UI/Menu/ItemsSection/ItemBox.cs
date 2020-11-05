@@ -21,7 +21,7 @@ public class ItemBox : MonoBehaviour {
     public Color noEmptyTextColor;                              // Item name color used when the item box has an item inside. 
 
     [Header("Item Instance")]
-    public Item item;                                           // Item class instance saved here for reference.
+    public ItemData itemData;                                           // Item class instance saved here for reference.
 
     private ItemsSections _itemsSections;                       // Item sections class component reference.
     private Animator _anim;                                     // Animator component reference.
@@ -52,7 +52,8 @@ public class ItemBox : MonoBehaviour {
         itemNameText.UpdateColour( noEmptyTextColor );
 
         // save item reference to be used by the player.
-        this.item = item;
+        this.itemData = item.data;
+        Debug.Log( this.itemData );
         empty = false;
     }
 
@@ -80,7 +81,7 @@ public class ItemBox : MonoBehaviour {
         itemNameText.UpdateColour( textDefaultColor );
 
         // remove item reference.
-        this.item = null;
+        this.itemData = null;
         empty = true;
     }
 
@@ -90,13 +91,13 @@ public class ItemBox : MonoBehaviour {
     /// event system component.
     /// </summary>
     public void HoverIn() {
-        if ( ! empty && item != null ) {
+        if ( ! empty && itemData != null ) {
             _audio.PlaySound(0);
             _anim.SetBool( "Hover", true );
 
             // update sidebar description data.
             if ( _itemsSections != null ) {
-                _itemsSections.descriptionSection.UpdateSection( item.data.description_en, item.data.sprite );
+                _itemsSections.descriptionSection.UpdateSection( itemData.description_en, itemData.sprite );
             }
         }
     }
@@ -107,7 +108,7 @@ public class ItemBox : MonoBehaviour {
     /// event system component.
     /// </summary>
     public void HoverOut() {
-        if ( ! empty && item != null ) {
+        if ( ! empty && itemData != null ) {
             _anim.SetBool( "Hover", false );
         }
     }

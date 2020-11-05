@@ -27,7 +27,7 @@ public class MenuDescriptionSection : MonoBehaviour {
     /// <param name="sprite">Sprite - sprite image to display</param>
     public void UpdateSection( string content, Sprite sprite = null ) {
         if ( _updateRoutine == null ) {
-            _updateRoutine = StartCoroutine( content, sprite );
+            _updateRoutine = StartCoroutine( UpdateSectionRoutine( content, sprite ) );
         }
     }
 
