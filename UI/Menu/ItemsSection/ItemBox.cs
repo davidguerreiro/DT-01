@@ -15,6 +15,8 @@ public class ItemBox : MonoBehaviour {
     public TextComponent itemNameText;                          // Item name text component reference.
 
     [Header("Settings")]
+    public Color backgroundDefaultColor;                        // Background color used by default.
+    public Color textDefaultColor;                              // Item name color used by default.
     public Color noEmptyBackgroundColor;                        // Background color used when the item box has an item inside.
     public Color noEmptyTextColor;                              // Item name color used when the item box has an item inside. 
 
@@ -23,14 +25,6 @@ public class ItemBox : MonoBehaviour {
 
     private Color backgroundEmptyColor;                        // Background empty color.
     private Color textEmptyColor;                              // Text empty color.
-
-    /// <summary>
-    /// Start is called on the frame when a script is enabled just before
-    /// any of the Update methods is called the first time.
-    /// </summary>
-    void Start() {
-        Init();
-    }
 
     /// <summary>
     /// Add item.
@@ -74,23 +68,12 @@ public class ItemBox : MonoBehaviour {
         quantityWrapper.SetActive( false );
 
         // update UI to original values.
-        background.color = backgroundEmptyColor;
-        itemNameText.UpdateColour( textEmptyColor );
+        background.color = backgroundDefaultColor;
+        itemNameText.UpdateColour( textDefaultColor );
 
         // remove item reference.
         this.item = null;
         empty = true;
-    }
-
-    /// <summary>
-    /// Init class method.
-    /// </summary>
-    private void Init() {
-
-        // set default colors for when the item box is empty.
-        backgroundEmptyColor = background.color;
-        textEmptyColor = itemNameText.GetColour();
-        Debug.Log( "init called" );
     }
 
 }

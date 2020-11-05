@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class ItemsSections : MonoBehaviour {
 
+    [Header("Inventary Sections")]
     public InventorySection basicInventorySection;                  // Basic inventory section.
     public InventorySection craftingInventorySection;               // Crafting inventory section.
     public InventorySection importantInventorySection;              // Important inventory section.
+
+    [Header("Sidebar")]
+    public MenuDescriptionSection descriptionSection;               // Description section. 
 
     /// <summary>
     /// Initialise section.
