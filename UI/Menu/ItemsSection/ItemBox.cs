@@ -53,7 +53,6 @@ public class ItemBox : MonoBehaviour {
 
         // save item reference to be used by the player.
         this.itemData = item.data;
-        Debug.Log( this.itemData );
         empty = false;
     }
 

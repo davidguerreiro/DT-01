@@ -69,7 +69,7 @@ public class Assignable : MonoBehaviour {
     private void Init() {
 
         // get animator component reference.
-        if ( _anim != null ) {
+        if ( _anim == null ) {
             _anim = GetComponent<Animator>();
         }
     }
