@@ -193,4 +193,21 @@ public static class ScriptablesMenu  {
 
         ProjectWindowUtil.CreateAsset( asset, path );
     }
+
+    [MenuItem( "Assets/Create/Player/ItemAssignable")]
+    /// <summary>
+    /// Add Item Assignable scriptable item
+    /// in the player scriptables menu.
+    /// </summary>
+    public static void AddItemAssignableScriptableObject() {
+
+        var asset = ScriptableObject.CreateInstance<ItemAssignable>();
+
+        // if needs preconfiguration. add here.
+
+        var path = AssetDatabase.GetAssetPath( Selection.activeObject );
+        path += "/newItemAssignable.asset";
+
+        ProjectWindowUtil.CreateAsset( asset, path );
+    }
 }
