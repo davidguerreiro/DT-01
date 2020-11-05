@@ -21,10 +21,18 @@ public class ItemBox : MonoBehaviour {
     public Color noEmptyTextColor;                              // Item name color used when the item box has an item inside. 
 
     [Header("Item Instance")]
-    public Item item;                                          // Item class instance saved here for reference.
+    public Item item;                                           // Item class instance saved here for reference.
 
-    private Color backgroundEmptyColor;                        // Background empty color.
-    private Color textEmptyColor;                              // Text empty color.
+    private ItemsSections _itemsSections;                       // Item sections class component reference.
+    private Animator _anim;                                     // Animator component reference.
+    private AudioComponent _audio;                              // Audio component reference.
+
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
+    void Awake() {
+        Init();
+    }
 
     /// <summary>
     /// Add item.
@@ -74,6 +82,56 @@ public class ItemBox : MonoBehaviour {
         // remove item reference.
         this.item = null;
         empty = true;
+    }
+
+    /// <summary>
+    /// Hover logic.
+    /// This method is triggered from
+    /// event system component.
+    /// </summary>
+    public void HoverIn() {
+        if ( ! empty && item != null ) {
+            _audio.PlaySound(0);
+            _anim.SetBool( "Hover", true );
+
+            // update sidebar description data.
+            if ( _itemsSections != null ) {
+                _itemsSections.descriptionSection.UpdateSection( item.data.description_en, item.data.sprite );
+            }
+        }
+    }
+
+    /// <summary>
+    /// Hover out logic.
+    /// This method is triggered from
+    /// event system component.
+    /// </summary>
+    public void HoverOut() {
+        if ( ! empty && item != null ) {
+            _anim.SetBool( "Hover", false );
+        }
+    }
+    
+
+    /// <summary>
+    /// Init class method.
+    /// </summary>
+    private void Init() {
+
+        // get items section component reference.
+        if ( _itemsSections == null ) {
+            _itemsSections = GetComponentInParent<ItemsSections>();
+        }
+
+        // get audio component.
+        if ( _audio == null ) {
+            _audio = GetComponent<AudioComponent>();
+        }
+
+        // get animator component.
+        if ( _anim == null ) {
+            _anim = GetComponent<Animator>();
+        }
     }
 
 }

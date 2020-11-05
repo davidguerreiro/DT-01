@@ -65,4 +65,19 @@ public class MenuDescriptionSection : MonoBehaviour {
         _updateRoutine = null;
     }
 
+    /// <summary>
+    /// Hide section.
+    /// </summary>
+    public void HideSection() {
+        if ( displayed ) {
+            bool useImage = ( image != null && imageAnim != null );
+            displayed = false;
+            
+            if ( useImage && imageAnim.displayed ) {
+                imageAnim.FadeOut();
+            }
+            textAnim.FadeOut();
+        }
+    }
+
 }
