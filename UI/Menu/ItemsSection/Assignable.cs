@@ -47,6 +47,11 @@ public class Assignable : MonoBehaviour {
 
         // update background if this assginable has no item assigned.
         if ( empty ) {
+
+            // display item temporally to tell the player than the item can be dropped here.
+            if ( DragHandler.itemHandled != null && DragHandler.itemHandled.type == ItemData.Type.basic ) {
+                itemImage.sprite = DragHandler.itemHandled.sprite;
+            }
             _anim.SetBool( "Hover", true );
         }
 
