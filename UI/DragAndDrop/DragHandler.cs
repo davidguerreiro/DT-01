@@ -21,7 +21,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     /// </summary>
     /// <param name="eventData">PointerEventData - Cursir pointer event data</param>
     public void OnBeginDrag( PointerEventData eventData ) {
-        Debug.Log( eventData );
+        _itemBox.DisplayHandlerImage();
     }
 
     /// <summary>
@@ -31,7 +31,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     /// </summary>
     /// <param name="eventData">PointerEventData Cursor pointer event data</param>
     public void OnDrag( PointerEventData eventData ) {
-
+        _itemBox.itemDragImage.gameObject.transform.position = eventData.position;
     }
 
     /// <summary>
@@ -39,7 +39,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     /// </summary>
     /// <param name="eventData">PointerEventData Cursor pointer event data</param>
     public void OnEndDrag( PointerEventData eventData ) {
-
+        _itemBox.HideHandlerImage();
     }
 
     /// <summary>

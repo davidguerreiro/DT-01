@@ -8,6 +8,7 @@ public class ItemBox : MonoBehaviour {
 
     [Header("Components")]
     public Image itemImage;                                     // Item image component reference.
+    public Image itemDragImage;                                 // Item drag image component reference. This image is only used when the item is being dragged by the user.
     public Image background;                                    // Item background image component reference.
     public Sprite defaultSprite;                                // Image sprite to show when the item box is empty.
     public GameObject quantityWrapper;                          // Quantity wrapper gameObject component reference.
@@ -26,6 +27,8 @@ public class ItemBox : MonoBehaviour {
     private ItemsSections _itemsSections;                       // Item sections class component reference.
     private Animator _anim;                                     // Animator component reference.
     private AudioComponent _audio;                              // Audio component reference.
+
+    private Vector3 _imageHandlerOriginalPosition;              // Image handler original position. Once drag and drop event finishes, the image position must be resetd.
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
@@ -111,6 +114,25 @@ public class ItemBox : MonoBehaviour {
             _anim.SetBool( "Hover", false );
         }
     }
+
+    /// <summary>
+    /// Display drag and
+    /// drop handler image.
+    /// </summary>
+    public void DisplayHandlerImage() {
+        _audio.PlaySound(1);
+        itemDragImage.gameObject.SetActive( true );
+    }
+
+    /// <summary>
+    /// Hide drag and drop
+    /// handler image.
+    /// </summary>
+    public void HideHandlerImage() {
+        _audio.PlaySound(2);
+        itemDragImage.gameObject.transform.position = _imageHandlerOriginalPosition;
+        itemDragImage.gameObject.SetActive( false );
+    }
     
 
     /// <summary>
@@ -131,6 +153,10 @@ public class ItemBox : MonoBehaviour {
         // get animator component.
         if ( _anim == null ) {
             _anim = GetComponent<Animator>();
+        }
+
+        if ( _imageHandlerOriginalPosition == null ) {
+            _imageHandlerOriginalPosition = itemDragImage.gameObject.transform.position;
         }
     }
 
