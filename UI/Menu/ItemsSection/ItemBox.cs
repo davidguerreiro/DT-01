@@ -47,6 +47,7 @@ public class ItemBox : MonoBehaviour {
 
         // update box data with item data.
         itemImage.sprite = item.data.sprite;
+        itemDragImage.sprite = item.data.sprite;
         itemNameText.UpdateContent( item.data.itemName_en );
         itemQuantityText.UpdateContent( quantity.ToString() );
 
