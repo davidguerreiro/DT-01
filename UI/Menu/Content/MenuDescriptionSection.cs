@@ -25,9 +25,15 @@ public class MenuDescriptionSection : MonoBehaviour {
     /// </summary>
     /// <param name="content">string - text content</param>
     /// <param name="sprite">Sprite - sprite image to display</param>
-    public void UpdateSection( string content, Sprite sprite = null ) {
+    /// <parma name="simple">bool - Whether to use fade in/out full animation in the update or use simple fade in then only update the content. Pass true for the later one. False by default.</param>
+    public void UpdateSection( string content, Sprite sprite = null, bool simple = false ) {
         if ( _updateRoutine == null ) {
-            _updateRoutine = StartCoroutine( UpdateSectionRoutine( content, sprite ) );
+
+            if ( simple ) {
+                _updateRoutine = StartCoroutine( UpdateSectionRoutineSimple( content, sprite ) );
+            } else {
+                _updateRoutine = StartCoroutine( UpdateSectionRoutine( content, sprite ) );
+            }
         }
     }
 
@@ -62,6 +68,33 @@ public class MenuDescriptionSection : MonoBehaviour {
 
         yield return new WaitForSecondsRealtime( .1f );
         displayed = true;
+        _updateRoutine = null;
+    }
+    
+    /// <summary>
+    /// Update description
+    /// components coroutine.
+    /// Simple version.
+    /// </summary>
+    /// <param name="content">string - text content</param>
+    /// <param name="sprite">Sprite - sprite image to display</param>
+    /// <returns>IEnumerator</returns>
+    public IEnumerator UpdateSectionRoutineSimple( string content, Sprite sprite ) {
+        bool useImage = ( image != null && imageAnim != null );
+
+        text.UpdateContent( content );
+        
+        if ( useImage ) {
+            image.sprite = sprite;
+        }
+
+        if ( ! displayed ) {
+            textAnim.FadeIn();
+            imageAnim.FadeIn();
+            yield return new WaitForSecondsRealtime( .1f );
+            displayed = true;
+        }
+
         _updateRoutine = null;
     }
 

@@ -96,7 +96,7 @@ public class ItemBox : MonoBehaviour {
 
             // update sidebar description data.
             if ( _itemsSections != null ) {
-                _itemsSections.descriptionSection.UpdateSection( itemData.description_en, itemData.sprite );
+                _itemsSections.descriptionSection.UpdateSection( itemData.description_en, itemData.sprite, true );
             }
         }
     }
