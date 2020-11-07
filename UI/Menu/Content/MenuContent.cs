@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +10,8 @@ public class MenuContent : MonoBehaviour {
     public MenuContentSection[] sections;                       // Menu sections reference.
 
     [Header("Settings")]
-    public float waitInBetween = 1f;                            // How long between each section is hide and displayed.                                 
+    public float waitInBetween = 1f;                            // How long between each section is hide and displayed.
+    public int[] requireInit;                                     // Array which contains sections that require initialisation.                                 
     
     private Coroutine _animRoutine;                             // Switch section coroutine.
     private AudioComponent _audio;                              // Audio component reference.
@@ -56,6 +58,17 @@ public class MenuContent : MonoBehaviour {
         _animRoutine = null;
     }
 
+    /// <summary>
+    /// Check if current section
+    /// needs to run Initialisation
+    /// when the menu opens.
+    /// </summary>
+    private void CheckForInit() {
+        if ( requireInit.Contains( currentID ) ) {
+            RunInitialisations( currentID );
+        }
+    }
+
     /// <sumamry>
     /// Init selected section if
     /// neccesary.
@@ -69,6 +82,13 @@ public class MenuContent : MonoBehaviour {
             default:
                 break;
         }
+    }
+
+    /// <summary>
+    /// This function is called when the object becomes enabled and active.
+    /// </summary>
+    void OnEnable() {
+        CheckForInit();
     }
 
     /// <summary>

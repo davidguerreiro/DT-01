@@ -146,7 +146,6 @@ public class Assignable : MonoBehaviour {
     /// This function is called when the object becomes enabled and active.
     /// </summary>
     void OnEnable() {
-        Debug.Log( "on enable" );
         // set up item assigned if required.
         if ( assignableData.itemData != null ) {
             SetUpCurrentAssignated();
