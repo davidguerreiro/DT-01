@@ -30,11 +30,21 @@ public class GamePlayItemSlot : MonoBehaviour {
     void Update() {
         if ( ! GameManager.instance.isPaused ) {
 
-            if (assignableData.itemData != null && _itemAssociated != null ) {
-                // update quantity.
-                UpdateQuantity();
+            ListenForUserEvents();
 
-                ListenForUserEvents();
+            if (assignableData.itemData != null ) {
+                
+                // if there is data in the associated ite,
+                if ( _itemAssociated == null ) {
+                    SetItemAssociated();
+                }
+
+                if ( _itemAssociated != null ) {
+                    itemImage.sprite = _itemAssociated.data.sprite;
+                    // update quantity.
+                    UpdateQuantity();
+                }
+
             } else {
                 // no longer item associated to this item slot.
                 usable = false;
@@ -50,7 +60,7 @@ public class GamePlayItemSlot : MonoBehaviour {
     private void ListenForUserEvents() {
         if ( Input.GetKeyDown( assignableData.keyAssociated ) ) {
             _anim.SetBool( "Use", true );
-            if ( usable && ! inUse && _itemAssociated.useCoroutine != null ) {
+            if ( usable && ! inUse && _itemAssociated != null && _itemAssociated.useCoroutine != null ) {
                 ConsumeItem();
             } else {
                 _audio.PlaySound(0);
@@ -72,7 +82,7 @@ public class GamePlayItemSlot : MonoBehaviour {
             usable = false;
         } else {
             if ( _itemAssociated == null ) {
-                _itemAssociated = Player.instance.basicInventory.GetItem( assignableData.itemData.id );
+                SetItemAssociated();
             }
             itemAnim.SetBool( "Enabled", true );
             usable = true;
@@ -91,6 +101,13 @@ public class GamePlayItemSlot : MonoBehaviour {
     }
 
     /// <summary>
+    /// Set reference to item associated.
+    /// </summary>
+    private void SetItemAssociated() {
+        _itemAssociated = Player.instance.basicInventory.GetItem( assignableData.itemData.id );
+    }
+
+    /// <summary>
     /// Init class method.
     /// </summary>
     private void Init() {
@@ -103,7 +120,7 @@ public class GamePlayItemSlot : MonoBehaviour {
 
         // set up item associated.
         if ( _itemAssociated == null ) {
-            _itemAssociated = Player.instance.basicInventory.GetItem( assignableData.itemData.id );
+            SetItemAssociated();
         }
     }
 }
