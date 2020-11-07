@@ -32,6 +32,7 @@ public class Assignable : MonoBehaviour {
         if ( ! empty ) {
             if ( _cursorIn && Input.GetMouseButton(1) ) {
                 RemoveItem();
+                _anim.SetBool( "Hover", false );
             }
         }
     }
@@ -42,22 +43,23 @@ public class Assignable : MonoBehaviour {
     /// from event system component.
     /// </summary>
     public void HoverIn() {
+        bool audioPlayed = false;
         _cursorIn = true;
-        _audio.PlaySound(0);
-
-        // update background if this assginable has no item assigned.
-        if ( empty ) {
-
-            // display item temporally to tell the player than the item can be dropped here.
-            if ( DragHandler.itemHandled != null && DragHandler.itemHandled.type == ItemData.Type.basic ) {
-                itemImage.sprite = DragHandler.itemHandled.sprite;
-            }
-            _anim.SetBool( "Hover", true );
-        }
 
         // update item image anim when this assignable has an item in.
         if ( ! empty ) {
+            _audio.PlaySound(0);
+            audioPlayed = true;
             itemImageAnim.SetBool( "Hover", true );
+        }
+
+        // display item temporally to tell the player than the item can be dropped here.
+        if ( DragHandler.itemHandled != null && DragHandler.itemHandled.type == ItemData.Type.basic ) {
+            if ( ! audioPlayed ) {
+                _audio.PlaySound(0);
+            }
+            _anim.SetBool( "Hover", true );
+            itemImage.sprite = DragHandler.itemHandled.sprite;
         }
     }
 
@@ -88,11 +90,12 @@ public class Assignable : MonoBehaviour {
     /// assignable.
     /// </summary>
     public void RemoveItem() {
-        _audio.PlaySound(2);
+        _audio.PlaySound(1);
         _anim.SetBool( "ItemAssigned", false );
 
-        assignableData = null;
+        assignableData.itemData = null;
         itemImage.sprite = defaultSprite;
+        empty = true;
     }
 
     /// <summary>
@@ -105,13 +108,34 @@ public class Assignable : MonoBehaviour {
 
         // update background if this assginable has no item assigned.
         if ( empty ) {
-            _anim.SetBool( "Hover", false );
+
+            // display item temporally to tell the player than the item can be dropped here.
+            if ( DragHandler.itemHandled != null && DragHandler.itemHandled.type == ItemData.Type.basic ) {
+                _anim.SetBool( "Hover", false );
+                itemImage.sprite = defaultSprite;
+            }
         }
 
         // update item image anim when this assignable has an item in.
         if ( ! empty ) {
             itemImageAnim.SetBool( "Hover", false );
+
+            if ( DragHandler.itemHandled != null && DragHandler.itemHandled.type == ItemData.Type.basic ) {
+                _anim.SetBool( "Hove", false );
+            }
         }
+    }
+
+    /// <summary>
+    /// Set up current assignated
+    /// item if there is one.
+    /// </summary>
+    private void SetUpCurrentAssignated() {
+        _anim.SetBool( "ItemAssigned", true );
+
+        itemImage.sprite = assignableData.itemData.sprite;
+                
+        empty = false;
     }
 
     /// <summary>
@@ -127,6 +151,16 @@ public class Assignable : MonoBehaviour {
         // get audio component reference.
         if ( _audio == null ) {
             _audio = GetComponent<AudioComponent>();
+        }
+
+        // debug.
+        if ( assignableData.resetAtInit ) {
+            assignableData.Reset();
+        }
+
+        // set up item assigned if required.
+        if ( assignableData.itemData != null ) {
+            SetUpCurrentAssignated();
         }
     }
 }

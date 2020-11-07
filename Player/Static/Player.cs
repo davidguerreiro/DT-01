@@ -103,6 +103,11 @@ public class Player : MonoBehaviour {
 
         // get player input class reference.
         playerInput = GetComponent<FPSInput>();
+
+        // initialize inventories.
+        basicInventory.Init();
+        craftingInventory.Init();
+        importantInventory.Init();
     }
     
 }

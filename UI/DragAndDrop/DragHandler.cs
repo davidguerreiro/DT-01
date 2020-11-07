@@ -41,6 +41,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     /// </summary>
     /// <param name="eventData">PointerEventData Cursor pointer event data</param>
     public void OnEndDrag( PointerEventData eventData ) {
+        itemHandled = null;
         _canvasGroup.blocksRaycasts = true;
         _itemBox.HideHandlerImage();
     }

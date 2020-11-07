@@ -1,13 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Inventory : ScriptableObject {
     public ItemData.Type type;                                                  // Inventory type.
     
     [Header("Debug")]
     public bool restartAtInit;                                                  // Debug - clears the inventory when the game scene is loaded.
 
+    [System.Serializable]
     public class InventoryItem {                                                // Inventory item class.
         public Item item;
         public int quantity;
@@ -18,31 +21,8 @@ public class Inventory : ScriptableObject {
         }
     }
 
-    public List<InventoryItem> items = new List<InventoryItem>();              // List of items for this inventory.
-
-    /// <summary>
-    /// Start is called on the frame when a script is enabled just before
-    /// any of the Update methods is called the first time.
-    /// </summary>
-    void Start() {
-        if ( restartAtInit ) {
-            Debug.Log( "called" );
-            Reset();
-        }    
-    }
-
-    /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
-    /// </summary>
-    void Update() {
-        // testing.
-        if ( type == ItemData.Type.basic ) {
-            for ( int i = 0; i < items.Count; i++ ) {
-                Debug.Log( items[i].item.data.itemName_en );
-                Debug.Log( items[i].quantity );
-            }
-        }
-    }
+    [SerializeField]
+    public List<InventoryItem> items = new List<InventoryItem>();                                           // List of items for this inventory.#
 
     /// <summary>
     /// Add item.
@@ -188,5 +168,18 @@ public class Inventory : ScriptableObject {
     /// </summary>
     private void Reset() {
         items.Clear();
+    }
+
+    /// <summary>
+    /// Init class method.
+    /// </summary>
+    public void Init() {
+        if ( items == null ) {
+            items = new List<InventoryItem>();
+        }
+
+        if ( restartAtInit ) {
+            Reset();
+        }
     }
 }

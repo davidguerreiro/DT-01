@@ -24,7 +24,6 @@ public class Slot : MonoBehaviour, IDropHandler {
     /// method.
     /// </summary>
     public void OnDrop( PointerEventData eventData ) {
-        Debug.Log( eventData );
         _assignable.AssigItem( slotType );
     }
 
