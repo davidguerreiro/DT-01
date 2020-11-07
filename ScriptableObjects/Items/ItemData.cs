@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemData : ScriptableObject {
+public abstract class ItemData : ScriptableObject {
     public int id;                                              // Item id.
 
     [Header("Basic data")]
@@ -30,5 +30,8 @@ public class ItemData : ScriptableObject {
     public string description_en;                               // Item description in English.
     [TextArea]
     public string description_es;                               // Item description in Spanish.
+
+    [Header("Media")]
+    public AudioClip itemUsageSound;                            // Item usage sonud audio clip. Not required.
 
 }

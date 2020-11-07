@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Item : MonoBehaviour {
     public ItemData data;                           // Item data source.
-    protected Coroutine useCoroutine;                 // Use coroutine.
+    public Coroutine useCoroutine;                 // Use coroutine.
 
     /// <summary>
     /// Use item action.
