@@ -10,9 +10,15 @@ public class Assignable : MonoBehaviour {
     public ItemAssignable assignableData;                   // Item assignable data.
 
     [Header("Components")]
+    public Image background;                                // Assignable background image component.
+    public Text text;                                       // Assignable text component.
     public Image itemImage;                                 // Item image displayed in this assignable component.
-    public Animator itemImageAnim;                          // Item image animator component reference.
     public Sprite defaultSprite;                            // Default sprite.
+    public Sprite inUseSprite;                              // Current in-use sprite - used to keep a reference of current item if the user tries to assign new item but the slot is not empty.
+
+    [Header("Defaults")]
+    public Color defaultBackgroundColor;                    // Default color for background. Used to reset element.
+    public Color defaultTextColor;                          // Default color for text. Used to reset element.  
 
     private Animator _anim;                                 // Anim component reference.
     private AudioComponent _audio;                          // Audio component reference.
@@ -43,21 +49,11 @@ public class Assignable : MonoBehaviour {
     /// from event system component.
     /// </summary>
     public void HoverIn() {
-        bool audioPlayed = false;
         _cursorIn = true;
-
-        // update item image anim when this assignable has an item in.
-        if ( ! empty ) {
-            _audio.PlaySound(0);
-            audioPlayed = true;
-            itemImageAnim.SetBool( "Hover", true );
-        }
 
         // display item temporally to tell the player than the item can be dropped here.
         if ( DragHandler.itemHandled != null && DragHandler.itemHandled.type == ItemData.Type.basic ) {
-            if ( ! audioPlayed ) {
-                _audio.PlaySound(0);
-            }
+            _audio.PlaySound(0);
             _anim.SetBool( "Hover", true );
             itemImage.sprite = DragHandler.itemHandled.sprite;
         }
@@ -77,6 +73,7 @@ public class Assignable : MonoBehaviour {
 
                 assignableData.itemData = DragHandler.itemHandled;
                 itemImage.sprite = DragHandler.itemHandled.sprite;
+                inUseSprite = DragHandler.itemHandled.sprite;
                 
                 empty = false;
             }
@@ -92,6 +89,7 @@ public class Assignable : MonoBehaviour {
     public void RemoveItem() {
         _audio.PlaySound(1);
         _anim.SetBool( "ItemAssigned", false );
+        _anim.SetBool( "Hover", false );
 
         assignableData.itemData = null;
         itemImage.sprite = defaultSprite;
@@ -118,10 +116,9 @@ public class Assignable : MonoBehaviour {
 
         // update item image anim when this assignable has an item in.
         if ( ! empty ) {
-            itemImageAnim.SetBool( "Hover", false );
 
             if ( DragHandler.itemHandled != null && DragHandler.itemHandled.type == ItemData.Type.basic ) {
-                _anim.SetBool( "Hove", false );
+                itemImage.sprite = inUseSprite;
             }
         }
     }
@@ -131,11 +128,29 @@ public class Assignable : MonoBehaviour {
     /// item if there is one.
     /// </summary>
     private void SetUpCurrentAssignated() {
-        _anim.SetBool( "ItemAssigned", true );
 
+        Debug.Log( "called" );
         itemImage.sprite = assignableData.itemData.sprite;
+        inUseSprite = itemImage.sprite;
+        
+        background.color = defaultBackgroundColor;
+        // text.color = defaultTextColor;
+
+        _anim.SetBool( "ItemAssigned", true );
                 
         empty = false;
+    }
+    
+    
+    /// <summary>
+    /// This function is called when the object becomes enabled and active.
+    /// </summary>
+    void OnEnable() {
+        Debug.Log( "on enable" );
+        // set up item assigned if required.
+        if ( assignableData.itemData != null ) {
+            SetUpCurrentAssignated();
+        }
     }
 
     /// <summary>
