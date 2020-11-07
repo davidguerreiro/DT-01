@@ -19,7 +19,6 @@ public class ItemsSections : MonoBehaviour {
     /// </summary>
     public void InitSection() {
         
-        Debug.Log( "called init" );
         // update inventories.
         basicInventorySection.UpdateInventory();
         craftingInventorySection.UpdateInventory();

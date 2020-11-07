@@ -120,6 +120,7 @@ public class ItemBox : MonoBehaviour {
     /// Display drag and
     /// drop handler image.
     /// </summary>
+    /// <parma name="playSound">bool - whether to play drop sound</param>
     public void DisplayHandlerImage() {
         _audio.PlaySound(1);
         itemDragImage.gameObject.SetActive( true );
@@ -129,8 +130,12 @@ public class ItemBox : MonoBehaviour {
     /// Hide drag and drop
     /// handler image.
     /// </summary>
-    public void HideHandlerImage() {
-        _audio.PlaySound(2);
+    /// <parma name="playSound">bool - whether to play drop sound</param>
+    public void HideHandlerImage( bool playSound = true ) {
+        if ( playSound ) {
+            _audio.PlaySound(2);
+        }
+        
         itemDragImage.gameObject.transform.position = _imageHandlerOriginalPosition;
         itemDragImage.gameObject.SetActive( false );
     }

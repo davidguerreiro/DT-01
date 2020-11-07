@@ -41,9 +41,25 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     /// </summary>
     /// <param name="eventData">PointerEventData Cursor pointer event data</param>
     public void OnEndDrag( PointerEventData eventData ) {
+        EndDrag();
+    }
+
+    /// <summary>
+    /// Logic run when the player finishes
+    /// the drag and drop action.
+    /// </summary>
+    /// <param name="playSound">bool - whether to play drop sound or not</param>
+    public void EndDrag( bool playSound = true ) {
         itemHandled = null;
         _canvasGroup.blocksRaycasts = true;
-        _itemBox.HideHandlerImage();
+        _itemBox.HideHandlerImage( playSound );
+    }
+
+    /// <summary>
+    /// This function is called when the object becomes enabled and active.
+    /// </summary>
+    void OnEnable() {
+        EndDrag( false );
     }
 
     /// <summary>
