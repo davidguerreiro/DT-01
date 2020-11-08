@@ -56,7 +56,7 @@ public class Inventory : ScriptableObject {
         items.Add( newItem );
 
         // add item gameObject reference to scene inventory.
-        SceneInventory.instance.AddItem( item.gameObject, item.data.type );
+        SceneInventory.instance.AddItem( item.gameObject.transform.parent.gameObject, item.data.type );
 
         return allAdded;
     }
@@ -126,7 +126,7 @@ public class Inventory : ScriptableObject {
 
         if ( index > -1 && itemToRemove != null ) {
             // remove item from physical inventory in the scene.
-            SceneInventory.instance.RemoveItem( itemToRemove.gameObject, itemToRemove.data.type );
+            SceneInventory.instance.RemoveItem( itemToRemove.gameObject.transform.parent.gameObject, itemToRemove.data.type );
 
             // remove from inventory list.
             items.RemoveAt( index );
