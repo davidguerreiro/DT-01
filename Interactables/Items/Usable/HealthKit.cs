@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class HealthKit : Item {
-    
+        
     /// <summary>
     /// Use item action.
     /// </summary>

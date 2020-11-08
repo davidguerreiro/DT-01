@@ -48,9 +48,13 @@ public class HealthKitCollectable : Collectable {
             StopParticles();
 
             // disable any physical collider in the parent gameObject.
-            Destroy( transform.parent.gameObject.GetComponent<SphereCollider>() );
+            if ( item.data.id == 2 ) {
+                // big health kit uses capsule collider.
+                Destroy( transform.parent.gameObject.GetComponent<CapsuleCollider>() );
+            } else {
+                Destroy( transform.parent.gameObject.GetComponent<SphereCollider>() );
+            }
 
-            // Destroy( this.transform.parent.gameObject, 1f );
         }
 
         // Display UI notification.
