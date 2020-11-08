@@ -93,9 +93,6 @@ public class GamePlayItemSlot : MonoBehaviour {
     /// item.
     /// </summary>
     private void ConsumeItem() {
-        if ( assignableData.itemData.itemUsageSound != null ) {
-            _audio.PlayClip( assignableData.itemData.itemUsageSound, true );
-        }
         _itemAssociated.Use();
     }
 

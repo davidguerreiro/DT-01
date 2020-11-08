@@ -32,6 +32,7 @@ public abstract class ItemData : ScriptableObject {
     public string description_es;                               // Item description in Spanish.
 
     [Header("Media")]
-    public AudioClip itemUsageSound;                            // Item usage sonud audio clip. Not required.
+    public AudioClip itemUsageSound;                            // Item usage sound audio clip. Not required.
+    public AudioClip itemFailedSound;                           // Item wrong or failed sound audio clip. Not required.
 
 }

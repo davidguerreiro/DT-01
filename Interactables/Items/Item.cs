@@ -9,6 +9,7 @@ public abstract class Item : MonoBehaviour {
     /// <summary>
     /// Use item action.
     /// </summary>
+    /// <parma name="audioSource">AudioComponent - Audio source to play sounds. Passed by reference.</param>
     public abstract void Use();
 
     /// <summary>

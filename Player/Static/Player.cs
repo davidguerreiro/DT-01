@@ -76,10 +76,12 @@ public class Player : MonoBehaviour {
     }
 
     /// <summary>
-    /// Get healed
+    /// Get healed.
     /// </summary>
-    /// <param name="recoveryPoints">float - how many points the player recovers</param>
-    public void RecoverHP( float recoveryPoints ) {
+    /// <param name="recoveryPoints">float - how many points the player recovers.</param>
+    /// <param name="playSound">bool - whether to play default recovery sounds. True by default.</param>
+    /// <param name="alternativeSound">AudioClip - alternative healing sound. Not required.</param>
+    public void RecoverHP( float recoveryPoints, bool playSound = true, AudioClip alternativeSound = null ) {
         
         if ( playerData.hitPoints < playerData.maxHitPoints ) {
             
@@ -87,7 +89,13 @@ public class Player : MonoBehaviour {
             playerData.UpdateHitPoints( recoveryPoints );
 
             // play healing sound.
-            _audio.PlaySound( 3 );
+            if ( playSound ) {
+                if ( alternativeSound != null ) {
+                    _audio.PlayClip( alternativeSound );
+                } else {
+                    _audio.PlaySound( 3 );
+                }
+            }
 
             // display UI elements.
             if ( GamePlayUI.instance != null ) {
