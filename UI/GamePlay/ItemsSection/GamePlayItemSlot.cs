@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GamePlayItemSlot : MonoBehaviour {
+    public KeyCode usageKey;                            // Check which key is used to trigger associated item usage method.
     [Header("Status")]
     public bool usable;                                 // Whether the item ( if any ) assigned here has stock so can be used by the player.
     public bool inUse;                                  // Whether this item is being used, so it cannot be used againg after this flag is set to false. Usually passed by reference to Item Use method.
@@ -33,16 +34,17 @@ public class GamePlayItemSlot : MonoBehaviour {
             ListenForUserEvents();
 
             if (assignableData.itemData != null ) {
-                
+                  
                 // if there is data in the associated ite,
-                if ( _itemAssociated == null ) {
-                    SetItemAssociated();
-                }
+                SetItemAssociated();
 
                 if ( _itemAssociated != null ) {
                     itemImage.sprite = _itemAssociated.data.sprite;
                     // update quantity.
                     UpdateQuantity();
+                } else {
+                    quantityText.UpdateContent( "x0" );
+                    itemAnim.SetBool( "Enabled", false );
                 }
 
             } else {
@@ -58,9 +60,9 @@ public class GamePlayItemSlot : MonoBehaviour {
     /// Listen for user events.
     /// </summary>
     private void ListenForUserEvents() {
-        if ( Input.GetKeyDown( assignableData.keyAssociated ) ) {
+        if ( Input.GetKeyDown( usageKey ) ) {
             _anim.SetBool( "Use", true );
-            if ( usable && ! inUse && _itemAssociated != null && _itemAssociated.useCoroutine != null ) {
+            if ( usable && ! inUse && _itemAssociated != null && _itemAssociated.useCoroutine == null ) {
                 ConsumeItem();
             } else {
                 _audio.PlaySound(0);
@@ -73,17 +75,14 @@ public class GamePlayItemSlot : MonoBehaviour {
     /// screen.
     /// </summary>
     public void UpdateQuantity() {
-        int currentQuantityData = Player.instance.basicInventory.GetItemCurrentQuantity( assignableData.itemData.id );
-        quantityText.UpdateContent( "x" + currentQuantityData.ToString() );
+        int currentQuantityValue = Player.instance.basicInventory.GetItemCurrentQuantity( assignableData.itemData.id );
+        quantityText.UpdateContent( "x" + currentQuantityValue.ToString() );
 
-        if ( currentQuantityData == 0 ) {
+        if ( currentQuantityValue == 0 ) {
             itemAnim.SetBool( "Enabled", false );
             _itemAssociated = null;
             usable = false;
         } else {
-            if ( _itemAssociated == null ) {
-                SetItemAssociated();
-            }
             itemAnim.SetBool( "Enabled", true );
             usable = true;
         }
@@ -119,7 +118,7 @@ public class GamePlayItemSlot : MonoBehaviour {
         _anim = GetComponent<Animator>();
 
         // set up item associated.
-        if ( _itemAssociated == null ) {
+        if ( assignableData.itemData != null && _itemAssociated == null ) {
             SetItemAssociated();
         }
     }

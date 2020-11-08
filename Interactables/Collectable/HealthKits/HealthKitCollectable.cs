@@ -44,10 +44,13 @@ public class HealthKitCollectable : Collectable {
             // disable visible assets when the shard has been collected by the player.
             DisableModels();
 
+            // disable particles.
+            StopParticles();
+
             // disable any physical collider in the parent gameObject.
             Destroy( transform.parent.gameObject.GetComponent<SphereCollider>() );
 
-            Destroy( this.transform.parent.gameObject, 1f );
+            // Destroy( this.transform.parent.gameObject, 1f );
         }
 
         // Display UI notification.
