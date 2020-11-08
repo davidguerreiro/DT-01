@@ -129,12 +129,10 @@ public class Assignable : MonoBehaviour {
     /// </summary>
     private void SetUpCurrentAssignated() {
 
-        Debug.Log( "called" );
         itemImage.sprite = assignableData.itemData.sprite;
         inUseSprite = itemImage.sprite;
         
         background.color = defaultBackgroundColor;
-        // text.color = defaultTextColor;
 
         _anim.SetBool( "ItemAssigned", true );
                 
