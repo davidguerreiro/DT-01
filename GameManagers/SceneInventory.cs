@@ -24,21 +24,21 @@ public class SceneInventory : MonoBehaviour {
     /// item to scene inventory.
     /// </summary>
     /// <param name="item">GameObject - item gameObject physical reference.</param>
-    /// <param name="inventory">string - to which inventory this item will be stored</parma>
-    public void AddItem( GameObject item, string inventory ) {
+    /// <param name="type">ItemData.Type - to which inventory this item will be stored</param>
+    public void AddItem( GameObject item, ItemData.Type type ) {
         
-        if ( ! CheckIfItemExists( item, inventory ) ) {
+        if ( ! CheckIfItemExists( item, type ) ) {
 
             Transform newParent;
 
-            switch ( inventory ) {
-                case "basic":
+            switch ( type ) {
+                case ItemData.Type.basic:
                     newParent = basicInventory.transform;
                     break;
-                case "crafting":
+                case ItemData.Type.crafting:
                     newParent = craftingInventory.transform;
                     break;
-                case "important":
+                case ItemData.Type.important:
                     newParent = importantInventory.transform;
                     break;
                 default:
@@ -60,20 +60,20 @@ public class SceneInventory : MonoBehaviour {
     /// one of the scene inventories.
     /// </summary>
     /// <param name="item">GameObject - item gameObject physical reference.</param>
-    /// <param name="inventory">string - inventory to look for the item</parma>
+    /// <param name="type">ItemData.Type - to which inventory this item will be stored</param>
     /// <returns>bool</returns>
-    public bool CheckIfItemExists( GameObject item, string inventory ) {
+    public bool CheckIfItemExists( GameObject item, ItemData.Type type ) {
         bool result = false;
         GameObject inventoryToLooK = null;
 
-        switch ( inventory ) {
-            case "basic":
+        switch ( type ) {
+            case ItemData.Type.basic:
                 inventoryToLooK = basicInventory;
                 break;
-            case "crafting":
+            case ItemData.Type.crafting:
                 inventoryToLooK = craftingInventory;
                 break;
-            case "important":
+            case ItemData.Type.important:
                 inventoryToLooK = importantInventory;
                 break;
             default:
@@ -93,20 +93,20 @@ public class SceneInventory : MonoBehaviour {
     /// instance.
     /// </summary>
     /// <param name="itemName">string - item gameObject name.</param>
-    /// <parma name="inventory">string - inventory where search is performed</param>
+    /// <param name="type">ItemData.Type - to which inventory this item will be stored</param>
     /// <returns>GameObject</returns>
-    public GameObject GetItem( string itemName, string inventory ) {
+    public GameObject GetItem( string itemName, ItemData.Type type ) {
         GameObject item = null;
         GameObject inventoryToLook = null;
 
-        switch ( inventory ) {
-            case "basic":
+        switch ( type ) {
+            case ItemData.Type.basic:
                 inventoryToLook = basicInventory;
                 break;
-            case "crafting":
+            case ItemData.Type.crafting:
                 inventoryToLook = craftingInventory;
                 break;
-            case "important":
+            case ItemData.Type.important:
                 inventoryToLook = importantInventory;
                 break;
             default: 
@@ -126,19 +126,19 @@ public class SceneInventory : MonoBehaviour {
     /// scene inventory.
     /// </summary>
     /// <param name="item">GameObject - item gameObject physical reference.</param>
-    /// <param name="inventory">string - inventory to look for the item</parma>
-    public void RemoveItem( GameObject item, string inventory ) {
-        if ( CheckIfItemExists( item, inventory ) ) {
+    /// <param name="type">ItemData.Type - to which inventory this item will be stored</param>
+    public void RemoveItem( GameObject item, ItemData.Type type  ) {
+        if ( CheckIfItemExists( item, type ) ) {
             GameObject inventoryToLook = null;
 
-            switch ( inventory ) {
-                case "basic":
+            switch ( type ) {
+                case ItemData.Type.basic:
                     inventoryToLook = basicInventory;
                     break;
-                case "crafting":
+                case ItemData.Type.crafting:
                     inventoryToLook = craftingInventory;
                     break;
-                case "important":
+                case ItemData.Type.important:
                     inventoryToLook = importantInventory;
                     break;
                 default: 

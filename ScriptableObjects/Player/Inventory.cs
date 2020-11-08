@@ -55,6 +55,9 @@ public class Inventory : ScriptableObject {
         InventoryItem newItem = new InventoryItem( item, quantity );
         items.Add( newItem );
 
+        // add item gameObject reference to scene inventory.
+        SceneInventory.instance.AddItem( item.gameObject, item.data.type );
+
         return allAdded;
     }
 
@@ -111,15 +114,21 @@ public class Inventory : ScriptableObject {
     /// <param name="type">ItemData.Type - item type.</param>
     /// <returns>bool</returns>
     public bool RemoveItem( int itemID ) {
+        Item itemToRemove = null;
         int index = -1;
         
         for ( int i = 0; i < items.Count; i++ ) {
             if ( items[i].item.data.id == itemID ) {
                 index = i;
+                itemToRemove = items[i].item;
             }
         }
 
-        if ( index > -1 ) {
+        if ( index > -1 && itemToRemove != null ) {
+            // remove item from physical inventory in the scene.
+            SceneInventory.instance.RemoveItem( itemToRemove.gameObject, itemToRemove.data.type );
+
+            // remove from inventory list.
             items.RemoveAt( index );
             return true;
         }
