@@ -7,4 +7,13 @@ public class LocalProgression : MonoBehaviour {
 
     [Header("Local Progression Data Source")]
     public EnemyGroupsProgression enemyGroups;                  // Enemy groups progression data reference.
+
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
+    void Awake() {
+        if ( instance == null ) {
+            instance = this;
+        }
+    } 
 }

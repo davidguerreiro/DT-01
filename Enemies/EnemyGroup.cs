@@ -26,6 +26,7 @@ public class EnemyGroup : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         SetUpEnemies();
+        RegisterEnemyGroup();
     }
 
     /// <sumamry>
@@ -37,6 +38,15 @@ public class EnemyGroup : MonoBehaviour {
             enemyRef.enemy.SetEnemyGroup( this );
             enemyRef.enemy.SetPublicId( GenerateEnemyID() );
         }
+    }
+
+    /// <summary>
+    /// Register enemy group
+    /// in local enemy groups
+    /// progression.
+    /// </summary>
+    private void RegisterEnemyGroup() {
+        LocalProgression.instance.enemyGroups.RegisterEnemyGroup( this );
     }
 
     /// <summary>
