@@ -190,6 +190,8 @@ public class EnemyGroup : MonoBehaviour {
             Destroy( enemiesRef[i].enemy.gameObject );
             enemiesRef[i].enemy = null;
         }
+
+        enemiesRef.Clear();
     }
 
     /// <summary>
