@@ -117,7 +117,7 @@ public class MeteoWorm : Enemy {
         _anim.SetBool( "Die", true );
         yield return new WaitForSeconds( timeToDissapear );
 
-        // remove enemy from the scene.
+        // disable enemy.
         RemoveEnemy();
     }
 
@@ -211,8 +211,13 @@ public class MeteoWorm : Enemy {
 
                 PlayAttackSound();
                 _anim.SetTrigger( "Attack" );
+                yield return new WaitForSeconds( .3f );
+
                 _rigi.isKinematic = false;
+                Debug.Log( attack.impulse );
                 _rigi.AddRelativeForce( attack.impulse );
+
+                yield return new WaitForSeconds( .5f );
                 _rigi.isKinematic = true;
                 
                 yield return new WaitForSeconds( .5f );
@@ -307,7 +312,7 @@ public class MeteoWorm : Enemy {
     /// dying.
     /// </summary>
     private void RemoveEnemy() {
-        Destroy( this.gameObject );
+        this.gameObject.SetActive( false );
     }
 
     /// <summary>

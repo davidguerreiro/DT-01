@@ -454,7 +454,7 @@ public abstract class Enemy : MonoBehaviour {
         }
 
         // remove colliders
-        RemoveCollider();
+        UpdateColliderStatus( false );
 
         // disable enemy in the enemy group.
         if ( enemyGroup != null ) {
@@ -477,10 +477,11 @@ public abstract class Enemy : MonoBehaviour {
     }
 
     /// <summary>
-    /// Remove collider when the
-    /// enemy is defeated.
+    /// Update collider 
+    /// enabled value.
     /// </summary>
-    private void RemoveCollider() {
+    /// <param name="newStatus">bool - new collider status.</param>
+    private void UpdateColliderStatus( bool newStatus ) {
 
         foreach ( ColliderType colliderType in colliderTypes ) {
 
@@ -489,12 +490,12 @@ public abstract class Enemy : MonoBehaviour {
                 var childrenColliders = GetComponentsInChildren<SphereCollider>();
 
                 if ( collider != null ) {
-                    Destroy( collider );
+                    collider.enabled = newStatus;
                 }
 
                 if ( childrenColliders != null ) {
                     foreach ( SphereCollider childCollider in childrenColliders ) {
-                        Destroy( childCollider );
+                        childCollider.enabled = newStatus;
                     }
                 }
             } else if ( colliderType == ColliderType.box ) {
@@ -503,12 +504,12 @@ public abstract class Enemy : MonoBehaviour {
                 var childrenColliders = GetComponentsInChildren<BoxCollider>();
 
                 if ( collider != null ) {
-                    Destroy( collider );
+                    collider.enabled = newStatus;
                 }
 
                 if ( childrenColliders != null ) {
                     foreach ( BoxCollider childCollider in childrenColliders ) {
-                        Destroy( childCollider );
+                        childCollider.enabled = newStatus;
                     }
                 }
             } else if ( colliderType == ColliderType.capsule ) {
@@ -517,12 +518,12 @@ public abstract class Enemy : MonoBehaviour {
                 var childrenColliders = GetComponentsInChildren<CapsuleCollider>();
 
                 if ( collider != null ) {
-                    Destroy( collider );
+                    collider.enabled = newStatus;
                 }
 
                 if ( childrenColliders != null ) {
                     foreach ( CapsuleCollider childCollider in childrenColliders ) {
-                        Destroy( childCollider );
+                        childCollider.enabled = newStatus;
                     }
                 }
             } else if ( colliderType == ColliderType.mesh ) {
@@ -531,12 +532,12 @@ public abstract class Enemy : MonoBehaviour {
                 var childrenColliders = GetComponentsInChildren<MeshCollider>();
 
                 if ( collider != null ) {
-                    Destroy( collider );
+                    collider.enabled = newStatus;
                 }
 
                 if ( childrenColliders != null ) {
                     foreach ( MeshCollider childCollider in childrenColliders ) {
-                        Destroy( childCollider );
+                        childCollider.enabled = newStatus;
                     }
                 }
             }
