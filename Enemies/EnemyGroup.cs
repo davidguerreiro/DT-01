@@ -176,7 +176,6 @@ public class EnemyGroup : MonoBehaviour {
         for ( int i = 0; i < enemiesRef.Count; i++ ) {
             if ( enemiesRef[i].enemy != null && enemiesRef[i].enemy.GetPublicId() == enemyID ) {
                 enemiesRef[i].isActive = false;
-                enemiesRef[i].enemy = null;
             }
         }
     }

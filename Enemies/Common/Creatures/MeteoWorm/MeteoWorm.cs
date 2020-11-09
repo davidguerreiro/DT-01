@@ -214,7 +214,6 @@ public class MeteoWorm : Enemy {
                 yield return new WaitForSeconds( .3f );
 
                 _rigi.isKinematic = false;
-                Debug.Log( attack.impulse );
                 _rigi.AddRelativeForce( attack.impulse );
 
                 yield return new WaitForSeconds( .5f );
