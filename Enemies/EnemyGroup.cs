@@ -192,4 +192,17 @@ public class EnemyGroup : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Reset enemy group.
+    /// </summary>
+    public void ResetEnemyGroup() {
+        RemoveAllEnemies();
+
+        if ( spawnOnAwake ) {
+            SpawnEnemies();
+        }
+
+        defeated = false;
+    }
+
 }
