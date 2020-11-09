@@ -12,6 +12,9 @@ public class EnemyGroup : MonoBehaviour {
         public bool isActive;                           // Flag to control whether the enemy is active in the game scene.
     }
 
+    [Header("Status")]
+    public bool defeated;                               // Wheter this enemy group has been defeated.
+
     [Header("Enemies")]
     public Enemies[] enemiesRef = new Enemies[1];       // Enemies which belongs to this enemy group reference.
 

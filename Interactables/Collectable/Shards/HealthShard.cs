@@ -5,9 +5,9 @@ using UnityEngine;
 public class HealthShard : Collectable {
     public PlayerStats playerStats;                     // Data source, used to update player amount of shards.
     public float toRecover;                             // Health recover when this item is collected.
-    public GameObject model;                            // 3D shard model.
+    public new GameObject model;                            // 3D shard model.
     
-    private AudioComponent _audio;                      // Audio component reference.
+    private new AudioComponent _audio;                      // Audio component reference.
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
@@ -54,7 +54,7 @@ public class HealthShard : Collectable {
     /// Disable child gameobjects.
     /// Use when collecting the shard.
     /// </summary>
-    private void DisableModels() {
+    private new void DisableModels() {
         model.SetActive( false );
     }
 
@@ -72,7 +72,7 @@ public class HealthShard : Collectable {
     /// <summary>
     /// Init class method.
     /// </summary>
-    private void Init() {
+    private new void Init() {
 
         // set audio component reference.
         if ( _audio == null ) {

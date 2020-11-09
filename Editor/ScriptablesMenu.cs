@@ -210,4 +210,22 @@ public static class ScriptablesMenu  {
 
         ProjectWindowUtil.CreateAsset( asset, path );
     }
+
+
+    [MenuItem( "Assets/Create/Progression/LocalProgression/EnemyGroupProgression")]
+    /// <summary>
+    /// Add Local Enemy groups progression scriptable item
+    /// in the Progression scriptables menu.
+    /// </summary>
+    public static void AddEnemyGroupsScriptableObject() {
+
+        var asset = ScriptableObject.CreateInstance<EnemyGroupsProgression>();
+
+        // if needs preconfiguration. add here.
+
+        var path = AssetDatabase.GetAssetPath( Selection.activeObject );
+        path += "/newEnemyGroupsProgression.asset";
+
+        ProjectWindowUtil.CreateAsset( asset, path );
+    }
 }
