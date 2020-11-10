@@ -27,7 +27,11 @@ public class MainWeapon : MonoBehaviour {
     private static List<GameObject> ammoPool;                   // Ammo pool list of gameObjects - used to save a ready-to-use pool of ammo objects to shoot.
     public int poolSize;                                        // Number of ammo obejcts to keep in the object pool.
     public float freeAiminDistance = 50f;                       // Distance used to calculate where to shoot when no middle screen hit point is set.                                 
+
+    [Header( "Shooting Particle Effects")]
     public ParticleSystem shootingParticles;                    // Shooting particle system for shooting effect.
+    public ParticleSystem smoke;                                // Shooting particle system smoke.
+    
     private Camera _mainCamera;                                  // Main camera component - used to calculate middle of the point when the player is not shooting at any object with a collider attached.
     private float _heatedThreshold;                              // Threshold used to calculate when the weapoin is heated or not.
 
@@ -219,9 +223,7 @@ public class MainWeapon : MonoBehaviour {
             _animator.SetTrigger( "baseShooting" );
 
             // display shooting particle effect.
-            if ( ! shootingParticles.isPlaying ) {
-                shootingParticles.Play();
-            }
+            smoke.Play();
 
         }
     }
