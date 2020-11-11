@@ -8,10 +8,19 @@ public class SceneImpactMaterials : MonoBehaviour {
 
     [Serializable]
     public class ImpactInfo {
-        public MaterialType.MaterialTypeEnum MaterialType;          // Material type used to detect type of impact.
-        public GameObject ImpactEffect;                             // Impact effect gameObject reference.
+        public ShootingImpact.MaterialTypeEnum materialType;          // Material type used to detect type of impact.
+        public GameObject impactEffect;                             // Impact effect gameObject reference.
     }
 
-    public ImpactInfo[] impactEffects;                              // 
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
+    void Awake() {
+        if ( instance == null ) {
+            instance = this;
+        }
+    }
+
+    public ImpactInfo[] impactEffects;                              // Impact effects reference.
 
 }

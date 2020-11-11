@@ -12,6 +12,8 @@ public class Bullet : MonoBehaviour {
     private bool _shooted = false;                                   // When true, bullet can move towards destination.
     private GameObject _parent;                                      // Shooting original position parent. This is the gameObject which holds the object pool. 
 
+    // old scale: x: 0.05936146, y:0.02604678, z:0.08106801
+
     void Awake() {
         Init();
     }
@@ -37,6 +39,7 @@ public class Bullet : MonoBehaviour {
         this._speed = speed;
 
         transform.parent = null;
+        transform.LookAt( _destination );
 
         _originalPosition = transform.position;
 
@@ -101,7 +104,15 @@ public class Bullet : MonoBehaviour {
     /// </summary>
     /// <param name="other">The Collision data associated with this collision.</param>
     void OnCollisionEnter(Collision other) {
-        Instantiate( impactParticles, transform.position, Quaternion.identity );
+
+        // display bullet impact particle effect if neccesary.
+        ShootingImpact impact = other.gameObject.GetComponent<ShootingImpact>();
+
+        if ( impact != null ) {
+            impact.DisplayImpact( transform.position );
+        }
+        // old effect.
+        /// Instantiate( impactParticles, transform.position, Quaternion.identity );
         
         RestoreBullet();
     }

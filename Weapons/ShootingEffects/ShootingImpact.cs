@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ShootingImpact : MonoBehaviour {
 
-    [System.Serializable]
+    [Serializable]
 	public enum MaterialTypeEnum {
         Plaster,
 	    Metall,
@@ -18,7 +19,7 @@ public class ShootingImpact : MonoBehaviour {
         Water
 	}
 
-    public MaterialTypeEnum typeOfMaterial = MaterialTypeEnum.Plaster;              // Tipe of material used to display impact animation.
+    public MaterialTypeEnum typeOfMaterial;                             // Tipe of material used to display impact animation.
 
     // Start is called before the first frame update
     void Start() {
@@ -33,7 +34,11 @@ public class ShootingImpact : MonoBehaviour {
     /// <param name="position">Vector3 - where to instantiate impact effect</param>
     public void DisplayImpact( Vector3 position ) {
         if ( SceneImpactMaterials.instance != null ) {
-            var materialType = GetImpactEffects();
+            var effect = GetImpactEffects();
+
+            GameObject effectInstance = Instantiate( effect, position, new Quaternion() );
+            effectInstance.transform.LookAt( 2 * position - transform.position );
+            Destroy( effectInstance, 20 );
         }
     }
 
@@ -43,6 +48,14 @@ public class ShootingImpact : MonoBehaviour {
     /// effects manager.
     /// </summary>
     private GameObject GetImpactEffects() {
+        var impactElements = SceneImpactMaterials.instance.impactEffects;
+        
+        foreach ( var impactInfo in impactElements ) {
+            if ( typeOfMaterial == impactInfo.materialType ) {
+                return impactInfo.impactEffect;
+            }
+        }
+
         return null;
     }
 
