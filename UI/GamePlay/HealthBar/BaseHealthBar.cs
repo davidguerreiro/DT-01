@@ -15,6 +15,7 @@ public class BaseHealthBar : MonoBehaviour {
     private Slider _slider;                                         // UI slider component reference.
     private TextComponent _hpText;                                  // HP displayed text component reference.
     private FadeElement _hpTextFade;                                // HP displayed text fade element component reference.
+    private Animator _anim;                                         // Animator component reference.
     private float _hideCounter = 0f;                                // Hide text value counter.                             
     private float _prevValue = 0f;                                  // Previous health value. Used to check wheter we add or subtract hp in the bar.
 
@@ -86,12 +87,29 @@ public class BaseHealthBar : MonoBehaviour {
     }
 
     /// <summary>
+    /// Play healed animation.
+    /// </summary>
+    public void PlayHealAnim() {
+        _anim.SetTrigger( "Heal" );
+    }
+
+    /// <summary>
+    /// Play damaged animation.
+    /// </summary>
+    public void PlayDamagedAnim() {
+        _anim.SetTrigger( "Damage" );
+    }
+
+    /// <summary>
     /// Init class method.
     /// </summary>
     private void Init() {
 
         // get slider component reference.
         _slider = GetComponent<Slider>();
+
+        // get animator component reference.
+        _anim = GetComponent<Animator>();
 
         if ( hpDisplayed != null ) {
 

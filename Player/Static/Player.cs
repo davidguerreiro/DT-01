@@ -21,13 +21,6 @@ public class Player : MonoBehaviour {
         }
     }
 
-    private void Update() {
-        /*
-        Debug.Log( "in player:");
-        Debug.Log( basicInventory.GetItem(0));
-        */
-    }
-
     void Start() {
         Init();
     }

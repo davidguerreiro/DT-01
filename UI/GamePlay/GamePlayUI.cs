@@ -8,6 +8,7 @@ public class GamePlayUI : MonoBehaviour {
     public PlayerHealComponent playerHealComponent;         // Player health component wrapper to be used when the player recovers health.
     public ShardsSectionUI shardsComponent;                 // Shards section component wrapper to be used when the player collects a shard in real time gameplay.
     public ItemObtainedSection itemObtainedSection;         // Item obtained section component wrapper to be used when the player collects a new item in real time gameplay.
+    public BaseHealthBar healthBar;                         // Player health bar.
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
@@ -28,6 +29,10 @@ public class GamePlayUI : MonoBehaviour {
             playerDamagedComponent.bloodPanel.Display();
             playerDamagedComponent.bloodImage.Display();
         }
+
+        if ( healthBar != null ) {
+            healthBar.PlayDamagedAnim();
+        }
     }
 
     /// <summary>
@@ -37,7 +42,11 @@ public class GamePlayUI : MonoBehaviour {
     public void PlayerHealed() {
 
         if ( playerHealComponent.healthPanel != null ) {
-            playerHealComponent.healthPanel.Display();
+            // playerHealComponent.healthPanel.Display();
+        }
+
+        if ( healthBar != null ) {
+            healthBar.PlayHealAnim();
         }
     }
 }
