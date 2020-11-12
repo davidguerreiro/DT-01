@@ -32,10 +32,10 @@ public class FadeElement : MonoBehaviour {
     /// Fade out element.
     /// </summary>
     public void FadeOut() {
-        // reset possible prevous fade speed variations.
-        _animator.SetFloat( "FadeOutSpeed", 1f);
-
         if ( _animator != null ) {
+            // reset possible prevous fade speed variations.
+            _animator.SetFloat( "FadeOutSpeed", 1f);
+
             _animator.SetInteger( "FadeState", -1 );
             displayed = false;
         }
@@ -58,10 +58,10 @@ public class FadeElement : MonoBehaviour {
     /// Fade in element.
     /// </summary>
     public void FadeIn() {
-        // reset possible prevous fade speed variations.
-        _animator.SetFloat( "FadeOutSpeed", 1f);
-
         if ( _animator != null ) {
+            // reset possible prevous fade speed variations.
+            _animator.SetFloat( "FadeOutSpeed", 1f);
+
             _animator.SetInteger( "FadeState", 1 );
             displayed = true;
         }
@@ -72,7 +72,6 @@ public class FadeElement : MonoBehaviour {
     /// </summary>
     /// <param name="speed">float - fade in speed for animation</param>
     public void FadeIn( float speed ) {
-
         if ( _animator != null ) {
             _animator.SetFloat( "FadeInSpeed", speed );
             _animator.SetInteger( "FadeState", 1 );
@@ -85,10 +84,10 @@ public class FadeElement : MonoBehaviour {
     /// from displayed element.
     /// </summary>
     public void HalfFadeOut() {
-        // reset possible prevous fade speed variations.
-        _animator.SetFloat( "FadeOutSpeed", 1f);
-
         if ( _animator != null ) {
+            // reset possible prevous fade speed variations.
+            _animator.SetFloat( "FadeOutSpeed", 1f);
+
             _animator.SetInteger( "FadeState", 2 );
             displayed = false;
         }
