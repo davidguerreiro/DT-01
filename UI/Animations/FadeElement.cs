@@ -5,12 +5,10 @@ using UnityEngine.UI;
 
 public class FadeElement : MonoBehaviour {
     public bool displayed;                                  // Flag to control displayed status.
-
     public enum Type {
         image,
         text,
     };
-    
     public Type type;                                       // To which type of element this script is attached. Text and image requires different components for manipulatin the colour property raw.
     private Animator _animator;                             // Animator component reference.
     private Image _image;                                   // Image component reference.

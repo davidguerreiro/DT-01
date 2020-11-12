@@ -9,6 +9,7 @@ public class FPSInput : MonoBehaviour {
     public bool isMovingByInput = false;                                // Checks whether the player is being moved by user input.
     public bool isRunning = false;                                      // Flag to control whether the player is running.
     public bool isAiming = false;                                       // Flag to control aiming action status.
+    public bool isCrouched = false;                                     // Flag to control crouched status.
     public bool canMove = true;                                         // Whether the player can be moved by user input.
     public bool invencible = false;                                     // Whether the player can take damage from enemies or any other damage input.
 
@@ -32,6 +33,10 @@ public class FPSInput : MonoBehaviour {
     [Header("Movement / Direction")]
     public string xDirection;                                           // Player's x direction.
     public string zDirection;                                           // Player's z direction.
+
+    [Header("Collider Variables")]
+    public float crouchedHeight;                                        // Crouched height value for box collider.
+    public float crouchedCenter;                                        // Crouched center value for box collider.
     
     [HideInInspector]
     public float deltaX;                                                // Defines the distance the player is moving in the X axis.
@@ -53,6 +58,11 @@ public class FPSInput : MonoBehaviour {
     private MouseLook _playerMouseLook;                                 // Player X mouse look component reference.
     private bool _mouseLookSwapt = false;                               // Flag used to control wheter the mouse look component in player has been swapt to children main camera.
     private float invencibleCounter = 0f;                               // Invencible internal counter.
+    private Animator _anim;                                             // Animator controller reference.
+    private BoxCollider _boxCollider;                                   // Box collider component reference.
+    private CapsuleCollider _capsuleCollider;                           // Capsule collider component reference.
+    private float _initialCrouchHeight;                                 // Initial crouch height for box collider.
+    private float _initialCrouchCenter;                                 // Initial crouch center for box collider.
 
     // Start is called before the first frame update.
     void Start() {
@@ -111,6 +121,13 @@ public class FPSInput : MonoBehaviour {
                 StopAiming();
             }
 
+            // crouch action
+            if ( grounded && ! isRunning && Input.GetKey( "left ctrl" ) ) {
+                CrouchDown();
+            } else {
+                CrouchUp();
+            }
+
             // run action.
             if ( grounded && isMoving && ! isAiming && Input.GetKey( "left shift" ) ) {
                 this.isRunning = true;
@@ -156,7 +173,7 @@ public class FPSInput : MonoBehaviour {
         // update speed base on player status.
         if ( this.isRunning ) {
             movementSpeed = runningSpeed;
-        } else if ( this.isAiming ) {
+        } else if ( this.isAiming || this.isCrouched ) {
             movementSpeed = aimingSpeed;
         } else {
             movementSpeed = speed;
@@ -317,6 +334,42 @@ public class FPSInput : MonoBehaviour {
     }
 
     /// <summary>
+    /// Crouch down.
+    /// </summary>
+    private void CrouchDown() {
+        // TODO: Add sound effect for crouch down
+        _capsuleCollider.height = 1f;                   // Crouch size.
+        _boxCollider.size = new Vector3( _boxCollider.size.x, crouchedHeight, _boxCollider.size.z );
+        _boxCollider.center = new Vector3( _boxCollider.center.x, crouchedCenter, _boxCollider.size.z );
+        _anim.SetBool( "Crouch", true );
+
+        isCrouched = true;
+    }
+
+    /// <summary>
+    /// Crouch up.
+    /// </summary>
+    private void CrouchUp() {
+        if ( isCrouched ) {
+            _anim.SetBool( "Crouch", false );
+
+            Invoke( "RestoreCollidersFromCrouched", .37f );
+        }
+    }
+
+    /// <summary>
+    /// Restore colliders after
+    /// crouching.
+    /// </summary>
+    private void RestoreCollidersFromCrouched() {
+        _capsuleCollider.height = 2f;                   // Original height.
+        _boxCollider.size = new Vector3( _boxCollider.size.x, _initialCrouchHeight, _boxCollider.size.z );
+        _boxCollider.center = new Vector3( _boxCollider.center.x, _initialCrouchCenter, _boxCollider.center.z );
+        
+        isCrouched = false;
+    }
+
+    /// <summary>
     /// Swift mouse X components.
     /// This is used to ensure external physics can
     /// move the player indepently of orientation.
@@ -387,11 +440,34 @@ public class FPSInput : MonoBehaviour {
         // get audio source component reference.
         _audio = GetComponent<AudioComponent>();
 
+        // get animation component reference.
+        _anim = GetComponent<Animator>();
+
+        // get box collider component reference.
+        _boxCollider = GetComponent<BoxCollider>();
+
+        // get capsule collider component reference.
+        _capsuleCollider = GetComponent<CapsuleCollider>();
+
         // set default direction in the player movement direction control variables.
         xDirection = "";
         zDirection = "";
 
         // set default external forces.
         externalForces = Vector3.zero;
+
+        // cache original colliders values for crouching.
+        if ( _boxCollider ) {
+            _initialCrouchCenter = _boxCollider.center.y;
+            _initialCrouchHeight = _boxCollider.size.y;
+        }
     }
 }
+
+// up
+// 0.003835559  center
+// 1.74 size
+
+// down
+// -0.35 center
+// 0.68 size
