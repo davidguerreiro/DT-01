@@ -337,7 +337,6 @@ public class FPSInput : MonoBehaviour {
     /// Crouch down.
     /// </summary>
     private void CrouchDown() {
-        // TODO: Add sound effect for crouch down
         _capsuleCollider.height = 1f;                   // Crouch size.
         _boxCollider.size = new Vector3( _boxCollider.size.x, crouchedHeight, _boxCollider.size.z );
         _boxCollider.center = new Vector3( _boxCollider.center.x, crouchedCenter, _boxCollider.size.z );
@@ -352,8 +351,9 @@ public class FPSInput : MonoBehaviour {
     private void CrouchUp() {
         if ( isCrouched ) {
             _anim.SetBool( "Crouch", false );
-
-            Invoke( "RestoreCollidersFromCrouched", .37f );
+            isCrouched = false;
+            
+            Invoke( "RestoreCollidersFromCrouched", .37f );     // Collider has to be restored almost right after the player crouchs up.
         }
     }
 
@@ -365,8 +365,6 @@ public class FPSInput : MonoBehaviour {
         _capsuleCollider.height = 2f;                   // Original height.
         _boxCollider.size = new Vector3( _boxCollider.size.x, _initialCrouchHeight, _boxCollider.size.z );
         _boxCollider.center = new Vector3( _boxCollider.center.x, _initialCrouchCenter, _boxCollider.center.z );
-        
-        isCrouched = false;
     }
 
     /// <summary>
@@ -463,11 +461,3 @@ public class FPSInput : MonoBehaviour {
         }
     }
 }
-
-// up
-// 0.003835559  center
-// 1.74 size
-
-// down
-// -0.35 center
-// 0.68 size
