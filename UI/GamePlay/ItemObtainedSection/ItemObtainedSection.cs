@@ -25,7 +25,12 @@ public class ItemObtainedSection : MonoBehaviour {
         MoveNotsUp();
 
         // spawn notification.
-        GameObject objectNot = _notPool.SpawnPrefab( _rect.transform.localPosition );
+        GameObject objectNot = _notPool.SpawnPrefab( _rect.transform.position );
+        objectNot.transform.parent = gameObject.transform;
+        objectNot.transform.localPosition = Vector3.zero;
+
+        Debug.Log( _rect.transform.localPosition );
+
         if ( objectNot != null ) {
             objectNot.GetComponent<ItemNotification>().DisplayNotification( item, quantity );
         }
