@@ -70,7 +70,7 @@ public class MainWeapon : MonoBehaviour {
         if ( ! GameManager.instance.isPaused ) {
 
             // set the weapon animation.
-            SetAnimation();
+            // SetAnimation();
             
             // calculate point in the screen where the bullet is going to be shot at.
             UpdateShootingOriginPosition();
@@ -296,7 +296,7 @@ public class MainWeapon : MonoBehaviour {
     private void Init() {
 
         // get animator component
-        _animator = GetComponent<Animator>();
+        // _animator = GetComponent<Animator>();
 
         // get camera component from parent.
         _mainCamera = GetComponentInParent<Camera>();
