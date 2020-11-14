@@ -51,6 +51,7 @@ public class GamePlayItemSlot : MonoBehaviour {
                 // no longer item associated to this item slot.
                 usable = false;
                 itemImage.sprite = defaultItemImage;
+                quantityText.UpdateContent( "x0" );
                 itemAnim.SetBool( "Enabled", false );
             }
         }
