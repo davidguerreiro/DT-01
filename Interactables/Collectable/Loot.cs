@@ -117,11 +117,10 @@ public class Loot : MonoBehaviour {
     /// <summary>
     /// Drop loot into the game scene.
     /// </summary>
-    /// <param name="origin">Transform - origin point to calculate drop item position</param>
-    public void DropLoot() {
+    /// <param name="applyForce">bool - if true, the drop items will receibe a force boost before dropping.</param>
+    public void DropLoot( bool applyForce = false ) {
 
-        // remove loot from parent object.
-        
+        // get loot.
         GameObject[] itemsToDrop = GenerateLoot();
 
         float xVariation;
@@ -135,12 +134,16 @@ public class Loot : MonoBehaviour {
 
             // instance loot.
             Vector3 instanceLocalPosition = new Vector3( transform.localPosition.x + ( xVariation / 10f ), transform.localPosition.y + heightDrop, transform.localPosition.z + ( zVariation / 10f ) );
-            GameObject instance = Instantiate( itemsToDrop[ i ], transform.localPosition, Quaternion.identity );
+            GameObject instance = Instantiate( itemsToDrop[ i ], transform.localPosition, transform.rotation );
 
             // set loot position and remove parent to avoid loot dissapearing with the dropper gameObject.
             instance.transform.parent = this.gameObject.transform;
             instance.transform.localPosition = instanceLocalPosition;
             instance.transform.parent = null;
+
+            if ( applyForce ) {
+                instance.GetComponent<Rigidbody>().AddForce( new Vector3( 0f, 10f, 10f ) );
+            }
         }
     }
 }

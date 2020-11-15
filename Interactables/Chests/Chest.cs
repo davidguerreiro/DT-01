@@ -16,6 +16,7 @@ public class Chest : MonoBehaviour {
     public ParticleSystem[] openinigParticles;              // Opening particles system array reference.
 
     private AudioComponent _audio;                          // Audo component reference.
+    private Coroutine _openChestRoutine;                    // Open chest coroutine reference.
     
     // Start is called before the first frame update
     void Start() {
@@ -48,6 +49,42 @@ public class Chest : MonoBehaviour {
         if ( ! opened && other.gameObject.tag == "Player" && GamePlayUI.instance != null && GamePlayUI.instance.interactNotification.displayed ) {
             GamePlayUI.instance.interactNotification.Hide();
         }
+    }
+
+    /// <sumamry>
+    /// Open chest.
+    /// </summary>
+    public void Open() {
+        if ( _openChestRoutine == null ) {
+            _openChestRoutine = StartCoroutine( OpenRoutine() );
+        }
+    }
+
+    /// <sumamry>
+    /// Open chest coroutine.
+    /// </summary>
+    /// <returns>IEnumerator</returns>
+    public IEnumerator OpenRoutine() {
+        opened = true;
+        
+        // play sound.
+        _audio.PlaySound();
+
+        // remove current chest particles.
+        externalParticles.Stop();
+
+        // open chest.
+        anim.SetBool( "Open", true );
+        innerLight.SetActive( true );
+        yield return new WaitForSeconds( 1f );
+
+        // play particle effects.
+        foreach ( ParticleSystem particles in openinigParticles ) {
+            particles.gameObject.SetActive( true );
+        }
+
+        // drop chest content into game scene.
+        loot.DropLoot( true );
     }
 
     /// <summary>

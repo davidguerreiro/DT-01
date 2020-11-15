@@ -9,6 +9,7 @@ public class InteractSection : MonoBehaviour {
     [Header("Status")]
     public bool displayed;                                  // Flag to control display status.
     public bool inProcess;                                  // This flag is true whenever the player is interacting with this interactable.                     
+    public bool completed;                                  // Flag to notify the process has been completed.
 
     [Header("Components")]
     public TextComponent actionLabelText;                   // Action label text component.
@@ -19,6 +20,7 @@ public class InteractSection : MonoBehaviour {
     private bool _innmediate;                               // If true, this event will be performed inmediateley.
     private float _fillSpeed;                               // Fill speed used to calculate how long it will take the player to complete this action.
     private Animator _anim;                                 // Animator component reference.
+    private AudioComponent _audio;                          // Audio component reference.
     private Coroutine _actionRoutine;                       // Action coroutine reference.
 
     /// <summary>
@@ -30,8 +32,7 @@ public class InteractSection : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         
     }
 
@@ -42,6 +43,8 @@ public class InteractSection : MonoBehaviour {
     public void Display() {
         _anim.SetBool( "Displayed", true );
         displayed = true;
+        inProcess = false;
+        completed = false;
     }
 
     /// <summary>
@@ -70,13 +73,77 @@ public class InteractSection : MonoBehaviour {
             this._labelProgress = labelAction;
             this._fillSpeed = fillSpeed;
             this._innmediate = inmediateEvent;
+            
+            fillImage.fillAmount = 0f;
 
             actionLabelText.UpdateContent( label );
+            completed = false;
         }
 
         if ( ! displayed ) {
             Display();
         }
+    }
+
+    /// <summary>
+    /// Update interact action process.
+    /// </summary>
+    public void RunInteractProcess() {
+        if ( _actionRoutine == null ) {
+            _actionRoutine = StartCoroutine( RunInteractProcessRoutine() );
+        }
+    }
+
+    /// <summary>
+    /// Run interact process coroutine.
+    /// </summary>
+    /// <returns>IEnumerator</returns>
+    private IEnumerator RunInteractProcessRoutine() {
+
+        _anim.SetBool( "KeyPressed", true );
+
+        if ( _innmediate ) {
+            // display inmediate use interactable.
+            _audio.PlaySound(0);
+
+            yield return new WaitForSeconds( .5f );
+
+            Hide();
+            yield return new WaitForSeconds( .1f );
+
+            completed = true;
+            _actionRoutine = null;
+            yield break;
+        }
+
+        // update text and display fill progress image.
+        actionLabelText.UpdateContent( _labelProgress );
+        fillImage.gameObject.SetActive( true );
+
+        // update action progress bar.
+        while ( Input.GetKey( "f" ) && fillImage.fillAmount < 1f ) {
+            fillImage.fillAmount += _fillSpeed * Time.deltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+
+        _anim.SetBool( "KeyPressed", false );
+        
+        // set completed if action was actually completed.
+        if ( fillImage.fillAmount == 1f ) {
+            _audio.PlaySound(0);
+            
+            _anim.SetBool( "Hide", true );
+
+            completed = true;
+        } else {
+            _audio.PlaySound(1);
+        }
+        
+        // reset and remove fill image.
+        fillImage.fillAmount = 0f;
+        fillImage.gameObject.SetActive( false );
+
+        _actionRoutine = null;
     }
 
     /// <summary>
@@ -86,5 +153,8 @@ public class InteractSection : MonoBehaviour {
 
         // get animator component reference.
         _anim = GetComponent<Animator>();
+
+        // get audio component reference.
+        _audio = GetComponent<AudioComponent>();
     }
 }
