@@ -31,7 +31,7 @@ public class Chest : MonoBehaviour {
         Debug.Log( "entered" );
         // show interaction notification to player if this chest has not been opened.
         if ( ! opened && other.gameObject.tag == "Player" && GamePlayUI.instance != null ) {
-            GamePlayUI.instance.interactNotification.SetUp( chestData.label, chestData.actionSpeed );
+            GamePlayUI.instance.interactNotification.SetUp( chestData.id, chestData.labelEn, chestData.labelProgressEn, chestData.actionSpeed );
         }
     }
 
