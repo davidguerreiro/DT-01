@@ -228,4 +228,21 @@ public static class ScriptablesMenu  {
 
         ProjectWindowUtil.CreateAsset( asset, path );
     }
+
+    [MenuItem( "Assets/Create/GamePlay/Interactable")]
+    /// <summary>
+    /// Add Interactable scriptable item
+    /// in the Progression scriptables menu.
+    /// </summary>
+    public static void AddInteractableScriptableObject() {
+
+        var asset = ScriptableObject.CreateInstance<InteractableData>();
+
+        // if needs preconfiguration. add here.
+
+        var path = AssetDatabase.GetAssetPath( Selection.activeObject );
+        path += "/interactable.asset";
+
+        ProjectWindowUtil.CreateAsset( asset, path );
+    }
 }
