@@ -9,6 +9,7 @@ public class Loot : MonoBehaviour {
     [Serializable]
     public struct LootItems {                           // Data structure for loot items.
         public GameObject item;                         // Item ( usually prefab ) reference to be dropped.
+        public bool forceDrop;                          // If true, this item will always be dropped, but if there are others with force drop enable, ensure there is a min amount set to cover all. 
         public int dropRate;                            // Item drop rate - numbers between 0 - 100.
     };
 
@@ -18,9 +19,11 @@ public class Loot : MonoBehaviour {
     [Header( "Settings" )]
     public int minDrop = 1;                             // Minimun of items dropped by this enemy / destructible.
     public int maxDrop = 2;                             // Maxumun of items dropped by this enemy / destructible.
-    public float heightDrop = 5f;                      // Height at where the dropped item will be displayed in the game scene.
-    public float xVariableDistance = 1f;               // X Variable distance used to randomize X position.
-    public float zVariableDistance = 1f;               // Z Variable distance used to randomize Z position.                
+    public float heightDrop = 0.1f;                      // Height at where the dropped item will be displayed in the game scene.
+    public float xVariableDistance = 0.1f;               // X Variable distance used to randomize X position.
+    public float zVariableDistance = 0.1f;               // Z Variable distance used to randomize Z position.
+
+    private GameObject[] forced;                         // Forced items to be dropped are kept here.           
 
     /// <summary>
     /// Generate loot array of gameObjects.
@@ -30,6 +33,8 @@ public class Loot : MonoBehaviour {
 
         int totalLoot = UnityEngine.Random.Range( minDrop, maxDrop + 1 );
         GameObject[] lootToDrop = new GameObject[ totalLoot ];
+
+        // TODO: Put forced items in the loot to Drop array.
 
         // check if we shuffle the loop array. Shuffle the array will increase rng chances
         // and avoid items above in the array to drop more times.

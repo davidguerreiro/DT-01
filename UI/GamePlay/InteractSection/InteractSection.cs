@@ -35,7 +35,7 @@ public class InteractSection : MonoBehaviour {
     /// section label.
     /// </summary>
     public void Display() {
-        _anim.SetBool( "Display", true );
+        _anim.SetBool( "Displayed", true );
         displayed = true;
     }
 
@@ -44,7 +44,7 @@ public class InteractSection : MonoBehaviour {
     /// section label.
     /// </summary>
     public void Hide() {
-        _anim.SetBool( "Display", false );
+        _anim.SetBool( "Displayed", false );
         displayed = false;
     }
 
