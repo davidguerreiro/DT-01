@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InteractableData : ScriptableObject {
-    public int id;                                          // Interactable id.
+    // public int id;                                          // Interactable id.
 
     [Header("Labels")]
     public string labelEn;                                  // English label used when showing interactable UI element.

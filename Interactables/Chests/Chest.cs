@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Chest : MonoBehaviour {
+    public int id;                                          // Chest id.
+
+    [Header("Status")]
     public bool opened;                                     // Flag to control if this chest has already been opened.
     
     [Header("Data Source")]
@@ -25,7 +28,30 @@ public class Chest : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        
+        if ( ! opened && GamePlayUI.instance.interactNotification.displayed && GamePlayUI.instance.interactNotification.currentID == id ) {
+            ListenForUserInput();
+            ListenForCompleted();
+        }
+    }
+
+    /// <summary>
+    /// Listen for user input.
+    /// </summary>
+    private void ListenForUserInput() {
+        // start open chest process.
+        if ( Input.GetKey( "f" ) && ! GamePlayUI.instance.interactNotification.inProcess && ! GamePlayUI.instance.interactNotification.completed ) {
+            GamePlayUI.instance.interactNotification.RunInteractProcess();
+        }
+    }
+
+    /// <summary>
+    /// Check if interact process from player
+    /// is completed, so the chest can be opened.
+    /// </summary>
+    public void ListenForCompleted() {
+        if (  GamePlayUI.instance.interactNotification.completed && _openChestRoutine != null ) {
+            _openChestRoutine = StartCoroutine( OpenRoutine() );
+        }
     }
 
     /// <summary>
@@ -36,7 +62,7 @@ public class Chest : MonoBehaviour {
         
         // show interaction notification to player if this chest has not been opened.
         if ( ! opened && other.gameObject.tag == "Player" && GamePlayUI.instance != null ) {
-            GamePlayUI.instance.interactNotification.SetUp( chestData.id, chestData.labelEn, chestData.labelProgressEn, chestData.actionSpeed );
+            GamePlayUI.instance.interactNotification.SetUp( id, chestData.labelEn, chestData.labelProgressEn, chestData.actionSpeed );
         }
     }
 

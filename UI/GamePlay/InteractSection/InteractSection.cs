@@ -122,9 +122,12 @@ public class InteractSection : MonoBehaviour {
 
         // update action progress bar.
         while ( Input.GetKey( "f" ) && fillImage.fillAmount < 1f ) {
+            inProcess = true;
             fillImage.fillAmount += _fillSpeed * Time.deltaTime;
             yield return new WaitForFixedUpdate();
         }
+
+        inProcess = false;
 
         _anim.SetBool( "KeyPressed", false );
         
