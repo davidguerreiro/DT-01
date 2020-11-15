@@ -48,8 +48,8 @@ public class Chest : MonoBehaviour {
     /// Check if interact process from player
     /// is completed, so the chest can be opened.
     /// </summary>
-    public void ListenForCompleted() {
-        if (  GamePlayUI.instance.interactNotification.completed && _openChestRoutine != null ) {
+    private void ListenForCompleted() {
+        if (  GamePlayUI.instance.interactNotification.completed && _openChestRoutine == null ) {
             _openChestRoutine = StartCoroutine( OpenRoutine() );
         }
     }
@@ -101,8 +101,9 @@ public class Chest : MonoBehaviour {
 
         // open chest.
         anim.SetBool( "Open", true );
+        yield return new WaitForSeconds( .6f );
         innerLight.SetActive( true );
-        yield return new WaitForSeconds( 1f );
+        yield return new WaitForSeconds( 1.65f );
 
         // play particle effects.
         foreach ( ParticleSystem particles in openinigParticles ) {
@@ -110,7 +111,7 @@ public class Chest : MonoBehaviour {
         }
 
         // drop chest content into game scene.
-        loot.DropLoot( true );
+        loot.DropLoot();
     }
 
     /// <summary>

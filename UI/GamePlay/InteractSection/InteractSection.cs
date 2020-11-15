@@ -128,16 +128,18 @@ public class InteractSection : MonoBehaviour {
         }
 
         inProcess = false;
-
-        _anim.SetBool( "KeyPressed", false );
+        actionLabelText.UpdateContent( _label );
         
         // set completed if action was actually completed.
         if ( fillImage.fillAmount == 1f ) {
             _audio.PlaySound(0);
             
-            _anim.SetBool( "Hide", true );
-
             completed = true;
+            yield return new WaitForSeconds( .1f );
+            
+            Hide();
+            _anim.SetBool( "KeyPressed", false );
+
         } else {
             _audio.PlaySound(1);
         }

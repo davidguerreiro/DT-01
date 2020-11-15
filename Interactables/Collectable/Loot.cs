@@ -142,7 +142,7 @@ public class Loot : MonoBehaviour {
             instance.transform.parent = null;
 
             if ( applyForce ) {
-                instance.GetComponent<Rigidbody>().AddForce( new Vector3( 0f, 10f, 10f ) );
+                instance.GetComponent<Rigidbody>().AddForce( new Vector3( - 1500f, 4500f, - 1500f ) );
             }
         }
     }
