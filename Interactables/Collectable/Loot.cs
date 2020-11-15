@@ -17,13 +17,15 @@ public class Loot : MonoBehaviour {
     public LootItems[] loot = new LootItems[1];         // Loot reference.
 
     [Header( "Settings" )]
+    public bool hasForced;                              // Set this to true to ensure force drop items are included in the loot array before runnign the algorythim to set the random
+    public bool dropOnlyForced;                         // Set this to true to drop only force items.
     public int minDrop = 1;                             // Minimun of items dropped by this enemy / destructible.
     public int maxDrop = 2;                             // Maxumun of items dropped by this enemy / destructible.
     public float heightDrop = 0.1f;                      // Height at where the dropped item will be displayed in the game scene.
     public float xVariableDistance = 0.1f;               // X Variable distance used to randomize X position.
     public float zVariableDistance = 0.1f;               // Z Variable distance used to randomize Z position.
 
-    private GameObject[] forced;                         // Forced items to be dropped are kept here.           
+    private List<GameObject> forced;                     // Forced items to be dropped are kept here.           
 
     /// <summary>
     /// Generate loot array of gameObjects.
@@ -34,7 +36,15 @@ public class Loot : MonoBehaviour {
         int totalLoot = UnityEngine.Random.Range( minDrop, maxDrop + 1 );
         GameObject[] lootToDrop = new GameObject[ totalLoot ];
 
-        // TODO: Put forced items in the loot to Drop array.
+        // add force drop items in the loop list.
+        if ( hasForced ) {
+            AddForceDropItems( ref lootToDrop );
+
+            if ( dropOnlyForced ) {
+                return lootToDrop;
+            }
+        }
+        
 
         // check if we shuffle the loop array. Shuffle the array will increase rng chances
         // and avoid items above in the array to drop more times.
@@ -61,6 +71,12 @@ public class Loot : MonoBehaviour {
                 dropItemKey = UnityEngine.Random.Range( 0, loot.Length );
 
                 itemToDropData = loot[ dropItemKey ];
+                
+                // ignore force drops in the algorythim.
+                if ( itemToDropData.forceDrop ) {
+                    continue;
+                }
+
                 chance = 100f - itemToDropData.dropRate;
 
                 // calculate if object is droped.
@@ -81,6 +97,21 @@ public class Loot : MonoBehaviour {
         }
 
         return lootToDrop;
+    }
+
+    /// <summary>
+    /// Add force drop items into
+    /// lootDrop array.
+    /// </summary>
+    /// <param name="lootToDrop">GameObject[] - Loot to drop array. Used to add force drop items before running the algorythim to calculate random loot. Passed by reference.</param>
+    private void AddForceDropItems( ref GameObject[] lootToDrop ) {
+        int j = 0;
+        for ( int i = 0; i < lootToDrop.Length; i++ ) {
+            if ( loot[ i ].forceDrop ) {
+                lootToDrop[ j ] = loot[ i ].item;
+                j++;
+            }
+        }
     }
 
     /// <summary>
