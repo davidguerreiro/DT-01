@@ -141,6 +141,7 @@ public class InteractSection : MonoBehaviour {
             _anim.SetBool( "KeyPressed", false );
 
         } else {
+            _anim.SetBool( "KeyPressed", false );
             _audio.PlaySound(1);
         }
         
