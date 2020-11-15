@@ -14,10 +14,12 @@ public class Chest : MonoBehaviour {
     public ParticleSystem externalParticles;                // External chest particle system component reference.
     public GameObject innerLight;                           // Light inside the chest.
     public ParticleSystem[] openinigParticles;              // Opening particles system array reference.
+
+    private AudioComponent _audio;                          // Audo component reference.
     
     // Start is called before the first frame update
     void Start() {
-        
+        Init();
     }
 
     // Update is called once per frame
@@ -30,7 +32,7 @@ public class Chest : MonoBehaviour {
     /// </summary>
     /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerEnter(Collider other) {
-        Debug.Log( "entered" );
+        
         // show interaction notification to player if this chest has not been opened.
         if ( ! opened && other.gameObject.tag == "Player" && GamePlayUI.instance != null ) {
             GamePlayUI.instance.interactNotification.SetUp( chestData.id, chestData.labelEn, chestData.labelProgressEn, chestData.actionSpeed );
@@ -46,5 +48,14 @@ public class Chest : MonoBehaviour {
         if ( ! opened && other.gameObject.tag == "Player" && GamePlayUI.instance != null && GamePlayUI.instance.interactNotification.displayed ) {
             GamePlayUI.instance.interactNotification.Hide();
         }
+    }
+
+    /// <summary>
+    /// Init class methdod.
+    /// </summary>
+    private void Init() {
+
+        // get audio component reference.
+        _audio = GetComponent<AudioComponent>();
     }
 }
