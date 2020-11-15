@@ -11,7 +11,9 @@ public class Chest : MonoBehaviour {
     [Header("Components")]
     public Loot loot;                                       // Loot class component reference.
     public Animator anim;                                   // Animator component reference.
-    public ParticleSystem particles;                        // Particle system component reference.
+    public ParticleSystem externalParticles;                // External chest particle system component reference.
+    public GameObject innerLight;                           // Light inside the chest.
+    public ParticleSystem[] openinigParticles;              // Opening particles system array reference.
     
     // Start is called before the first frame update
     void Start() {
