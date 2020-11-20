@@ -15,7 +15,11 @@ public class GravityCrystal : MonoBehaviour {
     public float minRotSpeed;                                   // Minumun rotate elements rotation speed.
     public float maxRotSpeed;                                   // Maximun rotate elements rotation speed.
 
+    [Header("Components")]
+    public MeshCollider childCollider;                          // Child collider mesh component reference.
+
     private Animator _anim;                                     // Animator component reference.
+    private AudioComponent _audio;                              // Audio component refernece.
 
     // Start is called before the first frame update.
     void Start() {
@@ -38,6 +42,9 @@ public class GravityCrystal : MonoBehaviour {
 
         // get animator component.
         _anim = GetComponent<Animator>();
+
+        // get audio component reference.
+        _audio = GetComponent<AudioComponent>();
 
         if ( interactable ) {
             _anim.SetBool( "Interactable", true );
