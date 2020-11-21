@@ -22,6 +22,9 @@ public class PlayerStats : ScriptableObject {
     public int shards = 0;                              // Current player cristal shards. Shards are used to unlock new abilities.
     public int maxShards = 9999;                        // Maximun number of shards the player can hold without spending.
 
+    [Header("Skills")]
+    public int currentSkills = 0;                       // Current amount of skills unlock by the player.
+
     /// <summary>
     /// Update player hit points.
     /// </summary>

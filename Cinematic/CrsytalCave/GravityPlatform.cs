@@ -70,7 +70,7 @@ public class GravityPlatform : MonoBehaviour {
         _initLocalPosition = platform.transform.position;
 
         // get platform anim component.
-        _anim = platform.GetComponent<Animator>();
+        // _anim = platform.GetComponent<Animator>();
 
         // get rigibody component reference.
         _rigi = platform.GetComponent<Rigidbody>();
