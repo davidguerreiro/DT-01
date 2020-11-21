@@ -139,6 +139,14 @@ public class PlayerStats : ScriptableObject {
     }
 
     /// <summary>
+    /// Update player's current
+    /// skills learned.
+    /// </summary>
+    public void UpdateCurrentSkills() {
+        currentSkills++;
+    }
+
+    /// <summary>
     /// Set values as they should when
     /// initialising the level or after
     /// respawn in a checkpoin.
@@ -163,6 +171,7 @@ public class PlayerStats : ScriptableObject {
         hitPoints = maxHitPoints;
         energy = maxEnergy;
         shards = 0;
+        currentSkills = 0;
 
         if ( toGameInit ) {
             defense = 2;
