@@ -41,7 +41,7 @@ public class GravityPlatform : MonoBehaviour {
         navigable = true;
 
         // trigger rotation animation.
-        _anim.SetTrigger( "RotateInAnim" );
+        _anim.SetTrigger( "ToRotate" );
         float remainingDistance = ( platform.transform.position - endPoint.transform.position ).sqrMagnitude;
 
         while( remainingDistance > 0.1f ) {
