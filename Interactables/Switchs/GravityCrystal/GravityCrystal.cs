@@ -20,6 +20,7 @@ public class GravityCrystal : MonoBehaviour {
     public MeshCollider childCollider;                          // Child collider mesh component reference.
     public ParticleSystem distorsion;                           // Distorsion particle effect.
     public ParticleSystem particleHit;                          // Hit particle effect.
+    public ParticleSystem particleStatic;                       // Static particle system.
 
     private Animator _anim;                                     // Animator component reference.
     private AudioComponent _audio;                              // Audio component refernece.
@@ -69,6 +70,7 @@ public class GravityCrystal : MonoBehaviour {
         _anim.SetBool( "Enabled", true );
         distorsion.Play();
         particleHit.Play();
+        particleStatic.Play();
         _audio.PlaySound(1);
 
         if ( _nebuloseAnimRoutine == null ) {
@@ -110,9 +112,7 @@ public class GravityCrystal : MonoBehaviour {
     /// </summary>
     /// <param name="other">The Collision data associated with this collision.</param>
     void OnCollisionEnter( Collision other ) {
-        Debug.Log( other.gameObject.tag );
         if ( interactable && other.gameObject.tag == "PlayerProjectile" ) {
-            Debug.Log( "called" );
             Hit();
         }
     }
