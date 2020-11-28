@@ -46,6 +46,7 @@ public class GravityPlatform : MonoBehaviour {
 
         while( remainingDistance > 0.1f ) {
             Vector3 newPosition = Vector3.MoveTowards( _rigi.position, endPoint.transform.position, speed * Time.deltaTime );
+            platform.transform.position = newPosition;
             yield return new WaitForFixedUpdate();
 
             remainingDistance = ( platform.transform.position - endPoint.transform.position ).sqrMagnitude;
@@ -70,7 +71,7 @@ public class GravityPlatform : MonoBehaviour {
         _initLocalPosition = platform.transform.position;
 
         // get platform anim component.
-        // _anim = platform.GetComponent<Animator>();
+        _anim = platform.GetComponent<Animator>();
 
         // get rigibody component reference.
         _rigi = platform.GetComponent<Rigidbody>();
