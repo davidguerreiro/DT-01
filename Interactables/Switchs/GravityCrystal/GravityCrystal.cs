@@ -9,6 +9,7 @@ public class GravityCrystal : MonoBehaviour {
 
     [Header("Additional Elements")]
     public RotateAround[] rotateElements;                       // Roteate around decorative elements.
+    public GravityPlatform[] gravityPlatforms;                  // Gravity platforms attached to this gravity crystal.
 
     [Header("Settings")]
     public float activationHits;                                // How many hits this gravity cristal needs to release graviti energy.
@@ -75,6 +76,10 @@ public class GravityCrystal : MonoBehaviour {
 
         if ( _nebuloseAnimRoutine == null ) {
             _nebuloseAnimRoutine = StartCoroutine( PlayNebuloseAnimation() );
+        }
+
+        foreach ( GravityPlatform gravityPlatform in gravityPlatforms ) {
+            gravityPlatform.MovePlatformToEndPoint();
         }
     }
 
