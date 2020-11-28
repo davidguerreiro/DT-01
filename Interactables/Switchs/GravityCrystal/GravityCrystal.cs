@@ -18,7 +18,8 @@ public class GravityCrystal : MonoBehaviour {
 
     [Header("Components")]
     public MeshCollider childCollider;                          // Child collider mesh component reference.
-    public ParticleSystem distorsion;                           // Distorsio particle effect.
+    public ParticleSystem distorsion;                           // Distorsion particle effect.
+    public ParticleSystem particleHit;                          // Hit particle effect.
 
     private Animator _anim;                                     // Animator component reference.
     private AudioComponent _audio;                              // Audio component refernece.
@@ -48,6 +49,7 @@ public class GravityCrystal : MonoBehaviour {
             if ( activationHits > 0 ) {
                 _anim.SetTrigger( "Hit" );
                 distorsion.Play();
+                particleHit.Play();
                 _audio.PlaySound(0);
                 activationHits--;
             } else {
@@ -65,6 +67,8 @@ public class GravityCrystal : MonoBehaviour {
         completeEnabled = true;
 
         _anim.SetBool( "Enabled", true );
+        distorsion.Play();
+        particleHit.Play();
         _audio.PlaySound(1);
 
         if ( _nebuloseAnimRoutine == null ) {
