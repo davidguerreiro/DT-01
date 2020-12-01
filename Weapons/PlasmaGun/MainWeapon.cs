@@ -219,8 +219,8 @@ public class MainWeapon : MonoBehaviour {
             // display shooting sound.
             _audio.PlaySound( 0 );
 
-            // display shooting animation.
-            _animator.SetTrigger( "baseShooting" );
+            // play shooting animation.
+            player.playerAnim.SetTrigger( "Shoot" );
 
             // display shooting particle effect.
             smoke.Play();

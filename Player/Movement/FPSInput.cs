@@ -37,6 +37,9 @@ public class FPSInput : MonoBehaviour {
     [Header("Collider Variables")]
     public float crouchedHeight;                                        // Crouched height value for box collider.
     public float crouchedCenter;                                        // Crouched center value for box collider.
+
+    [Header("Animations")]
+    public Animator playerAnim;                                         // Main player animator component.
     
     [HideInInspector]
     public float deltaX;                                                // Defines the distance the player is moving in the X axis.
@@ -134,6 +137,9 @@ public class FPSInput : MonoBehaviour {
             } else {
                 this.isRunning = false;
             }
+
+            // check for animations.
+            DisplayAnimations();
         }
     }
 
@@ -145,6 +151,26 @@ public class FPSInput : MonoBehaviour {
         // check invencible counter if the player is invencible.
         if ( invencible ) {
              UpdateInvencible();
+        }
+    }
+
+    /// <summary>
+    /// Detect player actions to
+    /// display animation.
+    /// </summary>
+    public void DisplayAnimations() {
+
+        // move and run.
+        if ( isMoving ) {
+            playerAnim.SetBool( "Move", true );
+
+            if ( isRunning ) {
+                playerAnim.SetBool( "Run", true );
+            } else {
+                playerAnim.SetBool( "Run", false );
+            }
+        } else {
+            playerAnim.SetBool( "Move", false );
         }
     }
 
