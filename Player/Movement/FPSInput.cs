@@ -346,7 +346,7 @@ public class FPSInput : MonoBehaviour {
         cameraAnim.SetBool( "ZoomIn", true );
 
         // weapon zoom animation.
-        mainWeaponAnim.SetBool( "aim", true );
+        // mainWeaponAnim.SetBool( "aim", true );
 
     }
 
@@ -360,7 +360,7 @@ public class FPSInput : MonoBehaviour {
             cameraAnim.SetBool( "ZoomIn", false );
 
             // weapon zoom animation.
-            mainWeaponAnim.SetBool( "aim", false );
+            // mainWeaponAnim.SetBool( "aim", false );
 
             isAiming = false; 
         }
