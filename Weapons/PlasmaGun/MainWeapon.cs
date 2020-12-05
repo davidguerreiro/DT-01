@@ -19,6 +19,7 @@ public class MainWeapon : MonoBehaviour {
     public float idleRunningSpeed = 2f;                         // Idle animation running speed.
     public Animator heatedLight;                                // Gun light used for heating input.
     public ParticleSystem[] heatedSmokeParticles;               // Heated smoke particle effects.
+    public AudioComponent heatedAudio;                          // Heated audio component class reference.
     private Animator _animator;                                  // Animator component reference.
 
     // shooting object pool variables.
@@ -37,6 +38,7 @@ public class MainWeapon : MonoBehaviour {
     private float _heatedThreshold;                              // Threshold used to calculate when the weapoin is heated or not.
 
     private AudioComponent _audio;                               // Audio component reference.
+    private Coroutine _heatedRoutine;                            // Heated coroutine component reference.
     
 
     [HideInInspector]
@@ -89,6 +91,12 @@ public class MainWeapon : MonoBehaviour {
 
                 // display no ammo sound.
                 _audio.PlaySound( 1 );
+            }
+        } else {
+            // stop heated sound if game gets paused.
+            if ( _heatedRoutine != null ) {
+                heatedAudio.StopAudio();
+                _heatedRoutine = null;
             }
         }
     }
@@ -289,13 +297,31 @@ public class MainWeapon : MonoBehaviour {
             heatedLight.SetBool( "heatedLight", true );
         }
 
-        if ( plasmaGunData.plasma == 0f ) {
-            // display smoke particles.
-            Debug.Log("here");
-            foreach ( ParticleSystem smokeParticle in heatedSmokeParticles ) {
-                smokeParticle.Play();
-            }
+        if ( plasmaGunData.plasma == 0f && _heatedRoutine == null ) {
+            _heatedRoutine = StartCoroutine( PlayHeatedAnim() );
         }
+    }
+
+    /// <summary>
+    /// Play heated animation.
+    /// </summary>
+    /// <returns>IEnumerator</returns>
+    private IEnumerator PlayHeatedAnim() {
+        float downVolumeSpeed = 0.5f;
+
+        // display smoke particles.
+        foreach ( ParticleSystem smokeParticle in heatedSmokeParticles ) {
+            smokeParticle.Play();
+        }
+
+        // play audio.
+        if ( ! heatedAudio.onFade ) {
+            heatedAudio.PlaySound();
+            yield return new WaitForSeconds( 2f );
+            StartCoroutine( heatedAudio.FadeOutSongRoutine( downVolumeSpeed ) );
+        }
+
+        _heatedRoutine = null;        
     }
 
 
