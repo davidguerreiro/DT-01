@@ -287,8 +287,11 @@ public class MainWeapon : MonoBehaviour {
 
             // enable heated light.
             heatedLight.SetBool( "heatedLight", true );
+        }
 
+        if ( plasmaGunData.plasma == 0f ) {
             // display smoke particles.
+            Debug.Log("here");
             foreach ( ParticleSystem smokeParticle in heatedSmokeParticles ) {
                 smokeParticle.Play();
             }
