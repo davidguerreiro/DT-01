@@ -18,6 +18,7 @@ public class MainWeapon : MonoBehaviour {
     public float idleWalkingSpeed = 0.7f;                       // Idle animtion walking speed.
     public float idleRunningSpeed = 2f;                         // Idle animation running speed.
     public Animator heatedLight;                                // Gun light used for heating input.
+    public ParticleSystem[] heatedSmokeParticles;               // Heated smoke particle effects.
     private Animator _animator;                                  // Animator component reference.
 
     // shooting object pool variables.
@@ -286,6 +287,11 @@ public class MainWeapon : MonoBehaviour {
 
             // enable heated light.
             heatedLight.SetBool( "heatedLight", true );
+
+            // display smoke particles.
+            foreach ( ParticleSystem smokeParticle in heatedSmokeParticles ) {
+                smokeParticle.Play();
+            }
         }
     }
 
