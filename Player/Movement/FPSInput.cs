@@ -172,6 +172,13 @@ public class FPSInput : MonoBehaviour {
         } else {
             playerAnim.SetBool( "Move", false );
         }
+
+        // aim.
+        if ( isAiming ) {
+            playerAnim.SetBool( "Aim", true );
+        } else {
+            playerAnim.SetBool( "Aim", false );
+        }
     }
 
     /// <summary>
