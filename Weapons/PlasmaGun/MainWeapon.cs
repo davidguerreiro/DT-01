@@ -82,7 +82,7 @@ public class MainWeapon : MonoBehaviour {
             CheckHeatedStatus();
 
             // check if the user is clicking the left button mouse to shoot.
-            if ( Input.GetMouseButtonDown( 0 ) && ! plasmaGunData.heated ) {
+            if ( Input.GetMouseButtonDown( 0 ) && ! plasmaGunData.heated && ! player.isRunning ) {
                 Shoot();
             }
 
