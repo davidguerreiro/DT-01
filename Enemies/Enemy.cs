@@ -134,9 +134,15 @@ public abstract class Enemy : MonoBehaviour {
     /// Get damage method.
     /// </summary>
     /// <param name="externalImpactValue">float - damage value caused external attacker, usually the player.</param>
-    public virtual void GetDamage( float externalImpactValue ) {
+    /// <param name="isMelee">bool - Flag to control that the attack received was a melee attack.False by default.</param>
+    public virtual void GetDamage( float externalImpactValue, bool isMelee = false ) {
         if ( isAlive ) {
             float damageReceived = ( externalImpactValue / data.defense ) + UnityEngine.Random.Range( 0f, .5f );
+
+            if ( isMelee ) {
+                damageReceived *= data.meleeVulnerable;
+            }
+
             currentHp -= damageReceived;
             
             UpdateUI();
@@ -556,9 +562,9 @@ public abstract class Enemy : MonoBehaviour {
 
             if ( player.playerInput.inMelee && data.meleeVulnerable > 0f ) {
                 // get damage from melee attack.
-                GetDamage( player.playerInput.weapon.plasmaGunData.meleeDamage );
-                Debug.Log("damaged by melee");
+                GetDamage( player.playerInput.weapon.plasmaGunData.meleeDamage, true );
             } else {
+                // player gets damage.
                 DamagePlayer( player );
             }
         }

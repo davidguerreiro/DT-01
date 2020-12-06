@@ -148,11 +148,6 @@ public class FPSInput : MonoBehaviour {
 
             // check for animations.
             DisplayAnimations();
-
-            // test.
-            if ( inMelee ) {
-                Debug.Log( "inMelee" );
-            }
         }
     }
 
@@ -421,7 +416,8 @@ public class FPSInput : MonoBehaviour {
     private IEnumerator MeleeAttack() {
         inMelee = true;
         playerAnim.SetTrigger( "Melee" );
-        yield return new WaitForSeconds( .4f );
+        // yield return new WaitForSeconds( .4f );
+        yield return new WaitForFixedUpdate();
 
         inMelee = false;
         _meleeRoutine = null;

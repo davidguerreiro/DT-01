@@ -101,8 +101,9 @@ public class MeteoWorm : Enemy {
     /// Get damage.
     /// </summary>
     /// <param name="externalImpactValue">float - damage value caused external attacker, usually the player.</param>
-    public override void GetDamage( float externalImpactValue ) {
-        base.GetDamage( externalImpactValue );
+    /// <param name="isMelee">bool - Flag to control that the attack received was a melee attack.False by default.</param>
+    public override void GetDamage( float externalImpactValue, bool isMelee = false ) {
+        base.GetDamage( externalImpactValue, isMelee );
     }
 
     /// <summary>
