@@ -10,6 +10,7 @@ public class FPSInput : MonoBehaviour {
     public bool isRunning = false;                                      // Flag to control whether the player is running.
     public bool isAiming = false;                                       // Flag to control aiming action status.
     public bool isCrouched = false;                                     // Flag to control crouched status.
+    public bool inMelee = false;                                        // Flag to control melee attack.
     public bool canMove = true;                                         // Whether the player can be moved by user input.
     public bool invencible = false;                                     // Whether the player can take damage from enemies or any other damage input.
 
@@ -66,6 +67,7 @@ public class FPSInput : MonoBehaviour {
     private CapsuleCollider _capsuleCollider;                           // Capsule collider component reference.
     private float _initialCrouchHeight;                                 // Initial crouch height for box collider.
     private float _initialCrouchCenter;                                 // Initial crouch center for box collider.
+    private Coroutine _meleeRoutine;                                    // Melee attack coroutine.
 
     // Start is called before the first frame update.
     void Start() {
@@ -136,6 +138,11 @@ public class FPSInput : MonoBehaviour {
                 this.isRunning = true;
             } else {
                 this.isRunning = false;
+            }
+
+            // melee attack action.
+            if ( ! isAiming && ! inMelee && _meleeRoutine == null && Input.GetKey( "f" ) ) {
+                _meleeRoutine = StartCoroutine( MeleeAttack() );
             }
 
             // check for animations.
@@ -398,6 +405,19 @@ public class FPSInput : MonoBehaviour {
         _capsuleCollider.height = 2f;                   // Original height.
         _boxCollider.size = new Vector3( _boxCollider.size.x, _initialCrouchHeight, _boxCollider.size.z );
         _boxCollider.center = new Vector3( _boxCollider.center.x, _initialCrouchCenter, _boxCollider.center.z );
+    }
+
+    /// <summary>
+    /// Perform melee
+    /// attack.
+    /// </summary>
+    /// <returns>IEnumerator</returns>
+    private IEnumerator MeleeAttack() {
+        inMelee = true;
+        yield return new WaitForSeconds( .1f );
+
+        inMelee = false;
+        _meleeRoutine = null;
     }
 
     /// <summary>
