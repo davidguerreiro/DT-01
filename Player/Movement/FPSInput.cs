@@ -24,6 +24,7 @@ public class FPSInput : MonoBehaviour {
 
     [Header("Settings")]
     public float secondsForInvencible = 1f;                             // Seconds the player is invencible after getting damage.
+    public float meleeDuration = 0.4f;                                  // Seconds the player's melee status is hold.
 
     [Header("References")]
     public GameObject groundChecker;                                    // Player's ground checker.
@@ -147,6 +148,11 @@ public class FPSInput : MonoBehaviour {
 
             // check for animations.
             DisplayAnimations();
+
+            // test.
+            if ( inMelee ) {
+                Debug.Log( "inMelee" );
+            }
         }
     }
 
@@ -415,7 +421,7 @@ public class FPSInput : MonoBehaviour {
     private IEnumerator MeleeAttack() {
         inMelee = true;
         playerAnim.SetTrigger( "Melee" );
-        yield return new WaitForSeconds( .5f );
+        yield return new WaitForSeconds( .4f );
 
         inMelee = false;
         _meleeRoutine = null;

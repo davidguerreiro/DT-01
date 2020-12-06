@@ -111,7 +111,7 @@ public abstract class Enemy : MonoBehaviour {
 
         if ( isAlive && ! GameManager.instance.isPaused ) {
 
-            Debug.Log( currentState );
+            // Debug.Log( currentState );
 
             // look at the player if is in range or in battle.
             if ( isLookingAtPlayer ) {
