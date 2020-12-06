@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlasmaGun : ScriptableObject {
-
+    public int id;                                  // Weapon internal id.
+    
     // TODO: Implement changes by player skills.
+    // TODO: Implement weapon level system.
+    // TODO: Implement level curve data.
     [Header("Damage")]
     public float baseDamage;                        // Base damage caused by simple shoot impact.
     public float chargedShootBost;                  // Multiplier for charged shoots.
