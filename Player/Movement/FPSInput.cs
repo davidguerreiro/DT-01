@@ -141,7 +141,7 @@ public class FPSInput : MonoBehaviour {
             }
 
             // melee attack action.
-            if ( ! isAiming && ! inMelee && _meleeRoutine == null && Input.GetKey( "f" ) ) {
+            if ( ! isAiming && ! inMelee && ! isRunning && _meleeRoutine == null && Input.GetKey( "f" ) ) {
                 _meleeRoutine = StartCoroutine( MeleeAttack() );
             }
 
@@ -414,7 +414,8 @@ public class FPSInput : MonoBehaviour {
     /// <returns>IEnumerator</returns>
     private IEnumerator MeleeAttack() {
         inMelee = true;
-        yield return new WaitForSeconds( .1f );
+        playerAnim.SetTrigger( "Melee" );
+        yield return new WaitForSeconds( .5f );
 
         inMelee = false;
         _meleeRoutine = null;

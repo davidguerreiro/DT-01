@@ -69,10 +69,9 @@ public class MeteoWorm : Enemy {
     private void ListerForCurrentState() {
 
         switch ( currentState ) {
-            case State.battling:        // Engage enemy in combat
+            case State.battling:        // Engage enemy in combat.
 
                 if ( ! inBattle && battleCoroutine == null ) {
-                    // Debug.Log( "enter battle" );
                     battleCoroutine = StartCoroutine( "BattleLoop" );
                 }
                 break;

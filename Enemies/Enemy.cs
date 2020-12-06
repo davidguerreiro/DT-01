@@ -546,18 +546,33 @@ public abstract class Enemy : MonoBehaviour {
     }
 
     /// <summary>
+    /// Contact player.
+    /// </summary>
+    /// <param name="other">Collider - The other Collider involved in this collision.</param>
+    private void ContactPlayer( Collider other ) {
+        Player player = other.GetComponent<Player>();
+            
+        if ( ! player.playerInput.invencible ) {
+
+            if ( player.playerInput.inMelee && data.meleeVulnerable > 0f ) {
+                // get damage from melee attack.
+                GetDamage( player.playerInput.weapon.plasmaGunData.meleeDamage );
+                Debug.Log("damaged by melee");
+            } else {
+                DamagePlayer( player );
+            }
+        }
+    }
+
+    /// <summary>
     /// OnTriggerEnter is called when the Collider other enters the trigger.
     /// </summary>
-    /// <param name="other">The other Collider involved in this collision.</param>
-    void OnTriggerEnter(Collider other) {
+    /// <param name="other">Collider - The other Collider involved in this collision.</param>
+    void OnTriggerEnter( Collider other ) {
             
         // check if player is colliding.
         if ( other.tag == "Player" ) {
-            Player player = other.GetComponent<Player>();
-            
-            if ( ! player.playerInput.invencible ) {
-                DamagePlayer( player );
-            }
+            ContactPlayer( other );
         }
     }
 
@@ -565,16 +580,12 @@ public abstract class Enemy : MonoBehaviour {
     /// OnTriggerStay is called once per frame for every Collider other
     /// that is touching the trigger.
     /// </summary>
-    /// <param name="other">The other Collider involved in this collision.</param>
+    /// <param name="other">Collider - The other Collider involved in this collision.</param>
     void OnTriggerStay( Collider other ) {
         
         // check if player is colliding.
         if ( other.tag == "Player" ) {
-            Player player = other.GetComponent<Player>();
-            
-            if ( ! player.playerInput.invencible ) {
-                DamagePlayer( player );
-            }
+            ContactPlayer( other );
         }
     }
 

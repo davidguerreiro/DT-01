@@ -17,6 +17,7 @@ public class EnemyData : ScriptableObject {
     public float attack;                    // Used to calculate damage caused to the player.
     public float defense;                   // Used to calculate damage done by the player to this enemy.
     public float speed;                     // Used to calculate movement speed.
+    public float meleeVulnerable;           // Used to calculate how much damage can this enemy get from melee attacks, if any.
 
     [Header("Action Rations")]
     public float attackRatio;               // Used to calculate enemy attack ratio.
