@@ -53,7 +53,7 @@ public class ChargedBullet : Bullet {
         _audioComponent.PlaySound(0);
         coreParticles.Play();
 
-        while ( ! xReady && ! yReady && ! zReady ) {
+        while ( ! xReady || ! yReady || ! zReady ) {
             float toGrown = speed * Time.deltaTime;
             growing = new Vector3( growing.x + toGrown, growing.y + toGrown, growing.z + toGrown );
 
@@ -72,6 +72,9 @@ public class ChargedBullet : Bullet {
             transform.localScale = growing;
             yield return new WaitForFixedUpdate();
         }
+        
+        // fix any floating error after animation.
+        transform.localScale = new Vector3( maxSize.x, maxSize.y, maxSize.z );
 
         // charged shoot ready to be shoot.
         _anim.SetBool( "Completed", true );
