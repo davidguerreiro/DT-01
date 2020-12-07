@@ -46,6 +46,15 @@ public class PlasmaGun : ScriptableObject {
     }
 
     /// <summary>
+    /// Get charged boost damage
+    /// value.
+    /// </summary>
+    /// <returns>float</returns>
+    public float GetChargedDamageBaseValue() {
+        return baseDamage * chargedShootBost;
+    }
+
+    /// <summary>
     /// Restart default changing values.
     /// </summary>
     /// <param name="toGameInit">bool - wheter to restart parameters to the default value at the beginning of the game, including those modify by skills and items</param>

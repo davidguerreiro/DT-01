@@ -25,9 +25,12 @@ public class MainWeapon : MonoBehaviour {
     // shooting object pool variables.
     [Header( "Shooting Ammo" ) ]
     public GameObject ammoPrefab;                               // Ammo proyectile prefab to instantiate when shooting.
+    public GameObject chargedAmmoPrefab;                        // Charged ammo prefab proyectile to instantiate when charging shoot.
     public GameObject shootingOrigin;                           // Shooting origin - point from where the proyectiles are shoot from the weapon. 
     private static List<GameObject> ammoPool;                   // Ammo pool list of gameObjects - used to save a ready-to-use pool of ammo objects to shoot.
-    public int poolSize;                                        // Number of ammo obejcts to keep in the object pool.
+    private static List<GameObject> chargedAmmoPool;            // Charged ammo pool list of gameObjects - used to save a ready-to-use poll of ammo charged objects to shoot.
+    public int poolSize;                                        // Number of ammo objects to keep in the object pool.
+    public int chargedPoolSize;                                 // Number of ammo objects to keep in the charged ammo object pool.
     public float freeAiminDistance = 50f;                       // Distance used to calculate where to shoot when no middle screen hit point is set.                                 
 
     [Header( "Shooting Particle Effects")]
@@ -39,6 +42,7 @@ public class MainWeapon : MonoBehaviour {
 
     private AudioComponent _audio;                               // Audio component reference.
     private Coroutine _heatedRoutine;                            // Heated coroutine component reference.
+    private Coroutine _chargedShootRoutine;                      // Charged shoot coroutine reference.
     
 
     [HideInInspector]
@@ -82,8 +86,15 @@ public class MainWeapon : MonoBehaviour {
             CheckHeatedStatus();
 
             // check if the user is clicking the left button mouse to shoot.
+            /*
             if ( Input.GetMouseButtonDown( 0 ) && ! plasmaGunData.heated && ! player.isRunning ) {
                 Shoot();
+            }
+            */
+
+            // check if the user is holding the left button mouse to charge a shoot.
+            if ( Input.GetMouseButton( 0 ) && _chargedShootRoutine == null && ! plasmaGunData.heated && ! player.isRunning && ! player.isAiming ) {
+                _chargedShootRoutine = StartCoroutine( ShootCharged() );
             }
 
             // display no ammo sound if the users tries to shoot and the plasma gun is heated.
@@ -151,9 +162,12 @@ public class MainWeapon : MonoBehaviour {
     private void SetAmmoPool() {
 
         ammoPool = new List<GameObject>();
+        chargedAmmoPool = new List<GameObject>();
 
+        // set up standard bullets.
         for ( int i = 0; i < poolSize; i++ ) {
 
+            // set up standard bullets.
             GameObject ammoObject = Instantiate( ammoPrefab );
             ammoObject.transform.parent = shootingOrigin.transform;
             ammoObject.transform.localPosition = Vector3.zero;
@@ -161,16 +175,42 @@ public class MainWeapon : MonoBehaviour {
             ammoObject.SetActive( false );
             ammoPool.Add( ammoObject );
         }
+
+        // set up charged bullets.
+        for ( int i = 0; i < chargedPoolSize; i++ ) {
+
+            // set up charged bullets.
+            GameObject chargedAmmoObject = Instantiate( chargedAmmoPrefab );
+            chargedAmmoObject.transform.parent = shootingOrigin.transform;
+            chargedAmmoObject.transform.localPosition = Vector3.zero;
+
+            chargedAmmoObject.SetActive( false );
+            chargedAmmoPool.Add( chargedAmmoObject );
+        }
     }
 
     /// <summary>
     /// Spawn ammo.
     /// </summary>
+    /// <param name="ammoType">string - ammo type to spawn. "standard" by default.</param>
     /// <returns>GameObject</returns>
-    public GameObject SpawnAmmo() {
+    public GameObject SpawnAmmo( string ammoType = "standard" ) {
+        var ammoList = ammoPool;
 
-        foreach ( GameObject ammo in ammoPool ) {
-            
+        switch ( ammoType ) {
+            case "standard":
+                ammoList = ammoPool;
+                break;
+            case "charged":
+                ammoList = chargedAmmoPool;
+                break;
+            default:
+                ammoList = ammoPool;
+                break;
+        };
+
+        foreach ( GameObject ammo in ammoList ) {
+                
             if ( ammo.activeSelf == false ) {
 
                 // check if it is a already shot projectile.
@@ -198,7 +238,6 @@ public class MainWeapon : MonoBehaviour {
         GameObject ammo = SpawnAmmo();
 
         if ( ammo != null ) {
-
 
             Vector3 destination = _rayShooter.centerPoint;
             Bullet bullet = ammo.GetComponent<Bullet>();
@@ -234,6 +273,71 @@ public class MainWeapon : MonoBehaviour {
             // display shooting particle effect.
             smoke.Play();
 
+        }
+    }
+
+    /// <summary>
+    /// Shoot charged proyectile
+    /// throught the main weapon.
+    /// </summary>
+    /// <returns>IEnumerator</returns>
+    public IEnumerator ShootCharged() {
+        GameObject ammo = SpawnAmmo( "charged" );
+        Debug.Log( ammo );
+
+        if ( ammo != null ) {
+
+            Vector3 destination = _rayShooter.centerPoint;
+            ChargedBullet bullet = ammo.GetComponent<ChargedBullet>();
+            
+            // set bullet direction
+            Vector3 aimSpot = _mainCamera.gameObject.transform.position;
+            
+            // adjust bullet direction if the player is moving or running.
+            if ( player.xDirection != "" ) {
+                aimSpot = AdjustDestination( aimSpot );
+            } 
+
+            // set bullet damage
+            bullet.damage = plasmaGunData.GetChargedDamageBaseValue();
+
+            // start charged animation.
+            bullet.ChargeShoot();
+
+            player.isCharging = true;
+
+            // wait until user release mouse button.
+            do {
+                aimSpot = _mainCamera.gameObject.transform.position;
+                aimSpot += _mainCamera.gameObject.transform.forward * freeAiminDistance;
+                yield return new WaitForFixedUpdate();
+            } while ( Input.GetMouseButton( 0 ) );
+
+            player.isCharging = false;
+
+            if ( bullet.readyToShoot ) {
+
+                bullet.ShootBullet( aimSpot, shootForce, player );
+                bullet.PlayShootAnim();
+
+                // update plasma gun data.
+                plasmaGunData.UpdatePlasma();
+
+                // play shooting animation.
+                player.playerAnim.SetTrigger( "Shoot" );
+
+                // display shooting particle effect.
+                smoke.Play();
+            } else {
+                bullet.RestoreBullet();
+                bullet.StopCharging();
+                bullet.ResetChargedBullet();
+
+                // shoot standard bullet.
+                Shoot();
+            }
+
+            _chargedShootRoutine = null;
         }
     }
 

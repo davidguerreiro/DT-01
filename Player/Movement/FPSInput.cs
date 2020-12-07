@@ -11,6 +11,7 @@ public class FPSInput : MonoBehaviour {
     public bool isAiming = false;                                       // Flag to control aiming action status.
     public bool isCrouched = false;                                     // Flag to control crouched status.
     public bool inMelee = false;                                        // Flag to control melee attack.
+    public bool isCharging = false;                                     // Flag to control charging attack;
     public bool canMove = true;                                         // Whether the player can be moved by user input.
     public bool invencible = false;                                     // Whether the player can take damage from enemies or any other damage input.
 

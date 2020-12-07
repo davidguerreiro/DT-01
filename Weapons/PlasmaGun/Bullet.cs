@@ -144,7 +144,7 @@ public class Bullet : MonoBehaviour {
     /// Restore bullet to obejct pool
     /// original state.
     /// </sumamry>
-    private void RestoreBullet() {
+    public void RestoreBullet() {
         _shooted = false;
 
         // reasing to object pool.
@@ -157,7 +157,7 @@ public class Bullet : MonoBehaviour {
     /// <summary>
     /// Init class method.
     /// </summary>
-    private void Init() {
+    public virtual void Init() {
 
         // set original position attribute.
         // _originalPosition = transform.position;

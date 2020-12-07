@@ -18,6 +18,10 @@ public class AudioComponent : MonoBehaviour {
         Init();
     }
 
+    private void Awake() {
+        Init();
+    }
+
     /// <summary>
     /// Play sound.
     /// </summary>
