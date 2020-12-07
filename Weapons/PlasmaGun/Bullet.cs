@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour {
-    public float damage = 1;                                           // Damage caused by this bullet.
+    public float damage = 1;                                         // Damage caused by this bullet.
     public float maximunDistance = 150f;                             // Maximun distance the bullet can move towards before being restore to the bullet object pool.
-    public GameObject impactParticles;                               // GameObject which contains impact particle effect.             
+    public enum Type {                                               // Bulle type enum.
+        standard,                                                    // Standard shoot bullet.
+        charged,                                                     // Charged shoot bullet.
+    }
+    public Type bulletType;                                          // Current bullet type.
     private Vector3 _originalPosition;                               // Original bullet position. Used to restore bullet to weapoin shooting origin after the bullet is destroyed.                  
     private Vector3 _destination;                                    // Where the bullet is shot towards.
     private float _speed;                                            // Movement speed. Defined by weapon.
     private bool _shooted = false;                                   // When true, bullet can move towards destination.
     private GameObject _parent;                                      // Shooting original position parent. This is the gameObject which holds the object pool. 
+
 
     // old scale: x: 0.05936146, y:0.02604678, z:0.08106801
 

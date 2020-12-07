@@ -20,16 +20,16 @@ MonoBehaviour:
   attack: 12
   defense: 1.8
   speed: 1
-  meleeVulnerable: 1
+  meleeVulnerable: 0.9
   attackRatio: 6
   randomMovementRatio: 15
   randXMovementAmplitude: 3
   randZMovementAmplitude: 3
   attacks:
-  - attack: {fileID: 11400000, guid: 1d59b3bce701e4513bcc28e57f8e2c46, type: 2}
-    rate: 40
   - attack: {fileID: 11400000, guid: af6ddd77fd8084ec29342995887943e7, type: 2}
     rate: 60
+  - attack: {fileID: 11400000, guid: 1d59b3bce701e4513bcc28e57f8e2c46, type: 2}
+    rate: 40
   enemyType: {fileID: 11400000, guid: f47bce043d44c4f509abe2ba1c438fe9, type: 2}
   isBoss: 0
   descriptionEsp: "Esta peque\xF1a larva de MeteoSaur anida en las cuevas de los
@@ -46,5 +46,5 @@ MonoBehaviour:
   strategyEng: They can detect other beings presence by surface vibration, so there
     is no way they can be ambushed from behind. They are quite slow, so, as soon
     as you have them in range, shoot them..
-  defeated: 19
+  defeated: 67
   reset: 0

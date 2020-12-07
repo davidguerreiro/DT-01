@@ -16,8 +16,8 @@ public class PlasmaGun : ScriptableObject {
     [Header("Munition")]
     public int plasma;                              // Plasma charged in the weapon.
     public int maxPlasma;                           // Maximun amount of plasma in the weapon.
-    public int shootCost;                         // Plasma shoot cost - how much plasma is used to shoot base fire.
-    public int chargedShootCost;                  // Plasma charged shoot cost - how much plasma is used to shoot a charged attack.
+    public int shootCost;                           // Plasma shoot cost - how much plasma is used to shoot base fire.
+    public int chargedShootCost;                    // Plasma charged shoot cost - how much plasma is used to shoot a charged attack.
 
     [Header("Weapon state")]
     public bool heated;                             // If the weapon runs out of plasma, it will heated and will take more time to recharge.
