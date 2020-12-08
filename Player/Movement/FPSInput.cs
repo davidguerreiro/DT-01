@@ -122,7 +122,7 @@ public class FPSInput : MonoBehaviour {
             }
 
             // aim action.
-            if ( grounded && ! isRunning && Input.GetMouseButton( 1 ) ) {
+            if ( grounded && ! isRunning && ! isCharging && Input.GetMouseButton( 1 ) ) {
                 Aim();
             } else {
                 StopAiming();
@@ -136,7 +136,7 @@ public class FPSInput : MonoBehaviour {
             }
 
             // run action.
-            if ( grounded && isMoving && ! isAiming && Input.GetKey( "left shift" ) ) {
+            if ( grounded && isMoving && ! isAiming && ! isCharging && Input.GetKey( "left shift" ) ) {
                 this.isRunning = true;
             } else {
                 this.isRunning = false;
