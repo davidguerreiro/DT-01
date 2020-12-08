@@ -312,7 +312,7 @@ public class MainWeapon : MonoBehaviour {
                 aimSpot = AdjustDestination( aimSpot );
             } 
 
-            // set bullet damage
+            // set bullet damage.
             bullet.damage = plasmaGunData.GetChargedDamageBaseValue();
 
             // start charged animation.
@@ -335,7 +335,7 @@ public class MainWeapon : MonoBehaviour {
                 bullet.PlayShootAnim();
 
                 // update plasma gun data.
-                plasmaGunData.UpdatePlasma();
+                plasmaGunData.UpdatePlasma( true );
 
                 // play shooting animation.
                 player.playerAnim.SetTrigger( "Shoot" );
