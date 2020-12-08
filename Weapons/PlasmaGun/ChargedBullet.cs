@@ -83,11 +83,11 @@ public class ChargedBullet : Bullet {
             }
 
             if ( topLight.intensity < maxLightIntensity ) {
-                topLight.intensity += lightSpeed * Time.deltaTime;
+                //topLight.intensity += lightSpeed * Time.deltaTime;
             }
 
             if ( frontLight.intensity < maxLightIntensity ) {
-                frontLight.intensity += lightSpeed * Time.deltaTime;
+                //frontLight.intensity += lightSpeed * Time.deltaTime;
             }
 
             plasmaProyectile.gameObject.transform.localScale = growing;
@@ -167,12 +167,14 @@ public class ChargedBullet : Bullet {
         if ( impact != null ) {
             impact.DisplayImpact( transform.position );
         }
-        // old effect.
-        /// Instantiate( impactParticles, transform.position, Quaternion.identity );
+        
+        // show charging impact effect.
+        var instance = Instantiate( impactEffect, transform.position, Quaternion.identity );
+        instance.transform.parent = null;
+        Destroy( instance, 2.5f );
         
         base.RestoreBullet();
         
-        // TODO: Display explosion here.
         ResetChargedBullet();
     }
 
