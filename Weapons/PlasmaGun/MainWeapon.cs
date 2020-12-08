@@ -11,6 +11,7 @@ public class MainWeapon : MonoBehaviour {
     [Header("Shooting") ]
     public float shootForce;                                    // Shoot force which determines the speed of the projectile.
     public PlasmaGun plasmaGunData;                             // Plasma gun scriptable object.
+    public float framesToCharge;                                // How many frames to wait till the system checks for holding mouse button to charge shoot.
     private RayShooter _rayShooter;                             // Component used to aim when shooting.
     
     [Header( "Weapon Animation" ) ]
@@ -54,6 +55,7 @@ public class MainWeapon : MonoBehaviour {
 
     [HideInInspector]
     public AnimStates animStates;                              // Instance for animation states.
+    private float _framesHolding;                               // Frames holding the shooting button to charge shoot.
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
@@ -86,15 +88,13 @@ public class MainWeapon : MonoBehaviour {
             CheckHeatedStatus();
 
             // check if the user is clicking the left button mouse to shoot.
-            /*
             if ( Input.GetMouseButtonDown( 0 ) && ! plasmaGunData.heated && ! player.isRunning ) {
                 Shoot();
             }
-            */
 
             // check if the user is holding the left button mouse to charge a shoot.
             if ( Input.GetMouseButton( 0 ) && _chargedShootRoutine == null && ! plasmaGunData.heated && ! player.isRunning && ! player.isAiming ) {
-                _chargedShootRoutine = StartCoroutine( ShootCharged() );
+                CheckForStartingChargingShoot();
             }
 
             // display no ammo sound if the users tries to shoot and the plasma gun is heated.
@@ -150,6 +150,21 @@ public class MainWeapon : MonoBehaviour {
                 break;
         }
 
+    }
+
+    /// <summary>
+    /// Check for starting 
+    /// charging shoot.
+    /// </summary>
+    private void CheckForStartingChargingShoot() {
+        if ( _chargedShootRoutine == null && ! plasmaGunData.heated && ! player.isRunning && ! player.isAiming ) {
+            if ( _framesHolding < framesToCharge ) {
+                _framesHolding++;
+            } else {
+                _framesHolding = 0;
+                _chargedShootRoutine = StartCoroutine( ShootCharged() );
+            }
+        }
     }
 
     /// <summary>
@@ -283,7 +298,6 @@ public class MainWeapon : MonoBehaviour {
     /// <returns>IEnumerator</returns>
     public IEnumerator ShootCharged() {
         GameObject ammo = SpawnAmmo( "charged" );
-        Debug.Log( ammo );
 
         if ( ammo != null ) {
 
