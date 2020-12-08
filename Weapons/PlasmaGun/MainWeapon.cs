@@ -103,6 +103,10 @@ public class MainWeapon : MonoBehaviour {
                 // display no ammo sound.
                 _audio.PlaySound( 1 );
             }
+
+            if ( Input.GetMouseButtonUp( 0 ) ) {
+                _framesHolding = 0;
+            }
         } else {
             // stop heated sound if game gets paused.
             if ( _heatedRoutine != null ) {
@@ -159,6 +163,7 @@ public class MainWeapon : MonoBehaviour {
     private void CheckForStartingChargingShoot() {
         if ( _chargedShootRoutine == null && ! plasmaGunData.heated && ! player.isRunning && ! player.isAiming ) {
             if ( _framesHolding < framesToCharge ) {
+                Debug.Log( _framesHolding );
                 _framesHolding++;
             } else {
                 _framesHolding = 0;

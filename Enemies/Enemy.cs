@@ -143,8 +143,6 @@ public abstract class Enemy : MonoBehaviour {
                 damageReceived *= data.meleeVulnerable;
             }
 
-            Debug.Log( damageReceived );
-
             currentHp -= damageReceived;
             
             UpdateUI();
