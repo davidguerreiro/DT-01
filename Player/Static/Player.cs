@@ -8,6 +8,9 @@ public class Player : MonoBehaviour {
 
     [HideInInspector]
     public static string onVisionRange = "";               // This string will always contains the name of the tag currently seen by the player. Updated from Ray Shooter class in the main camera.
+    
+    [HideInInspector]
+    public static bool onForcedCrouch = false;             // This flag will be true when the player is in an area where it has to be crouched ( like in a tunnel or something like that ).
 
     [Header("Inventory")]
     public Inventory basicInventory;                       // Basic items inventory data coming from Inventory scriptable.

@@ -31,11 +31,6 @@ public class InteractSection : MonoBehaviour {
         Init();
     }
 
-    // Update is called once per frame
-    void Update() {
-        
-    }
-
     /// <summary>
     /// Display initeract
     /// section label.

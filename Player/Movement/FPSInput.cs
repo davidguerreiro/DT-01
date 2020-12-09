@@ -67,6 +67,7 @@ public class FPSInput : MonoBehaviour {
     private Animator _anim;                                             // Animator controller reference.
     private BoxCollider _boxCollider;                                   // Box collider component reference.
     private CapsuleCollider _capsuleCollider;                           // Capsule collider component reference.
+    private CharacterController _characterContorller;                   // Character controller component reference.
     private float _initialCrouchHeight;                                 // Initial crouch height for box collider.
     private float _initialCrouchCenter;                                 // Initial crouch center for box collider.
     private Coroutine _meleeRoutine;                                    // Melee attack coroutine.
@@ -128,7 +129,7 @@ public class FPSInput : MonoBehaviour {
                 StopAiming();
             }
 
-            // crouch action
+            // crouch action.
             if ( grounded && ! isRunning && Input.GetKey( "left ctrl" ) ) {
                 CrouchDown();
             } else {
@@ -143,7 +144,7 @@ public class FPSInput : MonoBehaviour {
             }
 
             // melee attack action.
-            if ( ! isAiming && ! inMelee && ! isRunning && _meleeRoutine == null && Input.GetKey( "f" ) ) {
+            if ( ! isAiming && ! inMelee && ! isRunning && _meleeRoutine == null && ! GamePlayUI.instance.interactNotification.displayed && Input.GetKey( "f" ) ) {
                 _meleeRoutine = StartCoroutine( MeleeAttack() );
             }
 
@@ -380,6 +381,7 @@ public class FPSInput : MonoBehaviour {
     /// </summary>
     private void CrouchDown() {
         _capsuleCollider.height = 1f;                   // Crouch size.
+        _characterContorller.height = 1f;               
         _boxCollider.size = new Vector3( _boxCollider.size.x, crouchedHeight, _boxCollider.size.z );
         _boxCollider.center = new Vector3( _boxCollider.center.x, crouchedCenter, _boxCollider.size.z );
         _anim.SetBool( "Crouch", true );
@@ -405,6 +407,7 @@ public class FPSInput : MonoBehaviour {
     /// </summary>
     private void RestoreCollidersFromCrouched() {
         _capsuleCollider.height = 2f;                   // Original height.
+        _characterContorller.height = 2f;
         _boxCollider.size = new Vector3( _boxCollider.size.x, _initialCrouchHeight, _boxCollider.size.z );
         _boxCollider.center = new Vector3( _boxCollider.center.x, _initialCrouchCenter, _boxCollider.center.z );
     }
@@ -503,6 +506,9 @@ public class FPSInput : MonoBehaviour {
 
         // get capsule collider component reference.
         _capsuleCollider = GetComponent<CapsuleCollider>();
+
+        // get character controller component reference.
+        _characterContorller = GetComponent<CharacterController>();
 
         // set default direction in the player movement direction control variables.
         xDirection = "";
