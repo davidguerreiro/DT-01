@@ -175,7 +175,6 @@ public class MainWeapon : MonoBehaviour {
     private void CheckForStartingChargingShoot() {
         if ( _chargedShootRoutine == null && ! plasmaGunData.heated && ! player.isRunning && ! player.isAiming ) {
             if ( _framesHolding < framesToCharge ) {
-                Debug.Log( _framesHolding );
                 _framesHolding++;
             } else {
                 _framesHolding = 0;

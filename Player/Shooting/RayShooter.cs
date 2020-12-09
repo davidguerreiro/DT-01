@@ -36,6 +36,9 @@ public class RayShooter : MonoBehaviour {
         // update center point.
         if ( Physics.Raycast( ray, out hit ) ) {
             centerPoint = hit.point;
+            
+            // update player vision range object.
+            Player.onVisionRange = hit.collider.tag;
         } else {
             centerPoint = Vector3.zero;
         }
