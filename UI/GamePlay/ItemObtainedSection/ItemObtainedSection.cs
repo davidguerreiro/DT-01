@@ -29,8 +29,6 @@ public class ItemObtainedSection : MonoBehaviour {
         objectNot.transform.parent = gameObject.transform;
         objectNot.transform.localPosition = Vector3.zero;
 
-        Debug.Log( _rect.transform.localPosition );
-
         if ( objectNot != null ) {
             objectNot.GetComponent<ItemNotification>().DisplayNotification( item, quantity );
         }

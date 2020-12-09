@@ -10,6 +10,7 @@ public class GamePlayUI : MonoBehaviour {
     public ItemObtainedSection itemObtainedSection;         // Item obtained section component wrapper to be used when the player collects a new item in real time gameplay.
     public BaseHealthBar healthBar;                         // Player health bar.
     public InteractSection interactNotification;            // Interactable notification. Displays actions that the player can perform.
+    public EnemyDataSection enemyDataSection;               // Enemy data section component.
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.

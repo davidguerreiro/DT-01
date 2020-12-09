@@ -95,7 +95,6 @@ public abstract class Enemy : MonoBehaviour {
     [HideInInspector]
     public EnemyGroup enemyGroup;                           // Current enemy's enemy group.
 
-    protected EnemyHPBar enemyHPBar;                           // Enemy HP Bar UI component reference - used to display enemy data in the gameplay UI.
     protected Coroutine moveCoroutine;                         // Moving coroutine.
     protected Coroutine rotateCoroutine;                       // Rotating coroutine.
     protected Coroutine attackCoroutine;                       // Attack coroutine.
@@ -148,8 +147,8 @@ public abstract class Enemy : MonoBehaviour {
             UpdateUI();
 
             if ( currentHp <= 0f ) {
-                // remove fill straight with high speed animation.
-                enemyHPBar.fill.FadeOut( 50f );
+                // remove enemy data UI section.
+                GamePlayUI.instance.enemyDataSection.Hide();
                 StartCoroutine( Die() );
             } else {
                 // display hit particles.
@@ -427,15 +426,19 @@ public abstract class Enemy : MonoBehaviour {
     /// </summary>
     private void UpdateUI() {
         // Update UI.
-        if ( enemyHPBar.enemyID != publicID ) {
-            enemyHPBar.SetUp( publicID, data.enemySprite, currentHp, maxHp );
+        if ( GamePlayUI.instance.enemyDataSection.enemyID != publicID ) {
+            if ( ! GamePlayUI.instance.enemyDataSection.displayed) {
+                GamePlayUI.instance.enemyDataSection.Display();
+            }
+            GamePlayUI.instance.enemyDataSection.SetUp( publicID, data.enemyName, data.enemySprite, currentHp, maxHp );
         }
 
-        if ( ! enemyHPBar.displayed ) {
-            enemyHPBar.Display();
+        if ( ! GamePlayUI.instance.enemyDataSection.displayed) {
+            GamePlayUI.instance.enemyDataSection.Display();
         }
 
-        enemyHPBar.UpdateHP( currentHp );
+        GamePlayUI.instance.enemyDataSection.hpBar.UpdateHP( currentHp );
+        GamePlayUI.instance.enemyDataSection.ResetBarDisplayedCounter();
     }
 
     /// <summary>
@@ -711,9 +714,6 @@ public abstract class Enemy : MonoBehaviour {
 
         // set up random movement ratio.
         randomMovementFrameChecker = CalculateRandomMovementRatio();
-
-        // set UI enemy bar component.
-        enemyHPBar = GameObject.Find( "EnemyHPBar" ).GetComponent<EnemyHPBar>();
 
         // get rigibody component reference.
         _rigi = GetComponent<Rigidbody>();
