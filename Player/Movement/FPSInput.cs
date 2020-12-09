@@ -393,7 +393,7 @@ public class FPSInput : MonoBehaviour {
     /// Crouch up.
     /// </summary>
     private void CrouchUp() {
-        if ( isCrouched ) {
+        if ( isCrouched && ! Player.onForcedCrouch ) {
             _anim.SetBool( "Crouch", false );
             isCrouched = false;
             
