@@ -11,6 +11,7 @@ public class GamePlayUI : MonoBehaviour {
     public BaseHealthBar healthBar;                         // Player health bar.
     public InteractSection interactNotification;            // Interactable notification. Displays actions that the player can perform.
     public EnemyDataSection enemyDataSection;               // Enemy data section component.
+    public DamageSection damageSection;                     // Damage section classc component reference.
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.

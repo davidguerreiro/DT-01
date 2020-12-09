@@ -144,11 +144,11 @@ public abstract class Enemy : MonoBehaviour {
 
             currentHp -= damageReceived;
             
-            UpdateUI();
+            UpdateUI( damageReceived );
 
             if ( currentHp <= 0f ) {
                 // remove enemy data UI section.
-                GamePlayUI.instance.enemyDataSection.Hide();
+                // GamePlayUI.instance.enemyDataSection.Hide();
                 StartCoroutine( Die() );
             } else {
                 // display hit particles.
@@ -424,7 +424,8 @@ public abstract class Enemy : MonoBehaviour {
     /// Update UI when the 
     /// enemy gets damaged by the player.
     /// </summary>
-    private void UpdateUI() {
+    /// <param name="damageGot">float - Damage got by the enemy.</param>
+    private void UpdateUI( float damageGot ) {
         // Update UI.
         if ( GamePlayUI.instance.enemyDataSection.enemyID != publicID ) {
             if ( ! GamePlayUI.instance.enemyDataSection.displayed) {
@@ -439,6 +440,8 @@ public abstract class Enemy : MonoBehaviour {
 
         GamePlayUI.instance.enemyDataSection.hpBar.UpdateHP( currentHp );
         GamePlayUI.instance.enemyDataSection.ResetBarDisplayedCounter();
+
+        GamePlayUI.instance.damageSection.DisplayDamage( damageGot );
     }
 
     /// <summary>

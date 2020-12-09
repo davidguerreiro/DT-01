@@ -18,7 +18,7 @@ public class EnemyHPBar : MonoBehaviour {
 
 
     // Start is called before the first frame update
-    void Start() {
+    void Awake() {
         Init();   
     }
 
@@ -28,8 +28,14 @@ public class EnemyHPBar : MonoBehaviour {
     /// <param name="currentHP">float - new enemy HP value.</param>
     public void UpdateHP( float currentHP ) {
         if ( _slider != null ) {
+            Debug.Log( "called" );
             _slider.value = currentHP;
+
+            if ( currentHP <= 0 ) {
+                fill.gameObject.SetActive( false );
+            }
         }
+
     }
 
     /// <summary>
@@ -48,6 +54,10 @@ public class EnemyHPBar : MonoBehaviour {
             // resize enemy HP bar to adjust to enemy max HP.
             // float toAdd = ( maxHP < toIgnoreOffset ) ? maxHP + offset : maxHP;
             // _rect.SetInsetAndSizeFromParentEdge( RectTransform.Edge.Right, 0, toAdd );
+
+            if ( currentHP > 0f ) {
+                fill.gameObject.SetActive( true );
+            }
         }        
     }
 
