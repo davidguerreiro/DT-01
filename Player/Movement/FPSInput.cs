@@ -382,6 +382,7 @@ public class FPSInput : MonoBehaviour {
     private void CrouchDown() {
         _capsuleCollider.height = 1f;                   // Crouch size.
         _characterContorller.height = 1f;               
+        _characterContorller.center = new Vector3( _characterContorller.center.x, -0.49f, _characterContorller.center.z );
         _boxCollider.size = new Vector3( _boxCollider.size.x, crouchedHeight, _boxCollider.size.z );
         _boxCollider.center = new Vector3( _boxCollider.center.x, crouchedCenter, _boxCollider.size.z );
         _anim.SetBool( "Crouch", true );
@@ -408,6 +409,7 @@ public class FPSInput : MonoBehaviour {
     private void RestoreCollidersFromCrouched() {
         _capsuleCollider.height = 2f;                   // Original height.
         _characterContorller.height = 2f;
+        _characterContorller.center = Vector3.zero;
         _boxCollider.size = new Vector3( _boxCollider.size.x, _initialCrouchHeight, _boxCollider.size.z );
         _boxCollider.center = new Vector3( _boxCollider.center.x, _initialCrouchCenter, _boxCollider.center.z );
     }
