@@ -7,7 +7,7 @@ public class Player : MonoBehaviour {
     public PlayerStats playerData;                         // Player dynamic data coming from PlayerStats scriptable.
 
     [HideInInspector]
-    public static string onVisionRange;                    // This string will always contains the name of the tag currently seen by the player. Updated from Ray Shooter class in the main camera.
+    public static string onVisionRange = "";               // This string will always contains the name of the tag currently seen by the player. Updated from Ray Shooter class in the main camera.
 
     [Header("Inventory")]
     public Inventory basicInventory;                       // Basic items inventory data coming from Inventory scriptable.
@@ -26,10 +26,6 @@ public class Player : MonoBehaviour {
 
     void Start() {
         Init();
-    }
-
-    private void Update() {
-        Debug.Log( onVisionRange );
     }
 
     /// <summary>

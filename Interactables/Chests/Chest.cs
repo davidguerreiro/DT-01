@@ -60,9 +60,26 @@ public class Chest : MonoBehaviour {
     /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerEnter(Collider other) {
         
-        // show interaction notification to player if this chest has not been opened.
-        if ( ! opened && other.gameObject.tag == "Player" && GamePlayUI.instance != null ) {
+        // show interaction notification to player if this chest has not been opened and chest is in player vision range.
+        if ( ! opened && other.gameObject.tag == "Player" && Player.onVisionRange == gameObject.tag && GamePlayUI.instance != null ) {
             GamePlayUI.instance.interactNotification.SetUp( id, chestData.labelEn, chestData.labelProgressEn, chestData.actionSpeed );
+        }
+    }
+
+    /// <summary>
+    /// OnTriggerStay is called once per frame for every Collider other
+    /// that is touching the trigger.
+    /// </summary>
+    /// <param name="other">The other Collider involved in this collision.</param>
+    void OnTriggerStay(Collider other) {
+        // show interaction notification to player if this chest has not been opened and chest is in player vision range.
+        if ( ! opened && other.gameObject.tag == "Player" && Player.onVisionRange == gameObject.tag && GamePlayUI.instance != null ) {
+            GamePlayUI.instance.interactNotification.SetUp( id, chestData.labelEn, chestData.labelProgressEn, chestData.actionSpeed );
+        }
+
+        // check if player is no longer looking at the chest.
+        if ( Player.onVisionRange != gameObject.tag ) {
+            GamePlayUI.instance.interactNotification.Hide();
         }
     }
 

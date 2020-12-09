@@ -41,6 +41,7 @@ public class RayShooter : MonoBehaviour {
             Player.onVisionRange = hit.collider.tag;
         } else {
             centerPoint = Vector3.zero;
+            Player.onVisionRange = "";
         }
     }
 
