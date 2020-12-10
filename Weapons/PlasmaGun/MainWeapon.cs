@@ -330,7 +330,7 @@ public class MainWeapon : MonoBehaviour {
 
             // set bullet damage.
             bullet.damage = plasmaGunData.GetChargedDamageBaseValue();
-            bullet.damage = plasmaGunData.criticRate;
+            bullet.criticRate = plasmaGunData.criticRate;
 
             // start charged animation.
             bullet.ChargeShoot();

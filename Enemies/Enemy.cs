@@ -141,6 +141,7 @@ public abstract class Enemy : MonoBehaviour {
         if ( isAlive ) {
             // calculate damage base.
             float damageReceived = ( externalImpactValue / data.defense ) + UnityEngine.Random.Range( 0f, .5f );
+            Debug.Log( damageReceived );
 
             // check if critic.
             bool isCritic = GetIfCritic( criticRate );
