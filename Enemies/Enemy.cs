@@ -142,23 +142,30 @@ public abstract class Enemy : MonoBehaviour {
             // calculate damage base.
             float damageReceived = ( externalImpactValue / data.defense ) + UnityEngine.Random.Range( 0f, .5f );
 
+            // check if critic.
+            bool isCritic = GetIfCritic( criticRate );
+
             // calculate melee resistance.
             if ( isMelee ) {
                 damageReceived *= data.meleeVulnerable;
             }
 
             // calculate critic.
-            damageReceived = GetIfCritic( damageReceived, criticRate );
+            if ( isCritic ) {
+                damageReceived *= criticBoost;
+            }
+
+            // update damage.
             currentHp -= damageReceived;
             
-            UpdateUI( damageReceived );
+            // update related UI components.
+            UpdateUI( damageReceived, isCritic );
 
             if ( currentHp <= 0f ) {
-                // remove enemy data UI section.
-                // GamePlayUI.instance.enemyDataSection.Hide();
                 StartCoroutine( Die() );
             } else {
                 // display hit particles.
+                // TODO: Display glowing here.
                 if ( hitParticles != null ) {
                     hitParticles.DisplayHitParticles();
                 }
@@ -167,20 +174,12 @@ public abstract class Enemy : MonoBehaviour {
     }
 
     /// <summary>
-    /// Calculate critic damage.
+    /// Get if critic.
     /// </summary>
-    /// <param name="damageReceived">float - base damage received</param>
     /// <param name="criticRate">float - critic damage rate</param>
-    /// <returns>float</returns>
-    private float GetIfCritic( float damageReceived, float criticRate ) {
-        bool isCritic = ( 100f - (100f - ( criticRate + data.luck ) ) > UnityEngine.Random.Range( 0f, 100f ) );
-        Debug.Log( isCritic );
-
-        if ( isCritic ) {
-            damageReceived *= criticBoost;
-        }
-        
-        return damageReceived;
+    /// <returns>bool</returns>
+    private bool GetIfCritic( float criticRate ) {
+        return ( 100f - ( 100f - ( criticRate + data.luck ) ) > UnityEngine.Random.Range( 0f, 100f ) );
     }
 
     /// <summary>
@@ -449,7 +448,8 @@ public abstract class Enemy : MonoBehaviour {
     /// enemy gets damaged by the player.
     /// </summary>
     /// <param name="damageGot">float - Damage got by the enemy.</param>
-    private void UpdateUI( float damageGot ) {
+    /// <param name="isCritic">bool - whether the damage received is critic. False by default.</param>
+    private void UpdateUI( float damageGot, bool isCritic = false ) {
         // Update UI.
         if ( GamePlayUI.instance.enemyDataSection.enemyID != publicID ) {
             if ( ! GamePlayUI.instance.enemyDataSection.displayed) {
@@ -465,7 +465,7 @@ public abstract class Enemy : MonoBehaviour {
         GamePlayUI.instance.enemyDataSection.hpBar.UpdateHP( currentHp );
         GamePlayUI.instance.enemyDataSection.ResetBarDisplayedCounter();
 
-        GamePlayUI.instance.damageSection.DisplayDamage( damageGot );
+        GamePlayUI.instance.damageSection.DisplayDamage( damageGot, isCritic );
     }
 
     /// <summary>
