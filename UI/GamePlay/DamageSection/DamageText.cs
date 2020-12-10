@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DamageText : MonoBehaviour {
-    
+
     [Header("Settings")]
     public Vector3 initPosition;                            // Damage text instance init position.
     public Color defaultColor;                              // Default text color.
@@ -33,10 +33,10 @@ public class DamageText : MonoBehaviour {
 
         if ( ! isCritic ) {
             _text.UpdateColour( defaultColor );
-            _anim.SetTrigger( "simple" );
+            _anim.SetTrigger( "Simple" );
         } else {
             _text.UpdateColour( criticalColor );
-            _anim.SetTrigger( "critic" );
+            _anim.SetTrigger( "Critic" );
         }
     }
 

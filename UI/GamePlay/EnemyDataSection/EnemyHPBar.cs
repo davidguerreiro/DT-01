@@ -28,7 +28,6 @@ public class EnemyHPBar : MonoBehaviour {
     /// <param name="currentHP">float - new enemy HP value.</param>
     public void UpdateHP( float currentHP ) {
         if ( _slider != null ) {
-            Debug.Log( "called" );
             _slider.value = currentHP;
 
             if ( currentHP <= 0 ) {

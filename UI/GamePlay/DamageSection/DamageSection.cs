@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class DamageSection : MonoBehaviour {
 
-    [Header("Settings")]
-    public Vector3 damageInstanceInitPosition;                      // Damage text instance init position.
-    public Color criticalColor;                                     // Damage text color used when an impact is critic.
-
     private ObjectPool _pool;                                       // Damage text object pool.
 
     // Start is called before the first frame update
@@ -26,8 +22,11 @@ public class DamageSection : MonoBehaviour {
     /// <parma name="enemyDamage">float - enemy damage got to display</param>
     /// <param name="isCritic">bool - wheter the damage got is critic.False by default.</param>
     public void DisplayDamage( float enemyDamage, bool isCritic = false ) {
-        //string damageToDisplay = enemyDamage.ToString("F2").Replace(",", "." );
-        // damageText.UpdateContent( damageToDisplay );
+        GameObject damageTextPrefab = _pool.SpawnPrefab();
+
+        if ( damageTextPrefab != null ) {
+            damageTextPrefab.GetComponent<DamageText>().Display( enemyDamage, isCritic );
+        }
     }
 
     /// <summary>
