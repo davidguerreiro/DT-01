@@ -173,7 +173,7 @@ public abstract class Enemy : MonoBehaviour {
     /// <param name="criticRate">float - critic damage rate</param>
     /// <returns>float</returns>
     private float GetIfCritic( float damageReceived, float criticRate ) {
-        bool isCritic = ( ( 100f - ( criticRate + data.luck ) ) > UnityEngine.Random.Range( 0f, 100f ) );
+        bool isCritic = ( 100f - (100f - ( criticRate + data.luck ) ) > UnityEngine.Random.Range( 0f, 100f ) );
         Debug.Log( isCritic );
 
         if ( isCritic ) {
