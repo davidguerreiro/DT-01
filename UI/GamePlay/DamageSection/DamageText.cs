@@ -8,6 +8,7 @@ public class DamageText : MonoBehaviour {
     public Vector3 initPosition;                            // Damage text instance init position.
     public Color defaultColor;                              // Default text color.
     public Color criticalColor;                             // Damage text color used when an impact is critic.
+    public float timeToReset;                               // Seconds to pass till this gameObject gets disabled.
 
     private TextComponent _text;                            // Text component 
     private Animator _anim;                                 // Animator component reference.
@@ -38,6 +39,15 @@ public class DamageText : MonoBehaviour {
             _text.UpdateColour( criticalColor );
             _anim.SetTrigger( "Critic" );
         }
+
+        Invoke( "Reset", timeToReset );
+    }
+
+    /// <summary>
+    /// Reset gameObject.
+    /// </summary>
+    private void Reset() {
+        gameObject.SetActive( false );
     }
 
     /// <summary> 
