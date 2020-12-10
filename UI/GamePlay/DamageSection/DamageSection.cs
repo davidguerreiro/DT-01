@@ -61,7 +61,6 @@ public class DamageSection : MonoBehaviour {
             }
 
             yield return new WaitForSeconds( toWaitTillNext );
-            Debug.Log( "completed" );
         }
 
         _displayRoutine = null;

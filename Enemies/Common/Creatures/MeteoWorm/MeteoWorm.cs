@@ -93,7 +93,7 @@ public class MeteoWorm : Enemy {
         if ( other.gameObject.tag == "PlayerProjectile" ) {
             Bullet bullet = other.gameObject.GetComponent<Bullet>();
 
-            GetDamage( bullet.damage );
+            GetDamage( bullet.damage, bullet.criticRate );
         }
     }
 
@@ -101,9 +101,10 @@ public class MeteoWorm : Enemy {
     /// Get damage.
     /// </summary>
     /// <param name="externalImpactValue">float - damage value caused external attacker, usually the player.</param>
+    /// <param name="criticRate">float - critic rate value. Default to 0.</param>
     /// <param name="isMelee">bool - Flag to control that the attack received was a melee attack.False by default.</param>
-    public override void GetDamage( float externalImpactValue, bool isMelee = false ) {
-        base.GetDamage( externalImpactValue, isMelee );
+    public override void GetDamage( float externalImpactValue, float criticRate = 0f, bool isMelee = false ) {
+        base.GetDamage( externalImpactValue, criticRate, isMelee );
     }
 
     /// <summary>

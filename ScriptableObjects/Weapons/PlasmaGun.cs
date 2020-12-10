@@ -12,6 +12,7 @@ public class PlasmaGun : ScriptableObject {
     public float baseDamage;                        // Base damage caused by simple shoot impact.
     public float chargedShootBost;                  // Multiplier for charged shoots.
     public float meleeDamage;                       // Base damage caused by melee attacks.
+    public float criticRate;                        // Critic damage rate. Normalized to 100.
     
     [Header("Munition")]
     public int plasma;                              // Plasma charged in the weapon.

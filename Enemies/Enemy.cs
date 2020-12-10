@@ -33,6 +33,8 @@ public abstract class Enemy : MonoBehaviour {
     [SerializeField]
     protected bool onNavMeshPath = false;                   // Whether the enemy is in a navMeshPath loop.
 
+    private const float criticBoost = 1.5f;                 // Boos to multiply critic damage.
+
     public enum State {
         none,                                               // This state is the default value and has no impact over enemy behavioir or logic.
         watching,                                           // Enemy does not move, just observe the enviroment.
@@ -133,15 +135,20 @@ public abstract class Enemy : MonoBehaviour {
     /// Get damage method.
     /// </summary>
     /// <param name="externalImpactValue">float - damage value caused external attacker, usually the player.</param>
+    /// <param name="criticRate">float - critic rate value. Default to 0.</param>
     /// <param name="isMelee">bool - Flag to control that the attack received was a melee attack.False by default.</param>
-    public virtual void GetDamage( float externalImpactValue, bool isMelee = false ) {
+    public virtual void GetDamage( float externalImpactValue, float criticRate = 0f, bool isMelee = false ) {
         if ( isAlive ) {
+            // calculate damage base.
             float damageReceived = ( externalImpactValue / data.defense ) + UnityEngine.Random.Range( 0f, .5f );
 
+            // calculate melee resistance.
             if ( isMelee ) {
                 damageReceived *= data.meleeVulnerable;
             }
 
+            // calculate critic.
+            damageReceived = GetIfCritic( damageReceived, criticRate );
             currentHp -= damageReceived;
             
             UpdateUI( damageReceived );
@@ -157,6 +164,23 @@ public abstract class Enemy : MonoBehaviour {
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// Calculate critic damage.
+    /// </summary>
+    /// <param name="damageReceived">float - base damage received</param>
+    /// <param name="criticRate">float - critic damage rate</param>
+    /// <returns>float</returns>
+    private float GetIfCritic( float damageReceived, float criticRate ) {
+        bool isCritic = ( ( 100f - ( criticRate + data.luck ) ) > UnityEngine.Random.Range( 0f, 100f ) );
+        Debug.Log( isCritic );
+
+        if ( isCritic ) {
+            damageReceived *= criticBoost;
+        }
+        
+        return damageReceived;
     }
 
     /// <summary>
@@ -568,7 +592,7 @@ public abstract class Enemy : MonoBehaviour {
 
             if ( player.playerInput.inMelee && data.meleeVulnerable > 0f ) {
                 // get damage from melee attack.
-                GetDamage( player.playerInput.weapon.plasmaGunData.meleeDamage, true );
+                GetDamage( player.playerInput.weapon.plasmaGunData.meleeDamage, player.playerInput.weapon.plasmaGunData.criticRate, true );
             } else {
                 // player gets damage.
                 DamagePlayer( player );

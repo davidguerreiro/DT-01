@@ -289,8 +289,8 @@ public class MainWeapon : MonoBehaviour {
 
             // set bullet damage
             bullet.damage = plasmaGunData.baseDamage;
+            bullet.criticRate = plasmaGunData.criticRate;
             bullet.ShootBullet( aimSpot, shootForce, player );
-            //}
 
             // update plasma gun data.
             plasmaGunData.UpdatePlasma();
@@ -330,6 +330,7 @@ public class MainWeapon : MonoBehaviour {
 
             // set bullet damage.
             bullet.damage = plasmaGunData.GetChargedDamageBaseValue();
+            bullet.damage = plasmaGunData.criticRate;
 
             // start charged animation.
             bullet.ChargeShoot();
