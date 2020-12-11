@@ -482,6 +482,11 @@ public class MainWeapon : MonoBehaviour {
             float temp = (float) plasmaGunData.heatedRechargeThreeshold / (float) plasmaGunData.maxPlasma;
             _heatedThreshold = temp * 100f;
         }
+
+        // set next level data if not set ( usually when the game is initialised for the first time );
+        if ( plasmaGunData.nextLevel == null ) {
+            plasmaGunData.nextLevel = plasmaGunData.GetLevelDataObject( plasmaGunData.level + 1 );
+        } 
     }
     
 }

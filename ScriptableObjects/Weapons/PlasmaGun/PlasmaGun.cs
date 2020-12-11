@@ -11,6 +11,10 @@ public class PlasmaGun : ScriptableObject {
     [Header("Progression")]
     public int level = 1;                           // Weapon current level.
     public int currentExp = 0;                      // Weapon current exp.
+    public PlasmaGunLevel[] plasmaGunLevels;        // Array with all levels data.
+
+    [HideInInspector]
+    public PlasmaGunLevel nextLevel;                // Next level data reference.
 
     [Header("Damage")]
     public float baseDamage;                        // Base damage caused by simple shoot impact.
@@ -65,6 +69,55 @@ public class PlasmaGun : ScriptableObject {
     /// <param name="expGot">int - how much experience got from external action.</param>
     public void GetExp( int expGot ) {
         currentExp += expGot;
+
+        if ( currentExp >= nextLevel.expRequired ) {
+            IncreaseLevel();
+        }
+    } 
+
+    /// <summary>
+    /// Increase plasma gun level.
+    /// </summary>
+    private void IncreaseLevel() {
+        // TODO: Update UI.
+
+        // increase level.
+        level = nextLevel.level;
+        currentExp = 0;
+
+        // increase damage.
+        baseDamage += nextLevel.baseDamage;
+        criticRate += nextLevel.criticRate;
+
+        // increase munition.
+        maxPlasma += nextLevel.maxMunition;
+
+        // increase plasma gun unique elements.
+        chargedShootBost += nextLevel.chargedShootBoost;
+        meleeDamage += nextLevel.meleeDamage;
+        shootCost -= nextLevel.shootCost;
+        chargedShootCost -= nextLevel.chargedShootCost;
+        rechargeSpeed += nextLevel.rechargedSpeed;
+        heatedRechargeSpeed += nextLevel.heatedRechargedSpeed;
+        heatedRechargeThreeshold -= nextLevel.heatedRechargedThreeshold;
+
+        // set up next level data object.
+        nextLevel = GetLevelDataObject( level + 1 );
+    }
+
+    /// <summary>
+    /// Get level data reference.
+    /// </summary>
+    /// <param name="level">int - level data to be returned.</param>
+    /// <returns>PlasmaGunLevel</returs>
+    public PlasmaGunLevel GetLevelDataObject( int level ) {
+        foreach ( PlasmaGunLevel levelData in plasmaGunLevels ) {
+            if ( levelData.level == level ) {
+                return levelData;
+            }
+        }
+
+        return null;
     }
 
     /// <summary>
