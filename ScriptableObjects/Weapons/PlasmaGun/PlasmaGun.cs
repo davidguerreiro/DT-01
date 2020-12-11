@@ -122,6 +122,7 @@ public class PlasmaGun : ScriptableObject {
 
     /// <summary>
     /// Restart default changing values.
+    /// To remove after development.
     /// </summary>
     /// <param name="toGameInit">bool - wheter to restart parameters to the default value at the beginning of the game, including those modify by skills and items</param>
     public void RestartDefaultValues( bool toGameInit = false ) {
@@ -131,7 +132,22 @@ public class PlasmaGun : ScriptableObject {
         heated = false;                                     // Original heated value at the beginning of the game.
 
         if ( toGameInit ) {
-            maxPlasma = plasma;                             
+            maxPlasma = plasma;
+
+            level = 1;
+            currentExp = 0;
+
+            baseDamage = 1.8f;
+            chargedShootBost = 5.2f;
+            meleeDamage = 3.4f;
+            criticRate = 3.8f;
+            maxPlasma = 80;
+            shootCost = 3;
+            chargedShootCost = 12;
+
+            rechargeSpeed = 0.2f;
+            heatedRechargeSpeed = 0.7f;
+            heatedRechargeThreeshold = 10;
         }
 
     }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour {
     public static Player instance;                         // Public static class instance.
     public PlayerStats playerData;                         // Player dynamic data coming from PlayerStats scriptable.
+    public PlasmaGun weapon;                               // Player's current weapon.
 
     [HideInInspector]
     public static string onVisionRange = "";               // This string will always contains the name of the tag currently seen by the player. Updated from Ray Shooter class in the main camera.

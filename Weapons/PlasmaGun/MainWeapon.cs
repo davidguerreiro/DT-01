@@ -116,6 +116,8 @@ public class MainWeapon : MonoBehaviour {
                 _heatedRoutine = null;
             }
         }
+
+        Debug.Log( plasmaGunData.currentExp );
     }
 
     /// <summary>

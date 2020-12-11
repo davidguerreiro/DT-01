@@ -9,7 +9,7 @@ public class EnemyData : ScriptableObject {
 
     [Header("UI")]
     public string enemyName;                // Enemy display name.                     
-    public Sprite enemySprite;               // Enemy 2D sprite. Displayed in the UI during combat and in the Data Center.
+    public Sprite enemySprite;              // Enemy 2D sprite. Displayed in the UI during combat and in the Data Center.
     public int dataNumber;                  // Data number for data center funcionality.
 
     [Header("Base Stats")]
@@ -40,6 +40,7 @@ public class EnemyData : ScriptableObject {
     [Header("Type")]
     public EnemyType enemyType;                 // Enemy type reference.
     public bool isBoss;                         // Whether this enemy is a boss or not.
+    public int expGiven;                        // Experience given when this enemy is defeated.
 
     [Header("Description")]
     [TextArea]

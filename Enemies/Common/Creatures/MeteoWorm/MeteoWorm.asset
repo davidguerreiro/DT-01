@@ -33,6 +33,7 @@ MonoBehaviour:
     rate: 60
   enemyType: {fileID: 11400000, guid: f47bce043d44c4f509abe2ba1c438fe9, type: 2}
   isBoss: 0
+  expGiven: 10
   descriptionEsp: "Esta peque\xF1a larva de MeteoSaur anida en las cuevas de los
     peque\xF1os planetoides y campos de meteritos cercanos a algunos planetas. /pEs
     bast\xE1nte d\xE9bil, pero cuidado si te encuentras con un nido, sus hermanos
