@@ -75,6 +75,23 @@ public static class ScriptablesMenu  {
         ProjectWindowUtil.CreateAsset( asset, path );
     }
 
+    [MenuItem( "Assets/Create/WeaponLevels/PlasmaGunLevel")]
+    /// <summary>
+    /// Add PlasmaGun Level scriptable item
+    /// in the scriptables menu.
+    /// </summary>
+    public static void AddWeaponLevelsPlasmaGunScriptableObject() {
+
+        var asset = ScriptableObject.CreateInstance<PlasmaGunLevel>();
+
+        // if needs preconfiguration, add here.
+
+        var path = AssetDatabase.GetAssetPath( Selection.activeObject );
+        path += "/newPlasmaGunLevel.asset";
+
+        ProjectWindowUtil.CreateAsset( asset, path );
+    }
+
     [MenuItem( "Assets/Create/Player/Lintern")]
     /// <summary>
     /// Add Lintern scriptable item

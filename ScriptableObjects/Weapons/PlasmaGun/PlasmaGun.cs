@@ -8,6 +8,10 @@ public class PlasmaGun : ScriptableObject {
     // TODO: Implement changes by player skills.
     // TODO: Implement weapon level system.
     // TODO: Implement level curve data.
+    [Header("Progression")]
+    public int level = 1;                           // Weapon current level.
+    public int currentExp = 0;                      // Weapon current exp.
+
     [Header("Damage")]
     public float baseDamage;                        // Base damage caused by simple shoot impact.
     public float chargedShootBost;                  // Multiplier for charged shoots.
@@ -53,6 +57,14 @@ public class PlasmaGun : ScriptableObject {
     /// <returns>float</returns>
     public float GetChargedDamageBaseValue() {
         return baseDamage * chargedShootBost;
+    }
+
+    /// <summary>
+    /// Get experience.
+    /// </summary>
+    /// <param name="expGot">int - how much experience got from external action.</param>
+    public void GetExp( int expGot ) {
+        currentExp += expGot;
     }
 
     /// <summary>
