@@ -73,7 +73,16 @@ public class PlasmaGun : ScriptableObject {
         if ( currentExp >= nextLevel.expRequired ) {
             IncreaseLevel();
         }
-    } 
+    }
+
+    /// <summary>
+    /// Check if is below heated
+    /// recharhed threshold.
+    /// </summary>
+    /// <returns>bool</returns>
+    public bool IsBelowThreshold() {
+        return plasma <= heatedRechargeThreeshold;
+    }
 
     /// <summary>
     /// Increase plasma gun level.
