@@ -83,6 +83,18 @@ public class Utils : MonoBehaviour {
     }
 
     /// <summary>
+    /// Normalize value
+    /// between 0 and 1.
+    /// </summary>
+    /// <param name="rawValue">float - raw value to normalise</param>
+    /// <param name="min">float - min value</param>
+    /// <param name="max">float - max value</param>
+    /// <returns>float</returns>
+    public float Normalize( float rawValue, float min, float max ) {
+        return ( rawValue - min ) / ( max - min );
+    }
+
+    /// <summary>
     /// Init class method.
     /// </summary>
     private void Init() {
