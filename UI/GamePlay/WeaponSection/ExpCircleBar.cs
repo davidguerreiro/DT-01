@@ -16,12 +16,6 @@ public class ExpCircleBar : MonoBehaviour {
         Init();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     /// <summary>
     /// Update exp
     /// bar.
