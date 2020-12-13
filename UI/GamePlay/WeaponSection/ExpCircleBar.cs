@@ -24,6 +24,8 @@ public class ExpCircleBar : MonoBehaviour {
     public void UpdateExpBar( int currentExp ) {
         float fCurrentExp = (float) currentExp;
 
+        _anim.SetTrigger( "Flash" );
+        
         float normalized = Utils.instance.Normalize( fCurrentExp, 0f, nextLevelExp );
         _bar.fillAmount = normalized;
     }
