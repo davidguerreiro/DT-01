@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ExpCircleBar : MonoBehaviour {
 
     [HideInInspector]
-    public float nextLevelExp;                             // Next level exp neccesary to upgrade weapon to next level.
+    public float nextLevelExp;                           // Next level exp neccesary to upgrade weapon to next level.
 
     private Image _bar;                                  // Filled image bar component reference.
     private Animator _anim;                              // Animator component reference.

@@ -39,11 +39,14 @@ public class MainWeapon : MonoBehaviour {
     public ParticleSystem smoke;                                // Shooting particle system smoke.
     
     private Camera _mainCamera;                                  // Main camera component - used to calculate middle of the point when the player is not shooting at any object with a collider attached.
+    private float _rechargeCounter = 0;                          // Recharge counter used to calculate recharge bar speed.
     private float _heatedThreshold;                              // Threshold used to calculate when the weapoin is heated or not.
 
     private AudioComponent _audio;                               // Audio component reference.
     private Coroutine _heatedRoutine;                            // Heated coroutine component reference.
     private Coroutine _chargedShootRoutine;                      // Charged shoot coroutine reference.
+
+
     
 
     [HideInInspector]
@@ -124,9 +127,17 @@ public class MainWeapon : MonoBehaviour {
     /// This function is called every fixed framerate frame, if the MonoBehaviour is enabled.
     /// </summary>
     void FixedUpdate() {
-        // check if the user is holding the left button mouse to charge a shoot.
-        if ( Input.GetMouseButton( 0 ) && _chargedShootRoutine == null && ! plasmaGunData.heated && ! player.isRunning && ! player.isAiming ) {
-            CheckForStartingChargingShoot();
+        if ( ! GameManager.instance.isPaused ) {
+
+            // check if the user is holding the left button mouse to charge a shoot.
+            if ( Input.GetMouseButton( 0 ) && _chargedShootRoutine == null && ! plasmaGunData.heated && ! player.isRunning && ! player.isAiming ) {
+                CheckForStartingChargingShoot();
+            }
+
+            // recharge plasma bar if neccesary.
+            if ( plasmaGunData.plasma < plasmaGunData.maxPlasma ) {
+                RechargePlasma();
+            }
         }
     }
 
@@ -460,6 +471,25 @@ public class MainWeapon : MonoBehaviour {
 
         _heatedRoutine = null;        
     }
+
+    /// <summary>
+    /// Recharge plasma
+    /// munition.
+    /// </summary>
+    private void RechargePlasma() {
+
+        // calculated recharge speed based on weapon heated status.
+        float toWait = ( plasmaGunData.heated ) ? plasmaGunData.heatedRechargeSpeed :  plasmaGunData.rechargeSpeed; 
+
+        // used 60 as a base frame standard.
+        if ( _rechargeCounter < ( toWait * 60f ) ) {
+            _rechargeCounter++;
+        } else {
+            _rechargeCounter = 0;
+            plasmaGunData.plasma++;
+        }
+    }
+    
 
 
     /// <summary>

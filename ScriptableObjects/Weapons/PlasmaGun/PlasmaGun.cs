@@ -16,6 +16,9 @@ public class PlasmaGun : ScriptableObject {
     [HideInInspector]
     public PlasmaGunLevel nextLevel;                // Next level data reference.
 
+    [Header("Visuals")]
+    public Sprite icon;                             // Weapon 2D icon sprite reference.
+
     [Header("Damage")]
     public float baseDamage;                        // Base damage caused by simple shoot impact.
     public float chargedShootBost;                  // Multiplier for charged shoots.

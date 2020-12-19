@@ -7,8 +7,10 @@ public class MunitionCircle : MonoBehaviour {
 
     public PlasmaGun data;                               // Data source.
 
-    private Image _bar;                                  // Filled image bar component reference.
-    private Animator _anim;                              // Animator component reference.
+    [Header("Components")]
+    public  Image munitionBar;                                  // Filled image bar component reference.
+    public Animator munitionBarAnim;                            // Animator component reference.
+    public TextComponent munitionQuantity;                      // Munition quantity text.
 
     // Start is called before the first frame update
     void Start() {
@@ -20,23 +22,49 @@ public class MunitionCircle : MonoBehaviour {
     /// </summary>
     void Update() {
         if ( ! GameManager.instance.isPaused ) {
+
+            // check for heated status.
             ListenForHeated();
+
+            // updat munition quantity.
+            UpdateMunitionQuantityText();
+            
+        }
+    }
+
+    /// <summary>
+    /// This function is called every fixed framerate frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void FixedUpdate() {
+        if ( ! GameManager.instance.isPaused ) {
+            UpdateCircle();
         }
     }
 
     /// <summary>
     /// Update munition circle.
     /// </summary>
-    /// TODO: Check where recharge method is and move to plasma gun.
+    private void UpdateCircle() {
+        float normalizeValue = Utils.instance.Normalize( data.plasma, 0, data.maxPlasma );
+        munitionBar.fillAmount = normalizeValue;
+    }
+
+    /// <summary>
+    /// Update munition quantity
+    /// text.
+    /// </summary>
+    private void UpdateMunitionQuantityText() {
+        munitionQuantity.UpdateContent( data.plasma.ToString() );
+    }
 
     /// <summary>
     /// Listen for heated.
     /// </summary>
     public void ListenForHeated() {
         if ( data.IsBelowThreshold() ) {
-            _anim.SetBool( "Heated", true );
+            munitionBarAnim.SetBool( "Heated", true );
         } else {
-            _anim.SetBool( "Heated", false );
+            munitionBarAnim.SetBool( "Heated", false );
         }
     }
 
@@ -46,11 +74,7 @@ public class MunitionCircle : MonoBehaviour {
     /// Init class method.
     /// </summary>
     private void Init() {
-
-        // get image component.
-        _bar = GetComponent<Image>();
-
-        // get animator component.
-        _anim = GetComponent<Animator>();
+        // set up current muntion value.
+        munitionQuantity.UpdateContent( data.plasma.ToString() );
     }
 }
