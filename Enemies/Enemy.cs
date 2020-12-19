@@ -507,8 +507,10 @@ public abstract class Enemy : MonoBehaviour {
         data.defeated++;
 
         // grant player experience.
-        // TOOD: Update UI.
         Player.instance.weapon.GetExp( data.expGiven );
+
+        // update UI with exp given.
+        GamePlayUI.instance.weaponSectionUI.UpdateExpUI( data.expGiven );
 
         // let animation happen before the loot drops.
         yield return new WaitForSeconds( .5f );

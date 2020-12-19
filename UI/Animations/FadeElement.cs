@@ -57,8 +57,9 @@ public class FadeElement : MonoBehaviour {
     /// </summary>
     public void FadeIn() {
         if ( _animator != null ) {
+            Debug.Log( "called" );
             // reset possible prevous fade speed variations.
-            _animator.SetFloat( "FadeOutSpeed", 1f);
+            _animator.SetFloat( "FadeInSpeed", 1f);
 
             _animator.SetInteger( "FadeState", 1 );
             displayed = true;

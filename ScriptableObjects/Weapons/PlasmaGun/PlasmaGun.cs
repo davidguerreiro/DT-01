@@ -73,6 +73,7 @@ public class PlasmaGun : ScriptableObject {
     public void GetExp( int expGot ) {
         currentExp += expGot;
 
+        // TODO: Add marginal exp to next level.
         if ( currentExp >= nextLevel.expRequired ) {
             IncreaseLevel();
         }
@@ -91,7 +92,6 @@ public class PlasmaGun : ScriptableObject {
     /// Increase plasma gun level.
     /// </summary>
     private void IncreaseLevel() {
-        // TODO: Update UI.
 
         // increase level.
         level = nextLevel.level;
@@ -115,6 +115,9 @@ public class PlasmaGun : ScriptableObject {
 
         // set up next level data object.
         nextLevel = GetLevelDataObject( level + 1 );
+
+        // update UI.
+        GamePlayUI.instance.weaponSectionUI.levelSection.UpdateUI();
     }
 
     /// <summary>
@@ -160,6 +163,8 @@ public class PlasmaGun : ScriptableObject {
             rechargeSpeed = 0.2f;
             heatedRechargeSpeed = 0.7f;
             heatedRechargeThreeshold = 10;
+
+            nextLevel = GetLevelDataObject(2);
         }
 
     }

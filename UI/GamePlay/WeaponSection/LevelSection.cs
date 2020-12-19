@@ -19,7 +19,7 @@ public class LevelSection : MonoBehaviour {
     /// up current weapon.
     /// </summary>
     public void UpdateUI() {
-        levelText.UpdateContent( data.level.ToString() );
+        levelText.UpdateContent(  "Lv. " + data.level.ToString() );
         levelTextAnim.SetTrigger( "LevelUp" );
     }
 
@@ -29,6 +29,6 @@ public class LevelSection : MonoBehaviour {
     private void Init() {
 
         // set up current level.
-        levelText.UpdateContent( data.level.ToString() );
+        levelText.UpdateContent( "Lv. " + data.level.ToString() );
     }
 }
