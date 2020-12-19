@@ -12,7 +12,8 @@ public class WeaponSectionUI : MonoBehaviour {
 
     [Header("Munition Circle")]
     public ExpCircleBar expCircleBar;                   // Experience bar class component reference.
-    // TODO: Complete munition circle and complete the rest of this class to
+    public MunitionCircle munitionCircle;               // Munition circle class component reference.
+
     // make munition and exp UI work within the game.
 
     // Start is called before the first frame update
