@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class ExpCircleBar : MonoBehaviour {
 
+    public PlasmaGun data;                               // Werapon data source.
+
     [HideInInspector]
     public float nextLevelExp;                           // Next level exp neccesary to upgrade weapon to next level.
 
@@ -56,5 +58,11 @@ public class ExpCircleBar : MonoBehaviour {
 
         // get animator component.
         _anim = GetComponent<Animator>();
+
+        // set up exp bar with current weapon exp -- max level for demo version is 10.
+        int nextLevel = ( data.level < 10 ) ? data.level + 1 : 10;
+        PlasmaGunLevel nextLevelData = data.GetLevelDataObject( nextLevel );
+        float normalizedValue = Utils.instance.Normalize( data.currentExp, 0, nextLevelData.expRequired );
+        _bar.fillAmount = normalizedValue;
     }
 }

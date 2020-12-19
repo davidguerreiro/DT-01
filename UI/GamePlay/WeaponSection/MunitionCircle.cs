@@ -11,6 +11,7 @@ public class MunitionCircle : MonoBehaviour {
     public  Image munitionBar;                                  // Filled image bar component reference.
     public Animator munitionBarAnim;                            // Animator component reference.
     public TextComponent munitionQuantity;                      // Munition quantity text.
+    public Image weaponImage;                                   // Weapon icon image reference.
 
     // Start is called before the first frame update
     void Start() {
@@ -76,5 +77,8 @@ public class MunitionCircle : MonoBehaviour {
     private void Init() {
         // set up current muntion value.
         munitionQuantity.UpdateContent( data.plasma.ToString() );
+
+        // set up current image value.
+        weaponImage.sprite = data.icon;
     }
 }

@@ -95,13 +95,6 @@ public class MainWeapon : MonoBehaviour {
                 Shoot();
             }
 
-            // check if the user is holding the left button mouse to charge a shoot.
-            /*
-            if ( Input.GetMouseButton( 0 ) && _chargedShootRoutine == null && ! plasmaGunData.heated && ! player.isRunning && ! player.isAiming ) {
-                CheckForStartingChargingShoot();
-            }
-            */
-
             // display no ammo sound if the users tries to shoot and the plasma gun is heated.
             if ( Input.GetMouseButtonDown( 0 ) && plasmaGunData.heated ) {
 
