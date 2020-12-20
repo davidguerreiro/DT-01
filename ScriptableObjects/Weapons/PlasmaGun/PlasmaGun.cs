@@ -6,8 +6,10 @@ public class PlasmaGun : ScriptableObject {
     public int id;                                  // Weapon internal id.
     
     // TODO: Implement changes by player skills.
-    // TODO: Implement weapon level system.
-    // TODO: Implement level curve data.
+    [Header("Name")]
+    public string nameEn;                          // Weapon English name.
+    public string nameEs;                          // Weapon Spanish name.
+    
     [Header("Progression")]
     public int level = 1;                           // Weapon current level.
     public int currentExp = 0;                      // Weapon current exp.
