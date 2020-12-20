@@ -431,6 +431,7 @@ public class MainWeapon : MonoBehaviour {
 
             // remove heated light.
             heatedLight.SetBool( "heatedLight", false );
+            GamePlayUI.instance.weaponSectionUI.HideHeatedWarning();
         } else {
 
             // enable heated light.
@@ -439,6 +440,7 @@ public class MainWeapon : MonoBehaviour {
 
         if ( plasmaGunData.plasma == 0f && _heatedRoutine == null ) {
             _heatedRoutine = StartCoroutine( PlayHeatedAnim() );
+            GamePlayUI.instance.weaponSectionUI.DisplayHeatedWarning();
         }
     }
 

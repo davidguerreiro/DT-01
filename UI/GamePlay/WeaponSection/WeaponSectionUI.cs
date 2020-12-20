@@ -15,6 +15,8 @@ public class WeaponSectionUI : MonoBehaviour {
     public ExpCircleBar expCircleBar;                   // Experience bar class component reference.
     public MunitionCircle munitionCircle;               // Munition circle class component reference.
     public LevelSection levelSection;                   // Level section class component reference.
+    public Animator heatedWarning;                      // Heated warning text.
+
 
     [Header("Settings")]
     public float expGotSecondsDisplayed;                // How long the exp got message is displayed.
@@ -100,5 +102,19 @@ public class WeaponSectionUI : MonoBehaviour {
         } else {
             _displayedCounter++;
         }
+    }
+
+    /// <summary>
+    /// Display heated warning text.
+    /// </summary>
+    public void DisplayHeatedWarning() {
+        heatedWarning.SetBool( "DisplayWarning", true );
+    }
+
+    /// <summary>
+    /// Hide heated warning text.
+    /// </summary>
+    public void HideHeatedWarning() {
+        heatedWarning.SetBool( "DisplayWarning", false );
     }
 }

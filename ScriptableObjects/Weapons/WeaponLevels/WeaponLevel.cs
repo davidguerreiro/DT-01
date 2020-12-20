@@ -16,5 +16,4 @@ public class WeaponLevel : ScriptableObject {
 
     [Header("Munition")]
     public int maxMunition;                         // Max munition boost when this level is reached.
-
 }
