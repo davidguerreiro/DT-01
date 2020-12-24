@@ -92,6 +92,23 @@ public static class ScriptablesMenu  {
         ProjectWindowUtil.CreateAsset( asset, path );
     }
 
+    [MenuItem( "Assets/Create/WeaponLevels/LevelUpText")]
+    /// <summary>
+    /// Add weapon level up text scriptable item
+    /// in the scriptables menu.
+    /// </summary>
+    public static void AddWeaponLevelUpTextPlasmaGunScriptableObject() {
+
+        var asset = ScriptableObject.CreateInstance<LevelUpText>();
+
+        // if needs preconfiguration, add here.
+
+        var path = AssetDatabase.GetAssetPath( Selection.activeObject );
+        path += "/newLevelUpText.asset";
+
+        ProjectWindowUtil.CreateAsset( asset, path );
+    }
+
     [MenuItem( "Assets/Create/Player/Lintern")]
     /// <summary>
     /// Add Lintern scriptable item
