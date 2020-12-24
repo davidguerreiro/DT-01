@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelUpTextFeature : MonoBehaviour {
-    private TextComponent _text;                                  // Text component reference.
-    private Animator _anim;                                       // Animator component refernece.
+    [HideInInspector]
+    public TextComponent text;                                  // Text component reference.
+    [HideInInspector]
+    public FadeElement anim;                                       // Animator component refernece.
 
     // Start is called before the first frame update
     void Start() {
@@ -17,9 +19,9 @@ public class LevelUpTextFeature : MonoBehaviour {
     private void Init() {
 
         // get text component reference.
-        _text = GetComponent<TextComponent>();
+        text = GetComponent<TextComponent>();
 
         // get animator component reference.
-        _anim = GetComponent<Animator>();
+        anim = GetComponent<FadeElement>();
     }
 }
