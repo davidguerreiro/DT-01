@@ -12,6 +12,15 @@ public class LevelUpText : ScriptableObject {
         public string esValue;                          // Spanish text value.
     }
 
-    public Data[] textData;
+    public Data[] textData;                             // Text data public reference.
     
+
+    /// <summary>
+    /// Clean up in use values.
+    /// </summary>
+    public void CleanUp() {
+        for ( int i = 0; i < textData.Length; i++ ) {
+            textData[i].inUse = false;
+        }
+    }
 }
