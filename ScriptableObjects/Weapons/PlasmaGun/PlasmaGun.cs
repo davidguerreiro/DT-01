@@ -38,6 +38,11 @@ public class PlasmaGun : ScriptableObject {
     public float rechargeSpeed;                     // Weapon recharge speed - weapon charges automatically when cooling.
     public float heatedRechargeSpeed;               // Weapon recharge speed when heated. When cooling after heated, the weapon takes more time to recharge.
     public int heatedRechargeThreeshold;            // Threshold used to calculate when the recharge used heated speed or normal speed.
+    
+    [Header("Level Up Text Assets")]
+    public LevelUpText commonText;                  // Common level up text feature.
+    public LevelUpText specificText;                // Specific level up text feature.
+
 
     /// <summary>
     /// Consume weapon's plasma
