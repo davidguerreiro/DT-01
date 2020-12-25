@@ -14,7 +14,22 @@ public class LevelUpText : ScriptableObject {
 
     public Data[] textData;                             // Text data public reference.
     
+    /// <summary>
+    /// Get text data by attribute
+    /// </summary>
+    /// <param name="attributeValue">string - attribute value</param>
+    public Data GetDataElement( string attributeValue ) {
+        Data returned = new Data();
 
+        foreach ( Data textDataItem in textData ) {
+            if ( textDataItem.attribute == attributeValue ) {
+                returned = textDataItem;
+                break;
+            }
+        }
+        
+        return returned;
+    }
     /// <summary>
     /// Clean up in use values.
     /// </summary>
