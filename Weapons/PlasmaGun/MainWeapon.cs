@@ -21,6 +21,8 @@ public class MainWeapon : MonoBehaviour {
     public Animator heatedLight;                                // Gun light used for heating input.
     public ParticleSystem[] heatedSmokeParticles;               // Heated smoke particle effects.
     public AudioComponent heatedAudio;                          // Heated audio component class reference.
+    public ParticleSystem[] levelUpParticles;                   // Level up particles reference array.
+    public AudioComponent levelUpAudio;                         // Level up audio component class reference.
     private Animator _animator;                                  // Animator component reference.
 
     // shooting object pool variables.
@@ -464,6 +466,16 @@ public class MainWeapon : MonoBehaviour {
         }
 
         _heatedRoutine = null;        
+    }
+
+    /// <summary>
+    /// Play level up animation.
+    /// </summary>
+    public void PlayLevelUpAnim() {
+        foreach ( ParticleSystem levelUpParticleSys in levelUpParticles ) {
+            levelUpParticleSys.Play();
+        }
+        levelUpAudio.PlaySound();
     }
 
     /// <summary>

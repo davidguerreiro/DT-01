@@ -82,7 +82,9 @@ public class PlasmaGun : ScriptableObject {
 
         // TODO: Add marginal exp to next level.
         if ( currentExp >= nextLevel.expRequired ) {
+            int marginalExp = currentExp - nextLevel.expRequired;
             IncreaseLevel();
+            currentExp += marginalExp;
         }
     }
 
