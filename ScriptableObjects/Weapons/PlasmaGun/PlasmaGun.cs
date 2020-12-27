@@ -128,6 +128,9 @@ public class PlasmaGun : ScriptableObject {
         // set up next level data object.
         nextLevel = GetLevelDataObject( level + 1 );
 
+        // display level up animation.
+        Player.instance.playerInput.weapon.PlayLevelUpAnim();
+        
         // update UI.
         GamePlayUI.instance.weaponSectionUI.levelSection.UpdateUI();
         GamePlayUI.instance.levelUpSection.DisplayBox( this, levelUpNots );
