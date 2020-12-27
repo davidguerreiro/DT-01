@@ -99,7 +99,7 @@ public class PlasmaGun : ScriptableObject {
     /// Increase plasma gun level.
     /// </summary>
     private void IncreaseLevel() {
-
+        
         // increase level.
         level = nextLevel.level;
         currentExp = 0;
@@ -120,11 +120,69 @@ public class PlasmaGun : ScriptableObject {
         heatedRechargeSpeed += nextLevel.heatedRechargedSpeed;
         heatedRechargeThreeshold -= nextLevel.heatedRechargedThreeshold;
 
+        // set up displayed text for level up box.
+        string[] levelUpNots = SetLevelpUpNots();
+
         // set up next level data object.
         nextLevel = GetLevelDataObject( level + 1 );
 
         // update UI.
         GamePlayUI.instance.weaponSectionUI.levelSection.UpdateUI();
+    }
+
+    /// <summary>
+    /// Set up collection of level up
+    /// messages to display.
+    /// </summary>
+    /// <returns>string[]</returns>
+    private string[] SetLevelpUpNots() {
+        // TODO: Add check language.
+        int limit = 6;
+        int key = 0;
+        string[] data = new string[limit];
+        
+        if ( nextLevel.baseDamage > 0 && key < limit ) {
+            data[key] = commonText.GetDataElement("baseDamage").enValue;
+            key++;
+        }  
+        if ( nextLevel.criticRate > 0 && key < limit ) {
+            data[key] = commonText.GetDataElement("criticRate").enValue;
+            key++;
+        }
+        if ( nextLevel.maxMunition > 0 && key < limit ) {
+            data[key] = commonText.GetDataElement("maxMunition").enValue;
+            key++;
+        }
+        if ( nextLevel.chargedShootBoost > 0 && key < limit ) {
+            data[key] = commonText.GetDataElement("chargedShootBoost").enValue;
+            key++;
+        }
+        if ( nextLevel.meleeDamage > 0 && key < limit ) {
+            data[key] = commonText.GetDataElement("meleeDamage").enValue;
+            key++;
+        }
+        if ( nextLevel.shootCost > 0 && key < limit ) {
+            data[key] = commonText.GetDataElement("shootCost").enValue;
+            key++;
+        }
+        if ( nextLevel.chargedShootCost > 0 && key < limit ) {
+            data[key] = commonText.GetDataElement("chargedShootCost").enValue;
+            key++;
+        }
+        if ( nextLevel.rechargedSpeed > 0 && key < limit ) {
+            data[key] = commonText.GetDataElement("rechargedSpeed").enValue;
+            key++;
+        }
+        if ( nextLevel.heatedRechargedSpeed > 0 && key < limit ) {
+            data[key] = commonText.GetDataElement("heatedRechargeSpeed").enValue;
+            key++;
+        }
+        if ( nextLevel.heatedRechargedThreeshold > 0 && key < limit ) {
+            data[key] = commonText.GetDataElement("heatedRechargeThreeshold").enValue;
+            key++;
+        }
+
+        return data;
     }
 
     /// <summary>
