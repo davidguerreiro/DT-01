@@ -45,6 +45,7 @@ public class LevelUpSection : MonoBehaviour {
         if ( _displayedCounter < ( secondsDisplayed * 60f ) ) {
             _displayedCounter++;
         } else {
+            Debug.Log( "called here" );
             HideBox();
             _displayedCounter = 0f;
         }
@@ -89,7 +90,7 @@ public class LevelUpSection : MonoBehaviour {
     /// </summary>
     public void HideBox() {
         levelUpFeatures.HideElements();
-        _anim.SetBool( "Displayed", true );
+        _anim.SetBool( "Displayed", false );
         displayed = false;
     }
 

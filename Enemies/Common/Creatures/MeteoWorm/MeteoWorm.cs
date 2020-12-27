@@ -263,7 +263,6 @@ public class MeteoWorm : Enemy {
 
             // look at player.
             isLookingAtPlayer = true;
-            // Debug.Log( "reloop" );
             yield return new WaitForSeconds( Random.Range( .5f, 2.5f ) );
 
             // decide action to perform.

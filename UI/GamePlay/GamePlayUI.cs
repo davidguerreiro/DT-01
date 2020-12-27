@@ -13,6 +13,7 @@ public class GamePlayUI : MonoBehaviour {
     public EnemyDataSection enemyDataSection;               // Enemy data section component.
     public DamageSection damageSection;                     // Damage section classc component reference.
     public WeaponSectionUI weaponSectionUI;                 // Weapon section UI class component reference.
+    public LevelUpSection levelUpSection;                 // Level up section class component refernece.
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.

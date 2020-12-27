@@ -128,6 +128,7 @@ public class PlasmaGun : ScriptableObject {
 
         // update UI.
         GamePlayUI.instance.weaponSectionUI.levelSection.UpdateUI();
+        GamePlayUI.instance.levelUpSection.DisplayBox( this, levelUpNots );
     }
 
     /// <summary>

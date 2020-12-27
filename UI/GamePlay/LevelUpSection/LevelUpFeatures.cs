@@ -15,7 +15,7 @@ public class LevelUpFeatures : MonoBehaviour {
     /// </summary>
     /// <param name="textData">Array - text data array to display</param>
     public void DisplayElements( string[] textData ) {
-        if ( _displayRoutine != null ) {
+        if ( _displayRoutine == null ) {
             _displayRoutine = StartCoroutine( DisplayElementsRoutine( textData ) );
         }
     }
