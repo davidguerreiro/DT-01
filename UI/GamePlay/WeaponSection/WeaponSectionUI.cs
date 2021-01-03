@@ -6,6 +6,7 @@ public class WeaponSectionUI : MonoBehaviour {
     public PlasmaGun data;                              // Main weapon data source.
 
     [Header("Experience Text")]
+    public FadeElement expWrapper;                      // Exp wrapper fade element componten reference.
     public ExpText currentExp;                          // Current exp obtained exp text class component reference.
     public ExpText slashText;                           // Slash text exp text component reference.
     public ExpText totalExp;                            // Total exp required to level up class component reference.
@@ -76,6 +77,10 @@ public class WeaponSectionUI : MonoBehaviour {
         currentExp.text.UpdateContent( data.currentExp.ToString() );
         totalExp.text.UpdateContent( data.nextLevel.expRequired.ToString() );
 
+        if ( ! expWrapper.displayed ) {
+            expWrapper.FadeIn();
+        }
+
         if ( ! currentExp.fadeElement.displayed ) {
             currentExp.fadeElement.FadeIn();
         }
@@ -95,6 +100,7 @@ public class WeaponSectionUI : MonoBehaviour {
     private void CheckForHide() {
         /// 60 frames = 1 sec in fixedUpdate.
         if ( _displayedCounter >= ( expTextSecondsDisplayed * 60f ) ) {
+            expWrapper.FadeOut();
             currentExp.fadeElement.FadeOut();
             slashText.fadeElement.FadeOut();
             totalExp.fadeElement.FadeOut();

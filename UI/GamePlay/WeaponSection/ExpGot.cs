@@ -9,7 +9,9 @@ public class ExpGot : MonoBehaviour {
     [Header("Settings")]
     public float secondsDisplayed;                          // For how long it is displayed on the screen.
 
-    private TextComponent _text;                            // Text component reference.
+    [Header("Components")]
+    public TextComponent text;                            // Text component reference.
+
     private Animator _anim;                                 // Animator component reference.
     private float displayedCounter;                         // Displayed counter to check when to hide this text.
 
@@ -32,7 +34,7 @@ public class ExpGot : MonoBehaviour {
     /// </summary>
     /// <param name="expToDisplay">int - how much experience to display in the screen.</param>
     public void Show( int expToDisplay ) {
-        _text.UpdateContent( "+ " + expToDisplay.ToString() + " Exp" );
+        text.UpdateContent( "+ " + expToDisplay.ToString() + " Exp" );
 
         if ( ! displayed ) {
             _anim.SetBool( "Displayed", true );
@@ -70,9 +72,6 @@ public class ExpGot : MonoBehaviour {
     /// Init class method.
     /// </summary>
     private void Init() {
-
-        // get text component reference.
-        _text = GetComponent<TextComponent>();
 
         // get animator component.
         _anim = GetComponent<Animator>();
