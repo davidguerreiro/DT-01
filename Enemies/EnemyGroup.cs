@@ -23,6 +23,8 @@ public class EnemyGroup : MonoBehaviour {
         public bool initActive;                         // Wheter to initialise the enemy enabled or disabled.
         public GameObject spawnPosition;                // Enemy local spawn position.
         public int round;                               // Enemy spawn round. Use -1 for infinite spawn. ( Will be execured last round if there are others using natural numbers ).
+        public bool hasParticles;                       // Whether the enemy has particle animation for spawn.
+        public GameObject spawnParticles;               // Enemy spawn particles class reference.
     }
 
     [Serializable]
@@ -49,6 +51,12 @@ public class EnemyGroup : MonoBehaviour {
     public GameObject groupPivot;                       // Pivot - this gameObject is usually represented at the center of the enemy group. Enemies will use it to calculate they movement area.
     public float maxDistance;                           // Max distance enemy can move away from pivot.
 
+    [Header("Parameters")]
+    public bool spawnByDistance;                        // Spawn enemies using player distance measure.
+    public float minDistanceForSpawn;                   // Minimun distance for spawning enemies when spawn by distance is enabled.
+    public float gapBetweenSpawn;                       // Set a gap between spawning each enemy. Set to 0 to avoid gaps.
+
+
     /// <summary>
     /// Awake is called when the script instance is being loaded.
     /// </summary>
@@ -57,7 +65,6 @@ public class EnemyGroup : MonoBehaviour {
             SpawnEnemies();    
         }    
     }
-
 
     // Start is called before the first frame update
     void Start() {
@@ -104,6 +111,16 @@ public class EnemyGroup : MonoBehaviour {
 
                 // set enemy status.
                 instance.SetActive( enemySpawn.initActive );
+
+                // display particles if required.
+                if ( enemySpawn.hasParticles ) {
+                    GameObject particleInstance = Instantiate( enemySpawn.spawnParticles, gameObject.transform.position, Quaternion.identity );
+                    EnemySpawnParticles particles = particleInstance.GetComponent<EnemySpawnParticles>();
+                    if ( particles != null ) {
+                        particles.SpawnParticles();
+                    }
+                    // TODO: Convert this into coroutine and add call spawn animation in enable for enemy.
+                } 
 
             }
         }
