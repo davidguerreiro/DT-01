@@ -80,6 +80,16 @@ public abstract class Enemy : MonoBehaviour {
     [SerializeField]
     protected bool ignoreZRotaion;                              // Ignore Y rotation when facing player.
 
+    [Header("HightLight Effects")]
+    [SerializeField]
+     protected HighlightPlus.HighlightEffect highlightEffect;   // Highlight effects class.
+     [SerializeField]
+     protected Color hitColor;                                  // Hit color.
+     [SerializeField]
+     protected float hitDuration;                               // Hit effect duration.
+     [SerializeField]
+     protected float hitIntensity;                              // Hit effect intensity.
+
 
     // GameObject components.
     protected Rigidbody _rigi;                                  // Rigibody component reference.
