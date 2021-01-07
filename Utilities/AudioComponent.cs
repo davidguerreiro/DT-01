@@ -18,7 +18,10 @@ public class AudioComponent : MonoBehaviour {
         Init();
     }
 
-    private void Awake() {
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
+    void Awake() {
         Init();
     }
 
@@ -27,6 +30,10 @@ public class AudioComponent : MonoBehaviour {
     /// </summary>
     /// <param name="soundClip">int - sound clip to play from the array of sounds.</param>
     public void PlaySound( int audioClip ) {
+
+        if ( audio == null ) {
+            audio = GetComponent<AudioSource>();
+        }
 
         audio.clip = audioClips[ audioClip ];
         this.currentAudioClipIndex = audioClip;
@@ -161,7 +168,7 @@ public class AudioComponent : MonoBehaviour {
     /// <summary>
     /// Init class method.
     /// </summary>
-    private void Init() {
+    public void Init() {
 
         // get audio component reference.
         audio = GetComponent<AudioSource>();

@@ -5,11 +5,19 @@ using UnityEngine;
 public class MeteoWorm : Enemy {
     private Animator _anim;                             // Animator component reference.
     private AudioComponent _audio;                      // Audio component reference.
-    private float _animSpeed = 1f;                     // Animation speed multiplier. Used to increase / decrease animation speed.      
+    private float _animSpeed = 1f;                      // Animation speed multiplier. Used to increase / decrease animation speed.      
 
     // Start is called before the first frame update
     void Start() {
+        // Init();
+    }
+
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
+    void Awake() {
         Init();
+        StartCoroutine( SpawnRoutine() );
     }
 
     /// <summary>
@@ -17,7 +25,7 @@ public class MeteoWorm : Enemy {
     /// </summary>
     void FixedUpdate() {
 
-        if ( isAlive ) {
+        if ( isAlive && isSpawned ) {
 
             // listen for rotation actions and perform animations.
             // ListenForRotation();
@@ -29,6 +37,21 @@ public class MeteoWorm : Enemy {
             ListerForCurrentState();
         }
     }
+
+    /// <summary>
+    /// Spawn enemy.
+    /// </summary>
+    /// <returns>IEnumerator</returns>
+    public IEnumerator SpawnRoutine() {
+        _anim.SetFloat( "AnimSpeed", 1.4f );
+        _anim.SetTrigger( "Attack" );
+        PlayStandardSound();
+
+        yield return new WaitForSeconds( 1f );
+        _anim.SetFloat( "AnimSpeed", 1f );
+        isSpawned = true;
+    }
+
 
     /// <summary>
     /// Listen for moving state and enable

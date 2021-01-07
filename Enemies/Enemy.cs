@@ -19,6 +19,8 @@ public abstract class Enemy : MonoBehaviour {
     [SerializeField]
     protected bool isAlive = true;                          // Whether the enemy is alive or has already died.
     [SerializeField]
+    protected bool isSpawned = false;                       // Wheter the enemy is spawned in the game scene.
+    [SerializeField]
     protected bool isMoving = false;                        // Whether the enemy is moving.
     [SerializeField]
     protected bool isRotating = false;                      // Whether the enemy is rotating.
@@ -141,7 +143,6 @@ public abstract class Enemy : MonoBehaviour {
         if ( isAlive ) {
             // calculate damage base.
             float damageReceived = ( externalImpactValue / data.defense ) + UnityEngine.Random.Range( 0f, .5f );
-            Debug.Log( damageReceived );
 
             // check if critic.
             bool isCritic = GetIfCritic( criticRate );

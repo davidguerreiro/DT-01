@@ -28,6 +28,7 @@ public class EnemySpawnParticles : MonoBehaviour {
     private IEnumerator SpawnParticlesCoroutine() {
         if ( _audio == null ) {
             _audio = GetComponent<AudioComponent>();
+            _audio.Init();
         }
         _audio.PlaySound();
 

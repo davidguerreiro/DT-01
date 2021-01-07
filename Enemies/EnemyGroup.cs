@@ -125,13 +125,13 @@ public class EnemyGroup : MonoBehaviour {
 
                 // display particles if required.
                 if ( enemySpawn.hasParticles ) {
-                    GameObject particleInstance = Instantiate( enemySpawn.spawnParticles, gameObject.transform.position, Quaternion.identity );
+                    GameObject particleInstance = Instantiate( enemySpawn.spawnParticles, new Vector3( instance.transform.position.x, instance.transform.position.y + 0.5f, instance.transform.position.z), Quaternion.identity );
                     EnemySpawnParticles particles = particleInstance.GetComponent<EnemySpawnParticles>();
                     if ( particles != null ) {
                         particles.SpawnParticles();
                     }
-                    // TODO: Convert this into coroutine and add call spawn animation in enable for enemy.
-                } 
+                }
+
                 yield return new WaitForSeconds( gapBetweenSpawn );
             }
         }
