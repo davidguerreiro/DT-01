@@ -128,8 +128,6 @@ public class MeteoWorm : Enemy {
     /// <param name="isMelee">bool - Flag to control that the attack received was a melee attack.False by default.</param>
     public override void GetDamage( float externalImpactValue, float criticRate = 0f, bool isMelee = false ) {
         base.GetDamage( externalImpactValue, criticRate, isMelee );
-
-        highlightEffect.HitFX( hitColor, hitDuration, hitIntensity );
     }
 
     /// <summary>

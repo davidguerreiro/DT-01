@@ -176,10 +176,13 @@ public abstract class Enemy : MonoBehaviour {
             if ( currentHp <= 0f ) {
                 StartCoroutine( Die() );
             } else {
+                // display glowing effect here.
+                if ( highlightEffect != null ) {
+                    highlightEffect.HitFX( hitColor, hitDuration, hitIntensity );
+                }
                 // display hit particles.
-                // TODO: Display glowing here.
                 if ( hitParticles != null ) {
-                    hitParticles.DisplayHitParticles();
+                    // hitParticles.DisplayHitParticles();
                 }
             }
         }
