@@ -25,7 +25,7 @@ public class MeteoWorm : Enemy {
     /// </summary>
     void FixedUpdate() {
 
-        if ( isAlive && isSpawned ) {
+        if ( isAlive && isSpawned && ! isStunned ) {
 
             // listen for rotation actions and perform animations.
             // ListenForRotation();
@@ -188,6 +188,7 @@ public class MeteoWorm : Enemy {
 
         // choose an attack to perform.
         do {
+            canBeStunned = true;
             // set an attack to be performed.
             int attackKey = UnityEngine.Random.Range( 0, attacks.Length );
             EnemyData.Actions action = attacks[ attackKey ];
@@ -202,6 +203,7 @@ public class MeteoWorm : Enemy {
 
         switch ( attack.attackName ) {
             case "Intimidate":
+                canBeStunned = false;
                 PlayAttackSound();
                 _anim.SetFloat( "AnimSpeed", .35f );
                 _anim.SetTrigger( "Attack" );
@@ -226,6 +228,7 @@ public class MeteoWorm : Enemy {
 
                 StopMoving();
                 
+                canBeStunned = false;
                 isLookingAtPlayer = false;
                 isChasingPlayer = false;
                 yield return new WaitForSeconds( .1f );
@@ -284,6 +287,10 @@ public class MeteoWorm : Enemy {
                 StopMoving();
             }
 
+            if ( isStunned ) {
+                yield return new WaitForFixedUpdate();
+            }
+
             // look at player.
             isLookingAtPlayer = true;
             yield return new WaitForSeconds( Random.Range( .5f, 2.5f ) );
@@ -296,6 +303,7 @@ public class MeteoWorm : Enemy {
 
             // random movement - disabled at the moment.
             if ( decision < 2 ) {
+                canBeStunned = true;
                 isLookingAtPlayer = false;
                 RandomMovement();
                 yield return new WaitForSeconds( .1f );

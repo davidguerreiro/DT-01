@@ -28,6 +28,10 @@ public class EnemyData : ScriptableObject {
     public float randXMovementAmplitude;               // Amplitude for random movement in the X axis.
     public float randZMovementAmplitude;               // Amplitude for random movement in the Y axis.
 
+    [Header("Status Data")]
+    public bool stunneable;                             // Wheter this enemy is stunneable.
+    public float secondsStunned;                        // How long this enemy will be stunned.
+
     [Serializable]
     public struct Actions {
         public EnemyAttack attack;          // Attack which can be performed by the enemy.

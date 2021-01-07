@@ -33,6 +33,10 @@ public abstract class Enemy : MonoBehaviour {
     [SerializeField]
     protected bool isLookingAtPlayer = false;               // Whether the enemy is looking at the player continuosly.
     [SerializeField]
+    protected bool isStunned = false;                       // Whether the enemy is stunned.
+    [SerializeField]
+    protected bool canBeStunned = false;                    // Whether the enemy can be stunned by any stun attack.
+    [SerializeField]
     protected bool onNavMeshPath = false;                   // Whether the enemy is in a navMeshPath loop.
 
     private const float criticBoost = 1.5f;                 // Boos to multiply critic damage.
@@ -113,6 +117,7 @@ public abstract class Enemy : MonoBehaviour {
     protected Coroutine rotateCoroutine;                       // Rotating coroutine.
     protected Coroutine attackCoroutine;                       // Attack coroutine.
     protected Coroutine battleCoroutine;                       // Battle loop coroutine reference.
+    protected Coroutine stunCoroutine;                         // Stun loop coroutine reference.
     protected Vector3 initialPosition;                         // Enemy initial position - used if enemy position has to be reset or if the enemy returns back from outside the enemy group area.
     protected float randomMovementCounter = 0f;                // Random movement counter
     protected float randomMovementFrameChecker;                // Random movement frame checker - used to calculate when a random movement needs to happen.
@@ -149,6 +154,8 @@ public abstract class Enemy : MonoBehaviour {
     /// <param name="externalImpactValue">float - damage value caused external attacker, usually the player.</param>
     /// <param name="criticRate">float - critic rate value. Default to 0.</param>
     /// <param name="isMelee">bool - Flag to control that the attack received was a melee attack.False by default.</param>
+    /// <param name="canCauseStune">bool - Flag to control if this attack can cause stune</param>
+    /// TODO: Add stune to enemies.
     public virtual void GetDamage( float externalImpactValue, float criticRate = 0f, bool isMelee = false ) {
         if ( isAlive ) {
             // calculate damage base.
@@ -203,6 +210,32 @@ public abstract class Enemy : MonoBehaviour {
     /// <param name="Player">Player - player class reference.</param>
     public virtual void DamagePlayer( Player player ) {
         player.GetDamage( attack );
+    }
+
+    /// <summary>
+    /// Stun Coroutine.
+    /// </summary>
+    /// <returns>IEnumerator</returns>
+    public virtual IEnumerator GetStunned() {
+        this.canBeStunned = false;
+        this.isStunned = true;
+
+        yield return new WaitForSeconds( data.secondsStunned );
+        this.isStunned = false;
+
+        stunCoroutine = null;
+    }
+
+    /// <summary>
+    /// RemoveStun.
+    /// </summary>
+    public void RemoveStun() {
+        if ( stunCoroutine != null ) {
+            StopCoroutine( stunCoroutine );
+            stunCoroutine = null;
+        }
+        this.canBeStunned = false;
+        this.isStunned = false;
     }
 
     /// <summary>
