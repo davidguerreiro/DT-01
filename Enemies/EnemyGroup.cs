@@ -55,7 +55,8 @@ public class EnemyGroup : MonoBehaviour {
     public bool spawnByDistance;                        // Spawn enemies using player distance measure.
     public float minDistanceForSpawn;                   // Minimun distance for spawning enemies when spawn by distance is enabled.
     public float gapBetweenSpawn;                       // Set a gap between spawning each enemy. Set to 0 to avoid gaps.
-
+    
+    private Coroutine _spawnEnemiesRoutine;             // Spawn enemies routine.
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
@@ -80,6 +81,15 @@ public class EnemyGroup : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Spawn enemies routine wrapper.
+    /// </summary>
+    public void SpawnEnemies() {
+        if ( _spawnEnemiesRoutine == null ) {
+            _spawnEnemiesRoutine = StartCoroutine( SpawnEnemiesRoutine() );
+        }
+    }
+
     /// <sumamry>
     /// Spawn enemies in the game scene.
     /// Note that enemies might not be
@@ -87,7 +97,8 @@ public class EnemyGroup : MonoBehaviour {
     /// they will be not visible in the
     /// game scene.
     /// </summary>
-    public void SpawnEnemies() {
+    /// <returns>IEnumerator</returns>
+    private IEnumerator SpawnEnemiesRoutine() {
 
         // instantiate enemies in scene.
         foreach ( SpawnData enemySpawn in spawnData ) {
@@ -121,7 +132,7 @@ public class EnemyGroup : MonoBehaviour {
                     }
                     // TODO: Convert this into coroutine and add call spawn animation in enable for enemy.
                 } 
-
+                yield return new WaitForSeconds( gapBetweenSpawn );
             }
         }
 
@@ -129,6 +140,7 @@ public class EnemyGroup : MonoBehaviour {
         if ( spawnType == SpawnType.byRounds && currentSpawnRound > -1 ) {
             currentSpawnRound++;
         }
+        _spawnEnemiesRoutine = null;
     }
 
     /// <summary>
