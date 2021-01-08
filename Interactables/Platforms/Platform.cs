@@ -54,8 +54,6 @@ public class Platform : MonoBehaviour {
         if ( isMoving && loop && ! _movementFlag ) {
             _movingCoroutine = StartCoroutine( "Moving" );
         }
-
-        // Debug.Log( _rigi.velocity );
     }
 
     /// <summary>

@@ -24,7 +24,7 @@ public class CheckPoint : MonoBehaviour {
     /// </summary>
     /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerEnter( Collider other ) {
-        Debug.Log( "enter checkpoint" );
+        // Debug.Log( "enter checkpoint" );
         if ( other.tag == "Player" && active && ! currentCheckPoint ) {
             ResetEnemyGroups();
             currentCheckPoint = true;
@@ -36,7 +36,7 @@ public class CheckPoint : MonoBehaviour {
     /// </summary>
     /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerExit( Collider other ) {
-        Debug.Log( "leave checkpoint" );
+        // Debug.Log( "leave checkpoint" );
         if ( other.tag == "Player" && active && currentCheckPoint ) {
             currentCheckPoint = false;
         }    

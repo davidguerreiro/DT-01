@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour {
     public float damage;                                             // Damage caused by this bullet. This is set from the weapon shooting the bullet.
     public float criticRate;                                         // Damage critic rate. This is set from the weapon shooting the bullet.
     public float maximunDistance = 150f;                             // Maximun distance the bullet can move towards before being restore to the bullet object pool.
+    public bool canStun;                                             // Whether this hit can stun an enemy.
     public enum Type {                                               // Bulle type enum.
         standard,                                                    // Standard shoot bullet.
         charged,                                                     // Charged shoot bullet.

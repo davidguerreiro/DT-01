@@ -127,7 +127,7 @@ public abstract class Enemy : MonoBehaviour {
     /// </summary>
     void Update() {
 
-        if ( isAlive && ! GameManager.instance.isPaused ) {
+        if ( isAlive && isSpawned && ! GameManager.instance.isPaused ) {
 
             // Debug.Log( currentState );
 
@@ -145,6 +145,8 @@ public abstract class Enemy : MonoBehaviour {
             if ( currentState != State.none && currentState != State.returning ) {
                 CheckPivotDistance();
             }
+
+            // Debug.Log( isStunned );
         }
     }
 
@@ -155,9 +157,9 @@ public abstract class Enemy : MonoBehaviour {
     /// <param name="criticRate">float - critic rate value. Default to 0.</param>
     /// <param name="isMelee">bool - Flag to control that the attack received was a melee attack.False by default.</param>
     /// <param name="canCauseStune">bool - Flag to control if this attack can cause stune</param>
-    /// TODO: Add stune to enemies.
     public virtual void GetDamage( float externalImpactValue, float criticRate = 0f, bool isMelee = false, bool canCauseStune = false ) {
         if ( isAlive ) {
+
             // calculate damage base.
             float damageReceived = ( externalImpactValue / data.defense ) + UnityEngine.Random.Range( 0f, .5f );
 
@@ -254,6 +256,7 @@ public abstract class Enemy : MonoBehaviour {
     /// <param name="newState">State - New state to apply to enemy when the movement coroutine finishes. Default to null.</param>
     public virtual IEnumerator Move( Vector3 setDestination, bool useNavMesh = false, float extraSpeed = 1f, State newState = State.none ) {
         isMoving = true;
+        canBeStunned = true;
         Vector3 destination = ( isChasingPlayer ) ? Player.instance.transform.position : setDestination;
 
         // TODO: Replace by rotate method.
@@ -526,6 +529,7 @@ public abstract class Enemy : MonoBehaviour {
     /// </summary>
     public virtual IEnumerator Die() {
         isAlive = false;
+        canBeStunned = false;
         currentHp = 0f;
     
         if ( isMoving ) {
@@ -651,7 +655,7 @@ public abstract class Enemy : MonoBehaviour {
 
             if ( player.playerInput.inMelee && data.meleeVulnerable > 0f ) {
                 // get damage from melee attack.
-                GetDamage( player.playerInput.weapon.plasmaGunData.meleeDamage, player.playerInput.weapon.plasmaGunData.criticRate, true );
+                GetDamage( player.playerInput.weapon.plasmaGunData.meleeDamage, player.playerInput.weapon.plasmaGunData.criticRate, true, true );
             } else {
                 // player gets damage.
                 DamagePlayer( player );

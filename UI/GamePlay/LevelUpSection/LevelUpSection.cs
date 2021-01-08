@@ -45,7 +45,6 @@ public class LevelUpSection : MonoBehaviour {
         if ( _displayedCounter < ( secondsDisplayed * 60f ) ) {
             _displayedCounter++;
         } else {
-            Debug.Log( "called here" );
             HideBox();
             _displayedCounter = 0f;
         }

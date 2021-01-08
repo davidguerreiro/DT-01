@@ -50,6 +50,7 @@ public class MeteoWorm : Enemy {
         yield return new WaitForSeconds( 1f );
         _anim.SetFloat( "AnimSpeed", 1f );
         isSpawned = true;
+        canBeStunned = true;
     }
 
 
@@ -115,8 +116,7 @@ public class MeteoWorm : Enemy {
     void OnCollisionEnter(Collision other) {
         if ( other.gameObject.tag == "PlayerProjectile" ) {
             Bullet bullet = other.gameObject.GetComponent<Bullet>();
-
-            GetDamage( bullet.damage, bullet.criticRate );
+            GetDamage( bullet.damage, bullet.criticRate, false, bullet.canStun );
         }
     }
 
@@ -127,8 +127,34 @@ public class MeteoWorm : Enemy {
     /// <param name="criticRate">float - critic rate value. Default to 0.</param>
     /// <param name="isMelee">bool - Flag to control that the attack received was a melee attack.False by default.</param>
     /// <param name="canCauseStune">bool - Flag to control if this attack can cause stune</param>
-    public override void GetDamage( float externalImpactValue, float criticRate = 0f, bool isMelee = false, bool canBeStunned = false ) {
-        base.GetDamage( externalImpactValue, criticRate, isMelee );
+    public override void GetDamage( float externalImpactValue, float criticRate = 0f, bool isMelee = false, bool canCauseStune = false ) {
+        base.GetDamage( externalImpactValue, criticRate, isMelee, canCauseStune );
+
+        // stop attacking and moving if stunned.
+        if ( isStunned ) {
+
+            if ( attackCoroutine != null ) {
+                StopCurrentAttack();
+            }
+
+            if ( moveCoroutine != null ) {
+                StopMoving();
+            }
+
+            // display stun animation and sound.
+            PlayStandardSound();
+            _anim.SetTrigger("Hit");
+        }
+    }
+
+    /// <summary>
+    /// Stop current attack.
+    /// </summary>
+    public void StopCurrentAttack() {
+        StopCoroutine( attackCoroutine );
+        _anim.SetFloat( "AnimSpeed", 1f );
+        isAttacking = false;
+        attackCoroutine = null;
     }
 
     /// <summary>
@@ -291,6 +317,7 @@ public class MeteoWorm : Enemy {
             if ( isStunned ) {
                 yield return new WaitForFixedUpdate();
             }
+            canBeStunned = true;
 
             // look at player.
             isLookingAtPlayer = true;
