@@ -26,7 +26,7 @@ public class EnemyHitParticles : MonoBehaviour {
         }
 
         if ( particles[key] != null ) {
-            particles[key].Play();
+            // particles[key].Play();
         }
     }
 

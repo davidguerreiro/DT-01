@@ -156,7 +156,7 @@ public abstract class Enemy : MonoBehaviour {
     /// <param name="isMelee">bool - Flag to control that the attack received was a melee attack.False by default.</param>
     /// <param name="canCauseStune">bool - Flag to control if this attack can cause stune</param>
     /// TODO: Add stune to enemies.
-    public virtual void GetDamage( float externalImpactValue, float criticRate = 0f, bool isMelee = false ) {
+    public virtual void GetDamage( float externalImpactValue, float criticRate = 0f, bool isMelee = false, bool canCauseStune = false ) {
         if ( isAlive ) {
             // calculate damage base.
             float damageReceived = ( externalImpactValue / data.defense ) + UnityEngine.Random.Range( 0f, .5f );
@@ -189,7 +189,12 @@ public abstract class Enemy : MonoBehaviour {
                 }
                 // display hit particles.
                 if ( hitParticles != null ) {
-                    // hitParticles.DisplayHitParticles();
+                    hitParticles.DisplayHitParticles();
+                }
+
+                // stun enemy if possible.
+                if ( canCauseStune && ! isStunned && canBeStunned && stunCoroutine == null ) {
+                    stunCoroutine = StartCoroutine( GetStunned() );
                 }
             }
         }

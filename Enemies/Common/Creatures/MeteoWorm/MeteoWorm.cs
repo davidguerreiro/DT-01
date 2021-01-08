@@ -126,7 +126,8 @@ public class MeteoWorm : Enemy {
     /// <param name="externalImpactValue">float - damage value caused external attacker, usually the player.</param>
     /// <param name="criticRate">float - critic rate value. Default to 0.</param>
     /// <param name="isMelee">bool - Flag to control that the attack received was a melee attack.False by default.</param>
-    public override void GetDamage( float externalImpactValue, float criticRate = 0f, bool isMelee = false ) {
+    /// <param name="canCauseStune">bool - Flag to control if this attack can cause stune</param>
+    public override void GetDamage( float externalImpactValue, float criticRate = 0f, bool isMelee = false, bool canBeStunned = false ) {
         base.GetDamage( externalImpactValue, criticRate, isMelee );
     }
 
