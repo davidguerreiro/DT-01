@@ -36,10 +36,11 @@ public class EnemyGroup : MonoBehaviour {
     [Header("Enemy Spawn")]
     public SpawnData[] spawnData = new SpawnData[1];    // Spawn array of enemy prefabs and data.
     public SpawnType spawnType;                         // Spawn type for this enemy grouo.
-    public bool spawnOnAwake = true;                    // Instantiate enemies on awake init. Notice that this does not mean enemies will be active in the current scene by default.
+    public bool spawnOnAwake;                           // Instantiate enemies on awake init. Notice that this does not mean enemies will be active in the current scene by default.
+    public bool spawnByDistance;                        // Spawn enemies using player distance measure.
 
     [Header("Status")]
-    public bool defeated;                               // Wheter this enemy group has been defeated.
+    public bool defeated = false;                       // Wheter this enemy group has been defeated.
     public bool spawn;                                  // Whether this group has already spawn enemies.
     public bool inBattle;                               // Whether any of the enemies in this group is engaged in battle.
     public int currentSpawnRound = 0;                   // Current Spawn round.
@@ -53,7 +54,6 @@ public class EnemyGroup : MonoBehaviour {
     public float maxDistance;                           // Max distance enemy can move away from pivot.
 
     [Header("Parameters")]
-    public bool spawnByDistance;                        // Spawn enemies using player distance measure.
     public float minDistanceForSpawn;                   // Minimun distance for spawning enemies when spawn by distance is enabled.
     public float gapBetweenSpawn;                       // Set a gap between spawning each enemy. Set to 0 to avoid gaps.
     public string battleTheme;                          // Current enemy group battle theme.
@@ -78,7 +78,11 @@ public class EnemyGroup : MonoBehaviour {
     /// Update is called every frame, if the MonoBehaviour is enabled.
     /// </summary>
     void Update() {
-        if ( ! defeated ) {
+
+        if ( ! spawn && spawnByDistance ) {
+            CheckPlayerDistance();
+        }
+        if ( spawn && ! defeated ) {
             // check if this group is in battle against the player.
             CheckBattleStatus();
 
@@ -100,6 +104,7 @@ public class EnemyGroup : MonoBehaviour {
     public void SpawnEnemies() {
         if ( _spawnEnemiesRoutine == null ) {
             _spawnEnemiesRoutine = StartCoroutine( SpawnEnemiesRoutine() );
+            spawn = true;
         }
     }
 
@@ -261,6 +266,16 @@ public class EnemyGroup : MonoBehaviour {
 
         if (!inBattle && LevelManager.instance.levelMusicController.currentSong == battleTheme ) {
             LevelManager.instance.levelMusicController.PlayCommonLevelSong();
+        }
+    }
+
+    /// <summary>
+    /// Check player distance for 
+    /// spawing.
+    /// </summary>
+    private void CheckPlayerDistance() {
+        if ( Vector3.Distance( transform.position, Player.instance.transform.position ) <= minDistanceForSpawn) {
+            SpawnEnemies();
         }
     }
     
