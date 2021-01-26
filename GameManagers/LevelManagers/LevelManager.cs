@@ -20,7 +20,7 @@ public class LevelManager : MonoBehaviour {
     
     // Start is called before the first frame update
     void Start() {
-        
+        Init();
     }
 
     // Update is called once per frame
@@ -34,7 +34,7 @@ public class LevelManager : MonoBehaviour {
     /// </summary>
     public void Init() {
         if (initDefaultSongAtStart) {
-            levelMusicController.PlaySong('currentLevel');
+            levelMusicController.PlaySong("common", "currentLevel");
         }
     }
 }
