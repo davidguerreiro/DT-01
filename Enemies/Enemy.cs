@@ -111,7 +111,7 @@ public abstract class Enemy : MonoBehaviour {
     protected ColliderType[] colliderTypes;                    // Collider type. Used to check which collider we have to disable.
 
     [HideInInspector]
-    public EnemyGroup enemyGroup;                           // Current enemy's enemy group.
+    public EnemyGroup enemyGroup;                              // Current enemy's enemy group.
 
     protected Coroutine moveCoroutine;                         // Moving coroutine.
     protected Coroutine rotateCoroutine;                       // Rotating coroutine.
@@ -129,8 +129,6 @@ public abstract class Enemy : MonoBehaviour {
 
         if ( isAlive && isSpawned && ! GameManager.instance.isPaused ) {
 
-            // Debug.Log( currentState );
-
             // look at the player if is in range or in battle.
             if ( isLookingAtPlayer ) {
                 LookAtPlayer( ignoreXRotation, ignoreYRotaion, ignoreZRotaion );
@@ -146,7 +144,6 @@ public abstract class Enemy : MonoBehaviour {
                 CheckPivotDistance();
             }
 
-            // Debug.Log( isStunned );
         }
     }
 

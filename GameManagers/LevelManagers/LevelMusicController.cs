@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class LevelMusicController : MonoBehaviour
 {   
+    public string currentSong;
     [Serializable]
     public struct SongData {                                // Songs data
         public string name;         // Song name.
@@ -99,6 +100,7 @@ public class LevelMusicController : MonoBehaviour
             default:
                 break;
         }
+        currentSong = key;
     }
 
     /// <summary>
@@ -111,10 +113,10 @@ public class LevelMusicController : MonoBehaviour
             if ( inmediateStart ) {
                 _audio.PlayClip( clip );
             } else {
-                StartCoroutine( _audio.FadeOutSongRoutine( .5f ) );
-                yield return new WaitForSecondsRealtime( 1f );
+                StartCoroutine( _audio.FadeOutSongRoutine( 0.3f ) );
+                yield return new WaitForSecondsRealtime( 2.5f );
                 _audio.PlayClip( clip, false );
-                StartCoroutine( _audio.FadeInSongRoutine( .5f ) );
+                StartCoroutine( _audio.FadeInSongRoutine( 0.7f ) );
             }
         }
     }
@@ -124,19 +126,25 @@ public class LevelMusicController : MonoBehaviour
     /// </summary>
     /// <param name="inmediateStop">bool - wheter to stop the song inmediately or to fade stop. True by default</param>
     public void StopSong( bool inmediateStart = true ) {
-        if ( _audio != null ) {
-            if ( inmediateStart ) {
-                _audio.PauseAudio();
-            } else {
-                StartCoroutine( _audio.FadeOutSongRoutine( .5f ) );
-            }
+        if ( inmediateStart ) {
+            _audio.PauseAudio();
+        } else {
+            StartCoroutine( _audio.FadeOutSongRoutine( .5f ) );
         }
+    }
+
+    /// <summary>
+    /// Play common level song.
+    /// </summary>
+    /// <param name="inmediateStart">bool - wheter to start the song inmediately</param>
+    public void PlayCommonLevelSong( bool inmediateStart = false ) {
+        PlaySong("common", "currentLevel", inmediateStart);
     }
 
     /// <summary>
     /// Init class method.
     /// </summary>
-    private void Init() {
+    public void Init() {
         _audio = GetComponent<AudioComponent>();
 
         // build commont tracks hastable.

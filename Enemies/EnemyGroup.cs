@@ -41,6 +41,7 @@ public class EnemyGroup : MonoBehaviour {
     [Header("Status")]
     public bool defeated;                               // Wheter this enemy group has been defeated.
     public bool spawn;                                  // Whether this group has already spawn enemies.
+    public bool inBattle;                               // Whether any of the enemies in this group is engaged in battle.
     public int currentSpawnRound = 0;                   // Current Spawn round.
 
     [Header("Enemies")]
@@ -55,6 +56,7 @@ public class EnemyGroup : MonoBehaviour {
     public bool spawnByDistance;                        // Spawn enemies using player distance measure.
     public float minDistanceForSpawn;                   // Minimun distance for spawning enemies when spawn by distance is enabled.
     public float gapBetweenSpawn;                       // Set a gap between spawning each enemy. Set to 0 to avoid gaps.
+    public string battleTheme;                          // Current enemy group battle theme.
     
     private Coroutine _spawnEnemiesRoutine;             // Spawn enemies routine.
 
@@ -77,7 +79,18 @@ public class EnemyGroup : MonoBehaviour {
     /// </summary>
     void Update() {
         if ( ! defeated ) {
+            // check if this group is in battle against the player.
+            CheckBattleStatus();
+
+            // check if battle theme needs to be played.
+            CheckForBattleTheme();
+
+            // check if this group has been defeated.
             CheckDefeatedStatus();
+        }
+
+        if (defeated && LevelManager.instance.levelMusicController.currentSong == battleTheme ) {
+            LevelManager.instance.levelMusicController.PlayCommonLevelSong();
         }
     }
 
@@ -222,6 +235,35 @@ public class EnemyGroup : MonoBehaviour {
 
         enemiesRef.Clear();
     }
+
+    /// <summary>
+    /// Check in battle status.
+    /// </summary>
+    private void CheckBattleStatus() {
+        inBattle = false;
+
+        for ( int i = 0; i < enemiesRef.Count; i++ ) {
+            if (enemiesRef[i].enemy != null && ( enemiesRef[i].enemy.GetState() == Enemy.State.battling ) || enemiesRef[i].enemy.GetState() == Enemy.State.returning ) {
+                inBattle = true;
+                break;
+            }
+        }
+    }
+
+    /// <sumamry>
+    /// Check for battle song to be
+    /// played or stopped.
+    /// </summary>
+    private void CheckForBattleTheme() {
+        if ( inBattle && LevelManager.instance.levelMusicController.currentSong != battleTheme ) {
+            LevelManager.instance.levelMusicController.PlaySong("common", battleTheme, true);
+        }
+
+        if (!inBattle && LevelManager.instance.levelMusicController.currentSong == battleTheme ) {
+            LevelManager.instance.levelMusicController.PlayCommonLevelSong();
+        }
+    }
+    
 
     /// <summary>
     /// Reset enemy group.

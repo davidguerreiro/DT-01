@@ -20,7 +20,7 @@ public class LevelManager : MonoBehaviour {
     
     // Start is called before the first frame update
     void Start() {
-        Init();
+        Invoke("Init", 1f);
     }
 
     // Update is called once per frame
