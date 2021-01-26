@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour {
     public static LevelManager instance;                        // Class static instance.
+    public bool initDefaultSongAtStart;                         // Init default song when this level is initialisez.
+
+    [Header("Components")]
     public LevelMusicController levelMusicController;           // Level music controller reference.
 
     /// <summary>
@@ -16,8 +19,7 @@ public class LevelManager : MonoBehaviour {
     }
     
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         
     }
 
@@ -25,5 +27,14 @@ public class LevelManager : MonoBehaviour {
     void Update()
     {
         
+    }
+
+    /// <summary>
+    /// Init class method.
+    /// </summary>
+    public void Init() {
+        if (initDefaultSongAtStart) {
+            levelMusicController.PlaySong('currentLevel');
+        }
     }
 }
