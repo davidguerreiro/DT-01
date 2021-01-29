@@ -37,10 +37,10 @@ public class EnemyHPBar : MonoBehaviour {
             _slider.value = currentHP;
 
             // update bar color.
-            if ( _slider.value <= ( _slider.maxValue / 2 ) ) {
-                fillImage.color = damaged;
-            } else if ( _slider.value <= ( _slider.maxValue / 5 ) ) {
+            if ( _slider.value <= ( _slider.maxValue / 5 ) ) {
                 fillImage.color = critical;
+            } else if ( _slider.value <= ( _slider.maxValue / 2 ) ) {
+                fillImage.color = damaged;
             } else {
                 fillImage.color = healthy;     
             }
