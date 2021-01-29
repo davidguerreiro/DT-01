@@ -117,6 +117,9 @@ public class MeteoWorm : Enemy {
         if ( other.gameObject.tag == "PlayerProjectile" ) {
             Bullet bullet = other.gameObject.GetComponent<Bullet>();
             GetDamage( bullet.damage, bullet.criticRate, false, bullet.canStun );
+            if ( currentState != State.battling && currentState != State.returning ) {
+                EngageInBattle();
+            }
         }
     }
 

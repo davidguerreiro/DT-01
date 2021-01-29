@@ -653,6 +653,9 @@ public abstract class Enemy : MonoBehaviour {
             if ( player.playerInput.inMelee && data.meleeVulnerable > 0f ) {
                 // get damage from melee attack.
                 GetDamage( player.playerInput.weapon.plasmaGunData.meleeDamage, player.playerInput.weapon.plasmaGunData.criticRate, true, true );
+                if ( currentState != State.battling && currentState != State.returning ) {
+                    EngageInBattle();
+                }
             } else {
                 // player gets damage.
                 DamagePlayer( player );
