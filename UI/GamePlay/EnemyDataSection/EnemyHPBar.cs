@@ -8,6 +8,12 @@ public class EnemyHPBar : MonoBehaviour {
     [Header("Components")]
 
     public FadeElement fill;                                // Fill fade class component reference.
+    public Image fillImage;                                 // Fill image color.
+
+    [Header("Colors")]
+    public Color healthy;                                   // Health bar color to display when the enemy is healthy. Above 50% health.
+    public Color damaged;                                   // Health bar color to display when the enemy has been damage below 50% health.
+    public Color critical;                                  // Health bar color to display when the enemy is critical and hp is below 20%.
 
     [Header("Settings")]
     // public float offset;                                    // Extra value to ensure the bar is not too slow for enemies with low HP.
@@ -29,6 +35,15 @@ public class EnemyHPBar : MonoBehaviour {
     public void UpdateHP( float currentHP ) {
         if ( _slider != null ) {
             _slider.value = currentHP;
+
+            // update bar color.
+            if ( _slider.value <= ( _slider.maxValue / 2 ) ) {
+                fillImage.color = damaged;
+            } else if ( _slider.value <= ( _slider.maxValue / 5 ) ) {
+                fillImage.color = critical;
+            } else {
+                fillImage.color = healthy;     
+            }
 
             if ( currentHP <= 0 ) {
                 fill.gameObject.SetActive( false );
