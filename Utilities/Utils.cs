@@ -106,6 +106,17 @@ public class Utils : MonoBehaviour {
     }
 
     /// <summary>
+    /// Hide all checkpoints and area
+    /// loaders in current scene.
+    /// </summary>
+    public void HideCheckpoints() {
+        GameObject[] checkpoints = GameObject.FindGameObjectsWithTag("GameController");
+        foreach ( GameObject checkpoint in checkpoints ) {
+            checkpoint.GetComponent<MeshRenderer>().enabled = false;
+        }
+    }
+
+    /// <summary>
     /// Init class method.
     /// </summary>
     private void Init() {
@@ -115,5 +126,8 @@ public class Utils : MonoBehaviour {
 
         // disable all editor only gameObjects.
         DisableEditorOnlyGameObejcts();
+
+        // hide all mesh renderer for checkpoints and area loaders.
+        HideCheckpoints();
     }
 }

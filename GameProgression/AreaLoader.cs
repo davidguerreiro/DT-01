@@ -15,7 +15,7 @@ public class AreaLoader : MonoBehaviour {
             element.SetActive(true);
         }
         
-        foreach( GameObject element in objectsToLoad ) {
+        foreach( GameObject element in objectsToUnload ) {
             element.SetActive(false);
         }
     }
@@ -25,7 +25,8 @@ public class AreaLoader : MonoBehaviour {
     /// </summary>
     /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerEnter(Collider other) {
-        if (other.tag == "Player") {
+        Debug.Log("called");
+        if (other.gameObject.tag == "Player") {
             LoadUnloadObjects();
         }
     }
