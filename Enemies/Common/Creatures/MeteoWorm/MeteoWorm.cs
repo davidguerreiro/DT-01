@@ -181,7 +181,7 @@ public class MeteoWorm : Enemy {
     /// <param name="destination">Vector3 - position where the enemy is going to move</param>
     /// <parma name="useNavMesh">bool -wheter to move using nav mesh. False by defaul</param>
     /// <param name="extraSpeed">float - extra speed multiplier.</param>
-    public new void Move( Vector3 destination, bool useNavMesh = false, float extraSpeed = 1f ) {
+    public void Move( Vector3 destination, bool useNavMesh = false, float extraSpeed = 1f ) {
         if ( moveCoroutine == null ) {
             moveCoroutine = StartCoroutine( base.Move( destination, useNavMesh, extraSpeed ) );
         }

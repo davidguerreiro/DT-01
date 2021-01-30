@@ -71,7 +71,7 @@ public class EnemyGroup : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        RegisterEnemyGroup();
+        // RegisterEnemyGroup();
     }
 
     /// <summary>
@@ -274,7 +274,7 @@ public class EnemyGroup : MonoBehaviour {
     /// spawing.
     /// </summary>
     private void CheckPlayerDistance() {
-        if ( Vector3.Distance( transform.position, Player.instance.transform.position ) <= minDistanceForSpawn) {
+        if ( Vector3.Distance( groupPivot.gameObject.transform.position, Player.instance.transform.position ) <= minDistanceForSpawn) {
             SpawnEnemies();
         }
     }

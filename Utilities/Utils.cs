@@ -95,11 +95,25 @@ public class Utils : MonoBehaviour {
     }
 
     /// <summary>
+    /// Disable editor only
+    /// gameObjects.
+    /// </summary>
+    public void DisableEditorOnlyGameObejcts() {
+        GameObject[] editorOnly = GameObject.FindGameObjectsWithTag("EditorOnly");
+        foreach ( GameObject element in editorOnly ) {
+            element.SetActive(false);
+        }
+    }
+
+    /// <summary>
     /// Init class method.
     /// </summary>
     private void Init() {
 
         // get standard shared materials utils class reference.
         standardSharedUtils = GetComponent<StandardShaderUtils>();
+
+        // disable all editor only gameObjects.
+        DisableEditorOnlyGameObejcts();
     }
 }
