@@ -121,7 +121,7 @@ public class AudioComponent : MonoBehaviour {
          
         while ( audio.volume > 0f ) {
             audio.volume -= speed * Time.deltaTime;
-            yield return new WaitForFixedUpdate(); 
+            yield return new WaitForFixedUpdate();
         }
 
         if ( toPause ) {

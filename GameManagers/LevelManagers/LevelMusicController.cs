@@ -6,6 +6,7 @@ using UnityEngine;
 public class LevelMusicController : MonoBehaviour
 {   
     public string currentSong;
+
     [Serializable]
     public struct SongData {                                // Songs data
         public string name;         // Song name.
@@ -20,11 +21,6 @@ public class LevelMusicController : MonoBehaviour
     // Start is called before the first frame update
     void Start() {
         Init();
-    }
-
-    // Update is called once per frame
-    void Update() {
-        
     }
 
     /// <summary>
@@ -113,10 +109,10 @@ public class LevelMusicController : MonoBehaviour
             if ( inmediateStart ) {
                 _audio.PlayClip( clip );
             } else {
-                StartCoroutine( _audio.FadeOutSongRoutine( 0.3f ) );
+                StartCoroutine( _audio.FadeOutSongRoutine( 0.3f, false ) );
                 yield return new WaitForSecondsRealtime( 2.5f );
                 _audio.PlayClip( clip, false );
-                StartCoroutine( _audio.FadeInSongRoutine( 0.7f ) );
+                StartCoroutine( _audio.FadeInSongRoutine( 0.7f, 0f, .5f ) );
             }
         }
     }

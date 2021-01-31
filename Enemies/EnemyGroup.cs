@@ -40,6 +40,7 @@ public class EnemyGroup : MonoBehaviour {
     public bool spawnByDistance;                        // Spawn enemies using player distance measure.
 
     [Header("Status")]
+    public bool interactable = true;                    // Wheter this enemy group can be interacted and responsive to player actions.
     public bool defeated = false;                       // Wheter this enemy group has been defeated.
     public bool spawn;                                  // Whether this group has already spawn enemies.
     public bool inBattle;                               // Whether any of the enemies in this group is engaged in battle.
@@ -79,22 +80,26 @@ public class EnemyGroup : MonoBehaviour {
     /// </summary>
     void Update() {
 
-        if ( ! spawn && spawnByDistance ) {
-            CheckPlayerDistance();
-        }
-        if ( spawn && ! defeated ) {
-            // check if this group is in battle against the player.
-            CheckBattleStatus();
+        if ( interactable ) {
 
-            // check if battle theme needs to be played.
-            CheckForBattleTheme();
+            if ( ! spawn && spawnByDistance ) {
+                CheckPlayerDistance();
+            }
+            if ( spawn && ! defeated ) {
+                // check if this group is in battle against the player.
+                CheckBattleStatus();
 
-            // check if this group has been defeated.
-            CheckDefeatedStatus();
-        }
+                // check if battle theme needs to be played.
+                CheckForBattleTheme();
 
-        if (defeated && LevelManager.instance.levelMusicController.currentSong == battleTheme ) {
-            LevelManager.instance.levelMusicController.PlayCommonLevelSong();
+                // check if this group has been defeated.
+                CheckDefeatedStatus();
+            }
+
+            if (spawn && defeated && LevelManager.instance.levelMusicController.currentSong == battleTheme ) {
+                LevelManager.instance.levelMusicController.PlayCommonLevelSong();
+                interactable = false;
+            }
         }
     }
 
