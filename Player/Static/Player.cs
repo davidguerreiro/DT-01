@@ -17,16 +17,10 @@ public class Player : MonoBehaviour {
     public Inventory basicInventory;                       // Basic items inventory data coming from Inventory scriptable.
     public Inventory craftingInventory;                    // Crafting items inventory data coming from Inventory scriptable.
     public Inventory importantInventory;                   // Important items inventory data comming from Inventory scriptable.
-    private AudioComponent _audio;                         // Audio component reference.
+    private static AudioComponent _audio;                         // Audio component reference.
 
     [HideInInspector]
     public FPSInput playerInput;                           // Player input class.
-
-    void Awake() {
-        if ( instance == null ) {
-            instance = this;
-        }
-    }
 
     void Start() {
         Init();
@@ -91,6 +85,7 @@ public class Player : MonoBehaviour {
             // play healing sound.
             if ( playSound ) {
                 if ( alternativeSound != null ) {
+                    Debug.Log(_audio);
                     _audio.PlayClip( alternativeSound );
                 } else {
                     _audio.PlaySound( 3 );
@@ -109,6 +104,10 @@ public class Player : MonoBehaviour {
     /// Init class method.
     /// </summary>
     private void Init() {
+
+        if ( instance == null ) {
+            instance = this;
+        }
 
         // restore playerData values after gameplay - remove from production builds.
         playerData.RestoreDefaultValues();

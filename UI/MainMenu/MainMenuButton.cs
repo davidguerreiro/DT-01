@@ -65,6 +65,7 @@ public class MainMenuButton : MonoBehaviour {
                 // wait two extra seconds after the animation finishes before loading next scene.
                 yield return new WaitForSecondsRealtime( MainMenuManager.instance.startGameAnimationWait + 4f );
                 SceneManager.LoadScene( "CrystalCaves" );
+                // SceneManager.LoadScene( "BattleTesting" );
                 break;
             case "Options":
                 // TODO: Play any animation or sound required.
