@@ -50,6 +50,24 @@ public abstract class Cinematic : MonoBehaviour {
     public void StartInGame() {
         GameManager.instance.inGamePlay = false;
         GameManager.instance.PauseGame();
+        CinematicUI.instance.cover.FadeIn();
+
+        foreach ( GameObject gmObject in toDisable ) {
+            gmObject.SetActive(false);
+        }
+    }
+
+    /// <summary>
+    /// Stop in game cinematic.
+    /// </summary>
+    public void RestoreInGame() {
+        foreach ( GameObject gmObject in toDisable ) {
+            gmObject.SetActive(true);
+        }
+
+        GameManager.instance.ResumeGame();
+        GameManager.instance.inGamePlay = true;
+        CinematicUI.instance.cover.FadeOut();
     }
 
 }

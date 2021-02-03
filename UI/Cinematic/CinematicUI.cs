@@ -6,7 +6,7 @@ public class CinematicUI : MonoBehaviour {
     public static CinematicUI instance;                             // Static class instance.
     
     [Header("Components")]
-    public FadeElement cover;                                       // Cover.
+    public FadeElement cover;                                       // UI Cover.
 
     // Start is called before the first frame update
     void Start() {
