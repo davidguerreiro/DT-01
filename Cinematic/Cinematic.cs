@@ -68,6 +68,7 @@ public abstract class Cinematic : MonoBehaviour {
         GameManager.instance.ResumeGame();
         GameManager.instance.inGamePlay = true;
         CinematicUI.instance.cover.FadeOut();
+        // continue with the cinematic for the rocks in the level.
     }
 
 }
