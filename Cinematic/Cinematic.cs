@@ -10,9 +10,12 @@ public abstract class Cinematic : MonoBehaviour {
     public Animator cameraAnim;                             // Camera animator.
 
     [Header("Actors")]
+    public GameObject[] toDisable;                          // GameObjects to be disabled before and after the cutscene.
     public PlayerActor player;                              // This actor represents the player in the animation.
     // TODO: Incluye other actors like enemies, NPC or inanimated.
     // TODO: Incluye UI elements like screen cover and dialogue system reference.
+    [Header("Settings")]
+    public bool inGame = false;                             // Whether this cinematic happens during gameplay.
 
     [Header("Status")]
     public bool inProgress = false;                         // Flag to control whether the cinematic is currently in progress.
@@ -40,4 +43,13 @@ public abstract class Cinematic : MonoBehaviour {
             cinematicRoutine = null;
         } 
     }
+
+    /// <summary>
+    /// Start in game cinematic.
+    /// </summary>
+    public void StartInGame() {
+        GameManager.instance.inGamePlay = false;
+        GameManager.instance.PauseGame();
+    }
+
 }

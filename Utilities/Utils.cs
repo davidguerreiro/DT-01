@@ -37,7 +37,7 @@ public class Utils : MonoBehaviour {
 
         // Open debug menu.
         if ( Input.GetKeyDown( "p" ) ) {
-            LoadDebugMenu();
+           // LoadDebugMenu();
         }
     }
 
