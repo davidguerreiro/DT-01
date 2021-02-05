@@ -28,12 +28,12 @@ public class TestCinematic : Cinematic {
         yield return new WaitForSecondsRealtime( 1f );
         
         // move player actor.
-        player.moveCoroutine = StartCoroutine( player.Move( player.interactables[0].transform.position ) );
+        player.moveCoroutine = StartCoroutine( player.Move( player.interactables[0].transform.position, true ) );
         cameras[0].SetAnimSpeed( .5f );
         cameras[0].PlayBoolAnim( "shoot1", true);
 
         do {
-            yield return new WaitForSecondsRealtime(0.1f);
+            yield return new WaitForFixedUpdate();
         } while ( player.isMoving || player.moveCoroutine != null );
 
         yield return new WaitForSecondsRealtime( 1.5f );

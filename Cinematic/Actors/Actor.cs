@@ -68,7 +68,11 @@ public abstract class Actor : MonoBehaviour {
 
         // TODO: Replace by rotate method.
         transform.LookAt( destination );
-        yield return new WaitForSeconds( .1f );
+        if (unscaledTime) {
+            yield return new WaitForSecondsRealtime(.1f);
+        } else {
+            yield return new WaitForSeconds( .1f );
+        }
 
         _anim.SetFloat( "AnimSpeed", animMoveSpeed );
 
