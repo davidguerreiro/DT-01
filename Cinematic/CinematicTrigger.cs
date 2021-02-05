@@ -25,6 +25,7 @@ public class CinematicTrigger : MonoBehaviour {
     void OnTriggerEnter(Collider other) {
         if ( triggerByContact && ! triggered && other.tag == "Player" ) {
             TriggerCinamatic();
+            triggered = true;
         }
     }
 }

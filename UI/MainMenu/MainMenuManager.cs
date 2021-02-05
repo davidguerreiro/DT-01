@@ -69,7 +69,7 @@ public class MainMenuManager : MonoBehaviour {
         // play camera cinematic animation and play player actor movement animation.
         cameraAnim.SetBool( "PlayCinematic", true );
         yield return new WaitForSecondsRealtime( .5f );
-        mainTitleCinematic.Play();
+        mainTitleCinematic.PlayCinematic();
         screenCover.FadeOut( screenCoverFadeOutSpeed );
 
         // display developer text.

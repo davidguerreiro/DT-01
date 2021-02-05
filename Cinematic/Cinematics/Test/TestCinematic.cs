@@ -8,8 +8,8 @@ public class TestCinematic : Cinematic {
     /// Play cinematic.
     /// </summary>
     public override void PlayCinematic() {
-        Debug.Log('triggered');
-        if ( cinematicRoutine != null ) {
+        if ( cinematicRoutine == null ) {
+            Debug.Log("triggered");
             cinematicRoutine = StartCoroutine(PlayCinematicRoutine());
         }
     }

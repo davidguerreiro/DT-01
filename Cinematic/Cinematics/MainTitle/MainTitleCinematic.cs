@@ -7,17 +7,18 @@ public class MainTitleCinematic : Cinematic {
     /// <summary>
     /// Play cinematic wrapper.
     /// </summary>
-    public void Play() {
+    public override void PlayCinematic() {
         if ( ! inProgress && cinematicRoutine == null ) {
-            cinematicRoutine = StartCoroutine( PlayCinematic() );
+            cinematicRoutine = StartCoroutine( PlayCinematicRoutine() );
         }
     }
+
     
     /// <summary>
     /// Play cinematic.
     /// </summary>
     /// <returns>IEnumerator</returns>
-    protected override IEnumerator PlayCinematic() {
+    protected override IEnumerator PlayCinematicRoutine() {
         inProgress = true;
         
         // move player actor.
