@@ -55,7 +55,6 @@ public abstract class Cinematic : MonoBehaviour {
     public void StartInGame() {
         Player.instance.DisableAudio();
         GameManager.instance.inGamePlay = false;
-        GameManager.instance.PauseGame();
         CinematicUI.instance.cover.FadeIn();
 
         foreach ( GameObject gmObject in toDisable ) {
@@ -71,7 +70,6 @@ public abstract class Cinematic : MonoBehaviour {
             gmObject.SetActive(true);
         }
 
-        GameManager.instance.ResumeGame();
         GameManager.instance.inGamePlay = true;
         CinematicUI.instance.cover.FadeOut();
     }

@@ -21,6 +21,7 @@ public class Player : MonoBehaviour {
 
     [HideInInspector]
     public FPSInput playerInput;                           // Player input class.
+    public GroundChecker groundChecker;                    // Player groundChecker.
 
     void Start() {
         Init();

@@ -20,15 +20,15 @@ public class TestCinematic : Cinematic {
     protected override IEnumerator PlayCinematicRoutine() {
         inProgress = true;
         base.StartInGame();
-        yield return new WaitForSecondsRealtime( 1.5f );
+        yield return new WaitForSeconds( 1.5f );
 
         cameras[0].gameObject.SetActive(true);
         CinematicUI.instance.cover.FadeOut();
 
-        yield return new WaitForSecondsRealtime( 1f );
+        yield return new WaitForSeconds( 1f );
         
         // move player actor.
-        player.moveCoroutine = StartCoroutine( player.Move( player.interactables[0].transform.position, true ) );
+        player.moveCoroutine = StartCoroutine( player.Move( player.interactables[0].transform.position ) );
         cameras[0].SetAnimSpeed( .5f );
         cameras[0].PlayBoolAnim( "shoot1", true);
 
@@ -36,9 +36,10 @@ public class TestCinematic : Cinematic {
             yield return new WaitForFixedUpdate();
         } while ( player.isMoving || player.moveCoroutine != null );
 
-        yield return new WaitForSecondsRealtime( 1.5f );
+        yield return new WaitForSeconds( 1.5f );
         CinematicUI.instance.cover.FadeIn();
-        yield return new WaitForSecondsRealtime( .5f );
+        yield return new WaitForSeconds( .5f );
+        cameras[0].gameObject.SetActive(false);
         base.RestoreInGame();
 
         inProgress = false;

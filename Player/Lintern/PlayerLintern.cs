@@ -36,7 +36,7 @@ public class PlayerLintern : MonoBehaviour {
     private void ListenForUserEvent() {
 
         // enable / disable lintern when the user press the T key.
-        if ( Input.GetKeyDown( "t" ) ) {
+        if ( ( GameManager.instance.inGamePlay && ! GameManager.instance.isPaused ) && Input.GetKeyDown( "t" ) ) {
 
             if ( ! linternData.enabled ) {
                 SwitchOn();

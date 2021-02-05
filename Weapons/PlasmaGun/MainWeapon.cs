@@ -81,7 +81,7 @@ public class MainWeapon : MonoBehaviour {
     /// </summary>
     void Update() {
 
-        if ( ! GameManager.instance.isPaused ) {
+        if ( GameManager.instance.inGamePlay && ! GameManager.instance.isPaused ) {
 
             // set the weapon animation.
             // SetAnimation();
