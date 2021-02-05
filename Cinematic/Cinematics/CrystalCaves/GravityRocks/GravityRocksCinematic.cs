@@ -23,6 +23,13 @@ public class GravityRocksCinematic : Cinematic {
     protected override IEnumerator PlayCinematicRoutine() {
         inProgress = true;
         base.StartInGame();
-        yield return null;
+        yield return new WaitForSeconds( 1.5f );
+        
+        cameras[0].gameObject.SetActive(true);
+        CinematicUI.instance.cover.FadeOut();
+
+        yield return new WaitForSeconds( .5f );
+
+        // light gravity cristal.
     }
 }

@@ -23,6 +23,14 @@ public class PasiveGravityCristal : MonoBehaviour {
         
     }
 
+    /// <sumamry>
+    /// Light the cristal up.
+    /// </summary>
+    public void LightUp() {
+        _animator.SetBool( "Enabled", true );
+        _audio.PlaySound(1); 
+    }
+
     /// <summary>
     /// Init class method.
     /// </summary>
