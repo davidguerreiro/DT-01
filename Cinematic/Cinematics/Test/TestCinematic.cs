@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class TestCinematic : Cinematic {
 
-    // Start is called before the first frame update
-    void Start() {
-        cinematicRoutine = StartCoroutine( PlayCinematic() );
-    }
-
     /// <summary>
     /// Play cinematic.
     /// </summary>
+    public override void PlayCinematic() {
+        Debug.Log('triggered');
+        if ( cinematicRoutine != null ) {
+            cinematicRoutine = StartCoroutine(PlayCinematicRoutine());
+        }
+    }
+
+    /// <summary>
+    /// Play cinematic coroutine.
+    /// </summary>
     /// <returns>IEnumerator</returns>
-    protected override IEnumerator PlayCinematic() {
+    protected override IEnumerator PlayCinematicRoutine() {
         inProgress = true;
         yield return new WaitForSecondsRealtime( 2.5f );
         

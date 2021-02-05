@@ -27,8 +27,13 @@ public abstract class Cinematic : MonoBehaviour {
     /// <summary>
     /// Play cinematic.
     /// </summary>
+    public abstract void PlayCinematic();
+
+    /// <summary>
+    /// Play cinematic coroutine.
+    /// </summary>
     /// <returns>IEnumerator</returns>
-    protected abstract IEnumerator PlayCinematic();
+    protected abstract IEnumerator PlayCinematicRoutine();
 
     /// <summary>
     /// Stop cinematic.
