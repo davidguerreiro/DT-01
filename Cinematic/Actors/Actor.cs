@@ -59,9 +59,10 @@ public abstract class Actor : MonoBehaviour {
     /// Move actor.
     /// </summary>
     /// <param name="destination">Vector3 - position where the actor is going to move</param>
+    /// <param name="unscaledTime">bool - wheter the animation will be playing using scaled time or not.Default to false.</param>
     /// <param name="extraSpeed">float - any extra speed to apply to this movement call. Default to 1f</param>
     /// <param name="newState">State - New state to apply to actor when the movement coroutine finishes. Default to null.</param>
-    public virtual IEnumerator Move( Vector3 destination, float extraSpeed = 1f, string newState = null ) {
+    public virtual IEnumerator Move( Vector3 destination, bool unscaledTime = false, float extraSpeed = 1f, string newState = null ) {
         isMoving = true;
         state = "walking";
 

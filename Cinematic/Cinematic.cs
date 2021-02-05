@@ -73,7 +73,6 @@ public abstract class Cinematic : MonoBehaviour {
 
         GameManager.instance.ResumeGame();
         GameManager.instance.inGamePlay = true;
-        Player.instance.EnableAudio();
         CinematicUI.instance.cover.FadeOut();
     }
 
