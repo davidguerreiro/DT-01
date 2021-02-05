@@ -7,6 +7,13 @@ public class CinematicCamera : MonoBehaviour {
     public Camera camera;                                   // Camera component reference.
     private Animator animator;                              // Animator component reference.
 
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
+    void Awake() {
+        Init();
+    }
+
     // Start is called before the first frame update
     void Start() {
         Init();

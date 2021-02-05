@@ -16,6 +16,7 @@ public class GravityCrystal : MonoBehaviour {
     public float rotationAnimDuration;                          // How long the anim rotation is running.
     public float minRotSpeed;                                   // Minumun rotate elements rotation speed.
     public float maxRotSpeed;                                   // Maximun rotate elements rotation speed.
+    public bool triggersCinematic;                              // If true, will trigger a cinematic when enabled.
 
     [Header("Components")]
     public MeshCollider childCollider;                          // Child collider mesh component reference.
@@ -26,6 +27,7 @@ public class GravityCrystal : MonoBehaviour {
     private Animator _anim;                                     // Animator component reference.
     private AudioComponent _audio;                              // Audio component refernece.
     private Coroutine _nebuloseAnimRoutine;                     // Nebulose rotation coroutine reference.
+    private CinematicTrigger _cinematicTrigger;                 // Cinematic trigger class component reference.
 
     // Start is called before the first frame update.
     void Start() {
@@ -77,9 +79,13 @@ public class GravityCrystal : MonoBehaviour {
         if ( _nebuloseAnimRoutine == null ) {
             _nebuloseAnimRoutine = StartCoroutine( PlayNebuloseAnimation() );
         }
-
-        foreach ( GravityPlatform gravityPlatform in gravityPlatforms ) {
-            gravityPlatform.MovePlatformToEndPoint();
+        
+        if ( triggersCinematic ) {
+            _cinematicTrigger.TriggerCinamatic();
+        } else {
+            foreach ( GravityPlatform gravityPlatform in gravityPlatforms ) {
+                gravityPlatform.MovePlatformToEndPoint();
+            }
         }
     }
 
@@ -135,6 +141,10 @@ public class GravityCrystal : MonoBehaviour {
 
         if ( interactable ) {
             _anim.SetBool( "Interactable", true );
+        }
+
+        if ( triggersCinematic ) {
+            _cinematicTrigger = GetComponent<CinematicTrigger>();
         }
 
         // set initial rotation for elements.
