@@ -99,6 +99,20 @@ public class Player : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Disable audio for player.
+    /// </summary>
+    public void DisableAudio() {
+        _audio.enabled = false;
+    }
+
+    /// <summary>
+    /// Enable audio for player.
+    /// </summary>
+    public void EnableAudio() {
+        _audio.enabled = true;
+    }
+
 
     /// <summary>
     /// Init class method.

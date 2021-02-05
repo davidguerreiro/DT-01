@@ -51,10 +51,11 @@ public class GameManager : MonoBehaviour {
         isPaused = true;
         Time.timeScale = 0;
 
-        // display menu.
-        MenuManager.instance.Display();
-
-        UIManager.instance.cursorEnabled = true;
+        if ( inGamePlay ) {
+            // display menu.
+            MenuManager.instance.Display();
+            UIManager.instance.cursorEnabled = true;
+        }
     }
 
     /// <summary>
@@ -64,8 +65,10 @@ public class GameManager : MonoBehaviour {
         isPaused = false;
         Time.timeScale = 1;
 
-        // hide menu.
-        MenuManager.instance.Hide();
-        UIManager.instance.cursorEnabled = false;
+        if ( inGamePlay ) {
+            // hide menu.
+            MenuManager.instance.Hide();
+            UIManager.instance.cursorEnabled = false;
+        }
     }
 }

@@ -6,8 +6,8 @@ public abstract class Cinematic : MonoBehaviour {
     public int id = 0;                                      // Cinematic ID.
     public string cinematicName;                            // Cinematic name.
 
-    [Header("Camera")]
-    public Animator cameraAnim;                             // Camera animator.
+    [Header("Cameras")]
+    public CinematicCamera[] cameras;
 
     [Header("Actors")]
     public GameObject[] toDisable;                          // GameObjects to be disabled before and after the cutscene.
@@ -53,6 +53,7 @@ public abstract class Cinematic : MonoBehaviour {
     /// Start in game cinematic.
     /// </summary>
     public void StartInGame() {
+        Player.instance.DisableAudio();
         GameManager.instance.inGamePlay = false;
         GameManager.instance.PauseGame();
         CinematicUI.instance.cover.FadeIn();
@@ -72,8 +73,8 @@ public abstract class Cinematic : MonoBehaviour {
 
         GameManager.instance.ResumeGame();
         GameManager.instance.inGamePlay = true;
+        Player.instance.EnableAudio();
         CinematicUI.instance.cover.FadeOut();
-        // continue with the cinematic for the rocks in the level.
     }
 
 }
