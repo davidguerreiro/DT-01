@@ -68,7 +68,6 @@ public class HealthKitCollectable : Collectable {
     /// </summary>
     /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerEnter( Collider other ) {
-        
         if ( other.tag == "Player" && ! base._collided ) {
             Collect();
         }

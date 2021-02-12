@@ -266,7 +266,7 @@ public static class ScriptablesMenu  {
     [MenuItem( "Assets/Create/GamePlay/Interactable")]
     /// <summary>
     /// Add Interactable scriptable item
-    /// in the Progression scriptables menu.
+    /// in the Gameplay scriptables menu.
     /// </summary>
     public static void AddInteractableScriptableObject() {
 
@@ -276,6 +276,23 @@ public static class ScriptablesMenu  {
 
         var path = AssetDatabase.GetAssetPath( Selection.activeObject );
         path += "/interactable.asset";
+
+        ProjectWindowUtil.CreateAsset( asset, path );
+    }
+
+    [MenuItem( "Assets/Create/Cinematics/Dialogue")]
+    /// <summary>
+    /// Add Dialogue scriptable item
+    /// in the Cinematics scriptables menu.
+    /// </summary>
+    public static void AddDialogueScriptableObject() {
+
+        var asset = ScriptableObject.CreateInstance<DialogueContent>();
+
+        // if needs preconfiguration. add here.
+
+        var path = AssetDatabase.GetAssetPath( Selection.activeObject );
+        path += "/DialogueContent.asset";
 
         ProjectWindowUtil.CreateAsset( asset, path );
     }
