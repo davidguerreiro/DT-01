@@ -11,6 +11,7 @@ public class DialogueContent : ScriptableObject {
         [TextArea(0, 15)]
         public string content;                  // Dialogue content.
     }
-
+    
+    public string[] parsedHtml;                 // HTML words parsed array.
     public Dialogue[] dialogue;                 // Dialogue reference.
 }
