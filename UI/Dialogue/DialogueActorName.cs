@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DialogueActorName : MonoBehaviour {
-    public TextComponent actorName;                         // Actor name text component.
+    public TextComponent displayedName;                         // Actor name text component.
     public FadeElement actorFade;                           // Actor fade component.
 
     /// <summary>
@@ -12,7 +12,7 @@ public class DialogueActorName : MonoBehaviour {
     /// <param name="name">string - actorName. Empty to keep previous value</param>
     public void Display( string name = "" ) {
         if ( name != "" ) {
-            actorName.UpdateContent(name);
+            displayedName.UpdateContent(name);
         }
 
         actorFade.FadeIn();
@@ -36,7 +36,7 @@ public class DialogueActorName : MonoBehaviour {
         yield return new WaitForSeconds(1f);
 
         if (removeName) {
-            actorName.UpdateContent("");
+            displayedName.UpdateContent("");
         }
     }
 }
