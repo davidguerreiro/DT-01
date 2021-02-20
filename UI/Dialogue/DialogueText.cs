@@ -90,6 +90,14 @@ public class DialogueText : MonoBehaviour {
     }
 
     /// <summary>
+    /// Clear dialogue box.
+    /// </summary>
+    public void Clear() {
+        text.UpdateContent("");
+        cursor.SetActive(false);
+    }
+
+    /// <summary>
     /// Init class method.
     /// </summary>
     private void Init() {
