@@ -45,9 +45,13 @@ public class DialogueText : MonoBehaviour {
     /// <param name="displayCursor">bool - wheter to display cursor when the text is displayed. True by default</param>
     /// <returns>IEnumerator</returns>
     public IEnumerator DisplayDialogueTextRoutine(string content, bool displayCursor = true) {
-        displayingDialogue = true;
+        displayingDialogue = true;        
         string currentText;
         char[] dialogueLetters;
+
+        if (cursor.activeSelf == true ) {
+            cursor.SetActive(false);
+        }
 
         dialogueLetters = content.ToCharArray();
 
@@ -64,6 +68,25 @@ public class DialogueText : MonoBehaviour {
         
         displayingDialogue = false;
         dialogueCoroutine = null;
+    }
+
+    /// <summary>
+    /// Display all text without animation.
+    /// </summary>
+    /// <param name="content">string - text content to display</param>
+    /// <param name="displayCursor">bool - wheter to display cursor when the text is displayed. True by default</param>
+    public void DisplayAll(string content, bool displayCursor = true) {
+        if ( displayingDialogue && dialogueCoroutine != null ) {
+            StopCoroutine(dialogueCoroutine);
+            dialogueCoroutine = null;
+            displayingDialogue = false;
+        }
+
+        text.UpdateContent(content);
+
+        if (displayCursor) {
+            cursor.SetActive(true);
+        }
     }
 
     /// <summary>

@@ -17,10 +17,11 @@ public class SceneDialogue : MonoBehaviour
     [HideInInspector]
     public Animator anim;                                    // Animator component reference.
 
+    private AudioComponent audio;                           // Audio component reference.
+
     // Start is called before the first frame update
-    void Start()
-    {
-        
+    void Start() {
+        Init();
     }
 
     // Update is called once per frame
@@ -59,5 +60,6 @@ public class SceneDialogue : MonoBehaviour
     /// </summary>
     private void Init() {
         anim = GetComponent<Animator>();
+        audio = GetComponent<AudioComponent>();
     }
 }
