@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DialogueActorName : MonoBehaviour {
-    public TextComponent displayedName;                         // Actor name text component.
+    public TextComponent displayedName;                     // Actor name text component.
     public FadeElement actorFade;                           // Actor fade component.
 
     /// <summary>

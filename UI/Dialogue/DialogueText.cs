@@ -5,20 +5,21 @@ using UnityEngine;
 public class DialogueText : MonoBehaviour {
 
     [Header("Status")]
-    public bool inDialogue;                                 // Flag to control whether we are in a dialogue.
-    public bool displayed;                                  // Flag to contorle whether the dialogue box is displayed in screen.
-
-    [Header("Data Source")]
-    public DialogueContent content;                         // Dialogue content.
+    public bool displayingDialogue;                          // Flag to control whether we are in a dialogue.
 
     [Header("Components")]
-    public DialogueActorName actorName;                      // Actor name component.
-    public TextComponent dialogueText;                      // Dialogue text component.
-    public Animator anim;                                   // Animator component reference.
     public GameObject cursor;                               // Cursor gameObject reference.
+    private TextComponent text;                             // Dialogue text component.
 
     private Coroutine dialogueCoroutine;                    // Dialogue coroutine.
-    private int dialogueKey;                                // Key to keep track of current dialogue.
+
+    /// <summary>
+    /// Start is called on the frame when a script is enabled just before
+    /// any of the Update methods is called the first time.
+    /// </summary>
+    void Start() {
+        Init();
+    }
 
     // Update is called once per frame
     void Update() {
@@ -26,65 +27,49 @@ public class DialogueText : MonoBehaviour {
     }
 
     /// <summary>
-    /// Set up new dialogue content.
+    /// Displays dialogue in the dialogue text.
     /// </summary>
-    /// <param name="newContent">DialogueContent - New dialogue content</param>
-    public void SetUpContent(DialogueContent newContent) {
-        this.content = newContent;
-    }
-    
-    /// <summary>
-    /// Display dialogue box.
-    /// </summary>
-    public void Display() {
-        anim.SetBool("Display", true);
-        displayed = true;
-    }
-
-    /// <summary>
-    /// Hide dialogue box.
-    /// </summary>
-    public void Hide() {
-        anim.SetBool("Display", false);
-        displayed = false;
+    /// <param name="content">string - text content to display</param>
+    /// <param name="displayCursor">bool - wheter to display cursor when the text is displayed. True by default</param>
+    public void DisplayDialogueText(string content, bool displayCursor) {
+        if ( ! displayingDialogue && dialogueCoroutine == null ) {
+            dialogueCoroutine = StartCoroutine(DisplayDialogueTextRoutine(content, displayCursor));
+        }
     }
 
     /// <summary>
     /// Displays current dialogue
     /// content coroutine.
     /// </summary>
+    /// <param name="content">string - text content to display</param>
+    /// <param name="displayCursor">bool - wheter to display cursor when the text is displayed. True by default</param>
     /// <returns>IEnumerator</returns>
-    public IEnumerator PlayDialogueRoutine() {
+    public IEnumerator DisplayDialogueTextRoutine(string content, bool displayCursor = true) {
+        displayingDialogue = true;
         string currentText;
         char[] dialogueLetters;
 
-        // hide cursor if required.
-        if ( cursor.activeSelf ) {
-            cursor.SetActive(false);
-        }
-
-        // display actor name.
-        if ( !actorName.actorFade.displayed ) {
-            actorName.Display(content.dialogue[dialogueKey].speaker);
-        } else {
-            actorName.displayedName.UpdateContent(content.dialogue[dialogueKey].speaker);
-        }
-
-        dialogueLetters = content.dialogue[dialogueKey].content.ToCharArray();
+        dialogueLetters = content.ToCharArray();
 
         for ( int j = 0; j < dialogueLetters.Length; j++ ) {
-            currentText = dialogueText.GetContent();
+            currentText = text.GetContent();
             currentText += (currentText + dialogueLetters[j]).ToString();
-            dialogueText.UpdateContent(currentText);
+            text.UpdateContent(currentText);
             yield return new WaitForSeconds(.5f);
         }
 
-        dialogueKey++;
-
-        if ( dialogueKey < content.dialogue.Length ) {
+        if ( displayCursor ) {
             cursor.SetActive(true);
         }
         
+        displayingDialogue = false;
         dialogueCoroutine = null;
+    }
+
+    /// <summary>
+    /// Init class method.
+    /// </summary>
+    private void Init() {
+        text = GetComponent<TextComponent>();
     }
 }
