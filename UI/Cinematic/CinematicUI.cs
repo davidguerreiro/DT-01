@@ -7,6 +7,7 @@ public class CinematicUI : MonoBehaviour {
     
     [Header("Components")]
     public FadeElement cover;                                       // UI Cover.
+    public SceneDialogue cinematicDialogue;                         // Cinematic Dialogue reference.
 
     // Start is called before the first frame update
     void Start() {

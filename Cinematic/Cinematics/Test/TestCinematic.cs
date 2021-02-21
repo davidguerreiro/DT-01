@@ -32,11 +32,23 @@ public class TestCinematic : Cinematic {
         cameras[0].SetAnimSpeed( .5f );
         cameras[0].PlayBoolAnim( "shoot1", true);
 
+        // play dialogue.
+        CinematicUI.instance.cinematicDialogue.PlayDialogue(dialogues[0]);
+
         do {
             yield return new WaitForFixedUpdate();
         } while ( player.isMoving || player.moveCoroutine != null );
 
         yield return new WaitForSeconds( 1.5f );
+
+        // do not finish the scene if the dialogue is not closed.
+        
+        do {
+            yield return new WaitForFixedUpdate();
+        } while(CinematicUI.instance.cinematicDialogue.playing);
+        
+
+
         CinematicUI.instance.cover.FadeIn();
         yield return new WaitForSeconds( .5f );
         cameras[0].gameObject.SetActive(false);

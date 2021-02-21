@@ -57,9 +57,13 @@ public class DialogueText : MonoBehaviour {
 
         for ( int j = 0; j < dialogueLetters.Length; j++ ) {
             currentText = text.GetContent();
-            currentText += (currentText + dialogueLetters[j]).ToString();
+            if (currentText == "") {
+                currentText = dialogueLetters[j].ToString();
+            } else {
+                currentText += dialogueLetters[j].ToString();
+            }
             text.UpdateContent(currentText);
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.05f);
         }
 
         if ( displayCursor ) {
