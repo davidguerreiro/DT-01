@@ -8,9 +8,6 @@ public class SceneDialogue : MonoBehaviour
     public bool displayed;                                  // Flag to contorle whether the dialogue box is displayed in screen.
     public bool playing;                                    // Playing dialogue coroutine.
 
-    [Header("Data Source")]
-    public DialogueContent content;                         // Dialogue content.
-
     [Header("Components")]
     public DialogueActorName actorName;                      // Actor name component.
     public DialogueText text;                                // Dialogue text component.
@@ -18,6 +15,7 @@ public class SceneDialogue : MonoBehaviour
     [HideInInspector]
     public Animator anim;                                    // Animator component reference.
 
+    private DialogueContent content;                         // Dialogue content.
     private AudioComponent audio;                           // Audio component reference.
     private string currentSpeaker;                          // Current dialogue speaker.
     private Coroutine dialogueRoutine;                      // Dialogue routine reference.
@@ -27,13 +25,6 @@ public class SceneDialogue : MonoBehaviour
     void Start() {
         Init();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     
     /// <summary>
     /// Set up new dialogue content.
@@ -60,16 +51,32 @@ public class SceneDialogue : MonoBehaviour
     }
 
     /// <summary>
+    /// Play dialogue.
+    /// </summary>
+    /// <param name="newContent">DialogueContent - new content scritable object.Null by default.</param>
+    public void PlayDialogue(DialogueContent newContent = null) {
+        if (!playing && dialogueRoutine == null) {
+            if (newContent != null) {
+                SetUpContent(newContent);
+            }
+
+            dialogueRoutine = StartCoroutine(PlayDialogueRoutine());
+        }
+    } 
+
+    /// <summary>
     /// Play scene dialogue
     /// coroutine.
     /// </summary>
     /// <returns>IEnumerator</returns>
-    public IEnumerator PlayDialogue() {
+    private IEnumerator PlayDialogueRoutine() {
         playing = true;
+        bool displayCursor = false;
         Display();
 
         for ( int i = 0; i < content.dialogue.Length; i++ ) {
             playNext = false;
+            displayCursor = ((i + 1) == content.dialogue.Length) ? false : true;
             
             // display first speaker.
             if ( i == 0 ) {
@@ -88,11 +95,31 @@ public class SceneDialogue : MonoBehaviour
                 yield return new WaitForSeconds(.5f);
                 actorName.Display(content.dialogue[i].speaker);
                 currentSpeaker = content.dialogue[i].speaker;
+                displayCursor = false;
             }
 
             // display dialogue in dialogue box.
+            text.DisplayDialogueText(content.dialogue[i].content, displayCursor);
 
-        }
+            do {
+                // check if the user interacts during the dialogue.
+                if ( Input.GetKeyDown("space") || Input.GetKeyDown("enter") || Input.GetMouseButtonDown(0) ) {
+
+                    if (text.displayingDialogue) {
+                        text.DisplayAll(content.dialogue[i].content, displayCursor);
+                    } else {
+                        audio.PlaySound();
+                        playNext = true;
+                    }
+                }
+
+            } while (!playNext);
+            
+        } // endforloop.
+
+        Hide();
+        playing = false;
+        dialogueRoutine = null;
     }
 
     /// <summary>

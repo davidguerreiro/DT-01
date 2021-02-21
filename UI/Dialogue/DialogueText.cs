@@ -44,7 +44,7 @@ public class DialogueText : MonoBehaviour {
     /// <param name="content">string - text content to display</param>
     /// <param name="displayCursor">bool - wheter to display cursor when the text is displayed. True by default</param>
     /// <returns>IEnumerator</returns>
-    public IEnumerator DisplayDialogueTextRoutine(string content, bool displayCursor = true) {
+    private IEnumerator DisplayDialogueTextRoutine(string content, bool displayCursor = true) {
         displayingDialogue = true;        
         string currentText;
         char[] dialogueLetters;
