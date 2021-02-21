@@ -13,7 +13,9 @@ public abstract class Cinematic : MonoBehaviour {
     public GameObject[] toDisable;                          // GameObjects to be disabled before and after the cutscene.
     public PlayerActor player;                              // This actor represents the player in the animation.
     // TODO: Incluye other actors like enemies, NPC or inanimated.
-    // TODO: Incluye UI elements like screen cover and dialogue system reference.
+    [Header("Dialogue")]
+    public DialogueContent[] dialogues;                     // Dialogues to display during cinematic.
+    
     [Header("Settings")]
     public bool inGame = false;                             // Whether this cinematic happens during gameplay.
 
