@@ -22,7 +22,9 @@ public class SceneDialogue : MonoBehaviour
     private bool playNext;                                  // Flag to control whether to display next dialogue text.
     private bool listenUserInput;                           // Flag to control whether the system listen for user input.
     private bool displayCursor;                             // Flag to control whether the cursor has to be displayed or not.
-    private int currentKey;                                 // Current dialogue key.
+    
+    [HideInInspector]
+    public int currentKey;                                 // Current dialogue key.
 
     // Start is called before the first frame update
     void Start() {
