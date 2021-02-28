@@ -71,13 +71,13 @@ public class FlyingVehicle : MonoBehaviour {
 
         switch (speed) {
             case Speed.slow:
-                floatSpeed = 30f;
+                floatSpeed = 20f;
                 break;
              case Speed.normal:
-                floatSpeed = 60f;
+                floatSpeed = 45f;
                 break;
             case Speed.fast:
-                floatSpeed = 90f;
+                floatSpeed = 60f;
                 break;
             default:
                 break;
@@ -96,6 +96,10 @@ public class FlyingVehicle : MonoBehaviour {
         vehicle.transform.position = Vector3.MoveTowards(vehicle.transform.position, destination.transform.position, _floatSpeed * Time.deltaTime);
         distance = Vector3.Distance(vehicle.transform.position, destination.transform.position);
         Debug.Log(distance);
+
+        if (distance <= 0.1f) {
+            vehicle.transform.position = origin.transform.position;
+        }
     }
 
     /// <summary>
