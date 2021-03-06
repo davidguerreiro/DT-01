@@ -95,7 +95,6 @@ public class FlyingVehicle : MonoBehaviour {
 
         vehicle.transform.position = Vector3.MoveTowards(vehicle.transform.position, destination.transform.position, _floatSpeed * Time.deltaTime);
         distance = Vector3.Distance(vehicle.transform.position, destination.transform.position);
-        Debug.Log(distance);
 
         if (distance <= 0.1f) {
             vehicle.transform.position = origin.transform.position;
