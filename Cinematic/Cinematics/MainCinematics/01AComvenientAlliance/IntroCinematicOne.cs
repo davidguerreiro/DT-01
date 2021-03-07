@@ -16,7 +16,7 @@ public class IntroCinematicOne : Cinematic {
 
     // Start is called before the first frame update
     void Start() {
-        PlayCinematicRoutine();
+        PlayCinematic();
     }
 
     /// <summary>
@@ -38,18 +38,19 @@ public class IntroCinematicOne : Cinematic {
 
         // play music.
         LevelManager.instance.levelMusicController.PlaySong("scene", "introMusic");
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
 
         // play camera animations and remove cinematic UI cover.
         cameras[0].PlayBoolAnim("Intro1Shoots", true);
-        CinematicUI.instance.cover.FadeOut();
-        yield return new WaitForSeconds(2f);
+        CinematicUI.instance.cover.FadeOut(.1f);
+        yield return new WaitForSeconds(3f);
 
         // play generator animations.
         generator.audio.PlaySound();
         generator.anim.SetTrigger("StartEngine");
         yield return new WaitForSeconds(2f);
 
+        generator.anim.enabled = false;
         generator.RotateFan();
         yield return new WaitForSeconds(1.5f);
         generator.sparksAudio.PlaySound(0);

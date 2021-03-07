@@ -38,6 +38,7 @@ public class CinematicElementGenerator : MonoBehaviour {
         while (fan.speed < maxSpeed) {
             fan.speed += 1f;
             yield return new WaitForSeconds(0.1f);
+            yield return null;
         }
     }
 

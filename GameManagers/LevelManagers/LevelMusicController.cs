@@ -91,7 +91,7 @@ public class LevelMusicController : MonoBehaviour
                 StartCoroutine( ReproduceSong((AudioClip)_commonTracks[key], innmediateStart) );
                 break;
             case "scene":
-                StartCoroutine( ReproduceSong((AudioClip)_commonTracks[key], innmediateStart) );
+                StartCoroutine( ReproduceSong((AudioClip)_sceneTracks[key], innmediateStart) );
                 break;
             default:
                 break;
