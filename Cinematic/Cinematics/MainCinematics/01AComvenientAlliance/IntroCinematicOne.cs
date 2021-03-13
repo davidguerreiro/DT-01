@@ -14,6 +14,7 @@ public class IntroCinematicOne : Cinematic {
     public Animator probotRight;                                // Left Probot anim.
 
     private AudioComponent _spaceShipAudio;                     // Spaceship audio component.
+    private ActorGeneric _spaceShipActor;                       // Spaceship actor generic component.
 
 
     // Start is called before the first frame update
@@ -68,17 +69,31 @@ public class IntroCinematicOne : Cinematic {
         // wait till initial shoots are done.
         do {
             yield return new WaitForFixedUpdate();
-        } while (cameras[0].events[0]);
+        } while (!cameras[0].events[0]);
 
         // ------ Spaceship arrival and landing.
         spaceShip.gameObject.SetActive(true);
         _spaceShipAudio = spaceShip.gameObject.GetComponent<AudioComponent>();
+        _spaceShipActor = spaceShip.gameObject.GetComponent<ActorGeneric>();
         _spaceShipAudio.PlaySound();
         spaceShip.SetBool("Navigate", true);
-        yield return new WaitForSeconds(2.2f);
+
+        // wait until spaceship gets closer to landing area.
+        do {
+            yield return new WaitForFixedUpdate();
+        } while (!_spaceShipActor.events[0]);
 
         cameras[0].PlayBoolAnim("Intro2Shoots", true);
+        spaceShip.SetBool("Landing", true);
 
+        // wait until spaceship starts landing.
+        do {
+            yield return new WaitForFixedUpdate();
+        } while (!_spaceShipActor.events[1]);
+
+        _spaceShipAudio.PlaySound(1);
+        yield return new WaitForSeconds(1f);
+        landingSmoke.SetActive(true);
 
         inProgress = false;
         cinematicRoutine = null;
