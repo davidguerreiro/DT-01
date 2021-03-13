@@ -13,6 +13,7 @@ public abstract class Actor : MonoBehaviour {
     [Header("Status")]
     public string state = "idle";                               // Current machine state for animations.
     public bool isMoving = false;                               // Flag to control movement.
+    public bool[] events = new bool[15];                        // Actor events array
 
     [HideInInspector]
     public Coroutine moveCoroutine;                             // Move coroutine reference.
@@ -115,6 +116,35 @@ public abstract class Actor : MonoBehaviour {
 
         if ( newState != null ) {
             state = newState;
+        }
+    }
+
+    /// <summary>
+    /// Set event in events array.
+    /// </summary>
+    public void SetEvent() {
+        for (int i = 0; i < events.Length; i++) {
+            if ( !events[i] ) {
+                events[i] = true;
+                break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Set event in events array.
+    /// </summary>
+    /// <parma name="key">int - array key whose event must be set.</param>
+    public void SetEventByKey(int key) {
+        events[key] = true;
+    }
+
+    /// <summary>
+    /// Restore events.
+    /// </summary>
+    public void RestoreEvents() {
+        for (int i = 0; i < events.Length; i++) {
+            events[i] = false;
         }
     }
 

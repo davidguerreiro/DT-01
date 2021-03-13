@@ -70,7 +70,7 @@ public class IntroCinematicOne : Cinematic {
             yield return new WaitForFixedUpdate();
         } while (cameras[0].events[0]);
 
-        // ------ Spacehip arrival and landing.
+        // ------ Spaceship arrival and landing.
         spaceShip.gameObject.SetActive(true);
         _spaceShipAudio = spaceShip.gameObject.GetComponent<AudioComponent>();
         _spaceShipAudio.PlaySound();
