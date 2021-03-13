@@ -13,6 +13,8 @@ public class IntroCinematicOne : Cinematic {
     public Animator probotLeft;                                 // Left Probot anim.
     public Animator probotRight;                                // Left Probot anim.
 
+    private AudioComponent _spaceShipAudio;                     // Spaceship audio component.
+
 
     // Start is called before the first frame update
     void Start() {
@@ -35,6 +37,8 @@ public class IntroCinematicOne : Cinematic {
     protected override IEnumerator PlayCinematicRoutine() {
         inProgress = true;
         yield return new WaitForSeconds(1f);
+
+        // ----- Initial shoots.
 
         // play music.
         LevelManager.instance.levelMusicController.PlaySong("scene", "introMusic");
@@ -60,10 +64,32 @@ public class IntroCinematicOne : Cinematic {
         yield return new WaitForSeconds(1.5f);
         generator.sparksAudio.PlaySound(1);
         generator.sparks.Play();
+    
+        // wait till initial shoots are done.
+        do {
+            yield return new WaitForFixedUpdate();
+        } while (cameras[0].events[0]);
+
+        // ------ Spacehip arrival and landing.
+        spaceShip.gameObject.SetActive(true);
+        _spaceShipAudio = spaceShip.gameObject.GetComponent<AudioComponent>();
+        _spaceShipAudio.PlaySound();
+        spaceShip.SetBool("Navigate", true);
+        yield return new WaitForSeconds(2.2f);
+
+        cameras[0].PlayBoolAnim("Intro2Shoots", true);
+
 
         inProgress = false;
         cinematicRoutine = null;
         
     }
 
+    /// <summary>
+    /// Init class method.
+    /// </summary>
+    public void Init() {
+        // get actors and elements additional components.
+       // _spaceShipAudio = spaceShip.gameObject.GetComponent<AudioComponent>();
+    }
 }
