@@ -8,7 +8,8 @@ public class ActorLookAt : MonoBehaviour {
     public bool lookingAt;                                  // Flag to control wheter to look at other gameObject.
 
 
-    private Vector3 initialRotation;                        // Head initial rotation.
+    private Quaternion _initialRotation;                      // Head initial rotation.
+    private Coroutine _restoreRotation;                      // Restore rotation coroutine.
 
     
     // Update is called once per frame
@@ -40,6 +41,10 @@ public class ActorLookAt : MonoBehaviour {
     /// <param name="restoreRotation">bool - restore to initial rotation. True by default.</param>
     public void StopLookingAt(bool restoreRotation = true) {
         lookingAt = false;
+
+        if (restoreRotation && _restoreRotation == null) {
+            _restoreRotation = StartCoroutine(RestoreHeadPosition());
+        }
     }
 
     /// <summary>
@@ -52,14 +57,22 @@ public class ActorLookAt : MonoBehaviour {
     /// <summary>
     /// Restore head position.
     /// </summary>
-    private void RestoreHeadPosition() {
-        float speed = 1f;
+    /// <returns>IEnumerator</returns>
+    private IEnumerator RestoreHeadPosition() {
+        float speed = 10f;
+
+        while(transform.rotation != _initialRotation) {
+            transform.rotation = Quaternion.Slerp(transform.rotation, _initialRotation, speed * Time.deltaTime);
+            yield return null;
+        }
+
+        _restoreRotation = null;
     }
 
     /// <summary>
     /// Init class method.
     /// </summary>
     private void Init() {
-        initialRotation = transform.rotation.eulerAngles;
+        _initialRotation = transform.rotation;
     }
 }
