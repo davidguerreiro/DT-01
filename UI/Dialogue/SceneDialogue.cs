@@ -118,14 +118,11 @@ public class SceneDialogue : MonoBehaviour
                 actorName.Display(content.dialogue[i].speaker);
                 currentSpeaker = content.dialogue[i].speaker;
             }
-
             
             // clear box.
             if ( i > 0 ) {
                 text.Clear();   
             }
-
-        
 
             // check if another actor is talking.
             if ( content.dialogue[i].speaker != currentSpeaker ) {

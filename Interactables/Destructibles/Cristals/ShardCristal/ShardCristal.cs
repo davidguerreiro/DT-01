@@ -11,12 +11,12 @@ public class ShardCristal : Cristal {
     public ObjectPool splinters;                                 // Spliters object pool - Used to display crystal spliters each time the crystal receives a hit from player.
     public ObjectPool destroyedSplinters;                        // Splinters object pool - Used for destroyed cristal animation.
     public CristalLight cristalLight;                            // Cristal Light class component reference.
+    public MeshCollider meshCollider;                            // Mesh collider component reference.
 
     [Header( "Settings")]
     public int splintersDisplayed;                               // Spliters displayed by each player hit.
     public float secondsToDestroy;                              // How long the cristal gameObject stays alive in the scene before being removed.
 
-    private SphereCollider _sphereCollider;                     // Crystal sphere collider component reference.
     private Animator _animator;                                 // 3D Model animator component reference.
     private Loot _loot;                                         // Loot to drop after the cristal has been destroyed.
     
@@ -78,7 +78,7 @@ public class ShardCristal : Cristal {
         // Transform crystalModelPosition = cristalModel.transform;
 
         // disable collider.
-        Destroy( _sphereCollider );
+        Destroy(meshCollider);
 
         // display destroyed animation.
         StartCoroutine( DestroyedAnimation() );
@@ -93,8 +93,6 @@ public class ShardCristal : Cristal {
 
         // destroy this object.
         Destroy( this.gameObject, secondsToDestroy );
-        
-
     }
 
     /// <summary>
@@ -124,9 +122,6 @@ public class ShardCristal : Cristal {
     /// </summary>
     public override void Init() {
         base.Init();
-
-        // get sphere collider reference.
-        _sphereCollider = GetComponent<SphereCollider>();
 
         // get 3D model animator componentr.
         if ( cristalModel != null ) {
