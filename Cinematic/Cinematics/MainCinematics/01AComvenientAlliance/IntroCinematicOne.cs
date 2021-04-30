@@ -108,7 +108,9 @@ public class IntroCinematicOne : Cinematic {
         pirateRight.gameObject.SetActive(true);
         pirateLeft.gameObject.SetActive(true);
         LevelManager.instance.levelMusicController.StopSong(false);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.5f);
+
+        // TODO: Play camera animations pointing towards space pirates and m
 
         inProgress = false;
         cinematicRoutine = null;
