@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class ActorGeneric : Actor {
     public string actorNameId;                  // Actor name id.
-    public Animator secondaryAnimator;          // Secondary animator component, usually moving/action root animator.
+    public Animator actionAnimator;          // Secondary animator component, usually moving/action root animator.
 }

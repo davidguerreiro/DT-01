@@ -10,8 +10,12 @@ public class IntroCinematicOne : Cinematic {
 
     [Header("Main Actors")]
     public Animator spaceShip;                                  // Pirates spaceship anim reference.
-    public Animator probotLeft;                                 // Left Probot anim.
-    public Animator probotRight;                                // Left Probot anim.
+    public ActorGeneric ragrok;                                     // Ragrok anim reference.
+    public ActorGeneric pirateRight;                                // Space prirate right anim reference.
+    public ActorGeneric pirateLeft;                                 // Space pirate left anim reference.
+    public ActorGeneric unite;                                      // Unite anim reference.
+    public ActorGeneric probotLeft;                                 // Left Probot anim.
+    public ActorGeneric probotRight;                                // Left Probot anim.
 
     private AudioComponent _spaceShipAudio;                     // Spaceship audio component.
     private ActorGeneric _spaceShipActor;                       // Spaceship actor generic component.
@@ -94,6 +98,17 @@ public class IntroCinematicOne : Cinematic {
         _spaceShipAudio.PlaySound(1);
         yield return new WaitForSeconds(1f);
         landingSmoke.SetActive(true);
+
+        yield return new WaitForSeconds(4f);
+
+        // hide screen and display ragrok and space prirates actors.
+        CinematicUI.instance.cover.FadeIn(.1f);
+        yield return new WaitForSeconds(1f);
+        ragrok.gameObject.SetActive(true);
+        pirateRight.gameObject.SetActive(true);
+        pirateLeft.gameObject.SetActive(true);
+        LevelManager.instance.levelMusicController.StopSong(false);
+        yield return new WaitForSeconds(2f);
 
         inProgress = false;
         cinematicRoutine = null;

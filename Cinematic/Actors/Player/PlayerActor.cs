@@ -33,14 +33,14 @@ public class PlayerActor : Actor {
             // perform action.
             switch ( actionType ) {
                 case ActionType.bolean:
-                    _anim.SetBool( actionName, true );
-                    _anim.SetFloat( "AnimSpeed", animSpeed );
+                    _moveAnim.SetBool( actionName, true );
+                    _moveAnim.SetFloat( "AnimSpeed", animSpeed );
                     yield return new WaitForSeconds( duration );
-                    _anim.SetBool( actionName, true ); 
+                    _moveAnim.SetBool( actionName, true ); 
                     break;
                 case ActionType.trigger:
-                    _anim.SetTrigger( actionName );
-                    _anim.SetFloat( "AnimSpeed", animSpeed );
+                    _moveAnim.SetTrigger( actionName );
+                    _moveAnim.SetFloat( "AnimSpeed", animSpeed );
                     yield return new WaitForSeconds( duration );
                     break;
                 default:
@@ -48,7 +48,7 @@ public class PlayerActor : Actor {
             }
 
             // set anim speed to base value.
-            _anim.SetFloat( "AnimSpeed", 1f );
+            _moveAnim.SetFloat( "AnimSpeed", 1f );
 
             if ( backToIdle ) {
                 state = "idle";

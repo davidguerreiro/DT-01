@@ -18,7 +18,7 @@ public abstract class Actor : MonoBehaviour {
     [HideInInspector]
     public Coroutine moveCoroutine;                             // Move coroutine reference.
 
-    protected Animator _anim;                                   // Animator component reference.
+    protected Animator _moveAnim;                                   // Animator component reference.
     protected Rigidbody _rigi;                                  // Rigibody component reference.
     protected AudioComponent _audio;                            // Audio component reference.
 
@@ -49,9 +49,9 @@ public abstract class Actor : MonoBehaviour {
 
         // check for walking animation.
         if ( state == "walking" ) {
-            _anim.SetBool( "walking", true );
+            _moveAnim.SetBool( "walking", true );
         } else {
-            _anim.SetBool( "walking", false );
+            _moveAnim.SetBool( "walking", false );
         }
 
     }
@@ -70,7 +70,7 @@ public abstract class Actor : MonoBehaviour {
         transform.LookAt( destination );
         yield return new WaitForSeconds( .1f );
 
-        _anim.SetFloat( "AnimSpeed", animMoveSpeed );
+        _moveAnim.SetFloat( "AnimSpeed", animMoveSpeed );
 
         float remainingDistance = ( transform.position - destination ).sqrMagnitude;
 
@@ -94,7 +94,7 @@ public abstract class Actor : MonoBehaviour {
             state = "idle";
         }
 
-        _anim.SetFloat( "AnimSpeed", 1f );
+        _moveAnim.SetFloat( "AnimSpeed", 1f );
 
         isMoving = false;
         moveCoroutine = null;
@@ -155,7 +155,7 @@ public abstract class Actor : MonoBehaviour {
 
         // get animator component reference
         if ( animated ) {
-            _anim = GetComponent<Animator>();
+            _moveAnim = GetComponent<Animator>();
         }
 
         // get rigibody component reference.

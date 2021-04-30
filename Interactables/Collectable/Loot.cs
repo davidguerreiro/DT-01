@@ -134,7 +134,7 @@ public class Loot : MonoBehaviour {
 
             // instance loot.
             Vector3 instanceLocalPosition = new Vector3( transform.localPosition.x + ( xVariation / 10f ), transform.localPosition.y + heightDrop, transform.localPosition.z + ( zVariation / 10f ) );
-            GameObject instance = Instantiate( itemsToDrop[ i ], transform.localPosition, transform.rotation );
+            GameObject instance = Instantiate( itemsToDrop[ i ], transform.localPosition, Quaternion.identity );
 
             // set loot position and remove parent to avoid loot dissapearing with the dropper gameObject.
             instance.transform.parent = this.gameObject.transform;
