@@ -111,6 +111,7 @@ public class IntroCinematicOne : Cinematic {
         yield return new WaitForSeconds(1.5f);
 
         // TODO: Play camera animations pointing towards space pirates and m
+        CinematicUI.instance.cover.FadeOut(.1f);
 
         inProgress = false;
         cinematicRoutine = null;
